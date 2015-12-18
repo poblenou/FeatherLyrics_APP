@@ -11,11 +11,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import tk.sbarjola.pa.featherlyricsapp.Fragments.Artistas;
-import tk.sbarjola.pa.featherlyricsapp.Fragments.Discografia;
+import tk.sbarjola.pa.featherlyricsapp.Artistas.Artistas;
+import tk.sbarjola.pa.featherlyricsapp.Discografia.Discografia;
 import tk.sbarjola.pa.featherlyricsapp.Fragments.Home;
-import tk.sbarjola.pa.featherlyricsapp.Fragments.Noticias;
-import tk.sbarjola.pa.featherlyricsapp.Fragments.RankingArtistas;
+import tk.sbarjola.pa.featherlyricsapp.Noticias.Noticias;
+import tk.sbarjola.pa.featherlyricsapp.RankingArtistas.RankingArtistas;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -29,9 +29,11 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Ajustamos la tooblar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Ajustamos el drawer de nuestro activity
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -40,6 +42,11 @@ public class MainActivity extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        // Hacemos que autmaticamente arranque en el fragmento "Home"
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.content_frame, new Home())
+                .commit();
 
         /*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -68,8 +75,9 @@ public class MainActivity extends AppCompatActivity
 
         int id = item.getItemId();
 
-        boolean transaccion = false;
+        boolean transaccion = false; // Cuadno el boleano sea tre, se cambiará a otro fragment
 
+        // Asignamos las acciones a cada menuItem del drawer
         if (id == R.id.nav_home) {
             fragment = new Home();
             transaccion = true;
@@ -87,15 +95,15 @@ public class MainActivity extends AppCompatActivity
             fragment = new RankingArtistas();
             transaccion = true;
         } else if (id == R.id.nav_salir) {
-            finish();
+            finish();   // La última opción es para cerrar la APP
         }
 
-        if(transaccion){
+        if(transaccion){    // Si el boleano es true llamamos al nuevo fragment
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.content_frame, fragment)
                     .commit();
 
-            item.setChecked(true);
+            item.setChecked(true);  // Y lo ponemos como marcado.
             getSupportActionBar().setTitle(item.getTitle());
 
         }

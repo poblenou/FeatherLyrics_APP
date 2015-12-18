@@ -1,19 +1,23 @@
-package tk.sbarjola.pa.featherlyricsapp.Fragments;
+package tk.sbarjola.pa.featherlyricsapp.Artistas;
 
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import tk.sbarjola.pa.featherlyricsapp.R;
 
 public class Artistas extends Fragment{
 
     public View onCreateView(LayoutInflater inflater, ViewGroup contenedor, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_artistas, contenedor, false);
-        return v;
+        View view = inflater.inflate(R.layout.fragment_artistas, contenedor, false);
+        return view;
     }
 }
