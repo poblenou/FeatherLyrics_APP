@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import tk.sbarjola.pa.featherlyricsapp.Fragments.Artistas;
 import tk.sbarjola.pa.featherlyricsapp.Fragments.Discografia;
 import tk.sbarjola.pa.featherlyricsapp.Fragments.Home;
-import tk.sbarjola.pa.featherlyricsapp.Fragments.Noticias;
+import tk.sbarjola.pa.featherlyricsapp.Noticias.Noticias;
 import tk.sbarjola.pa.featherlyricsapp.Fragments.RankingArtistas;
 
 public class MainActivity extends AppCompatActivity
