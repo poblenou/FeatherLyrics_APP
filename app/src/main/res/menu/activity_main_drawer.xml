@@ -2,18 +2,33 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
-        <item android:id="@+id/nav_artistas" android:icon="@android:drawable/ic_menu_camera"
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@android:drawable/ic_menu_view"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_artistas"
+            android:icon="@android:drawable/ic_menu_camera"
             android:title="Artistas" />
-        <item android:id="@+id/nav_discografia" android:icon="@android:drawable/ic_menu_gallery"
+        <item
+            android:id="@+id/nav_discografia"
+            android:icon="@android:drawable/ic_menu_gallery"
             android:title="Discografia" />
-        <item android:id="@+id/nav_noticias" android:icon="@android:drawable/ic_menu_slideshow"
+        <item
+            android:id="@+id/nav_noticias"
+            android:icon="@android:drawable/ic_menu_slideshow"
             android:title="Noticias" />
-        <item android:id="@+id/nav_rankingArtistas" android:icon="@android:drawable/ic_menu_manage"
+        <item
+            android:id="@+id/nav_rankingArtistas"
+            android:icon="@android:drawable/ic_menu_manage"
             android:title="Ranking Artistas" />
     </group>
-    <item android:title="Communicate">
+
+    <item android:title="Ajustes">
         <menu>
-            <item android:id="@+id/nav_salir" android:icon="@android:drawable/ic_delete"
+            <item
+                android:id="@+id/nav_salir"
+                android:icon="@android:drawable/ic_delete"
                 android:title="Salir" />
         </menu>
     </item>
