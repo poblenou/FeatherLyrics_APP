@@ -60,6 +60,7 @@ public class Noticias extends Fragment{
     public void descargarNoticias(){
 
         servicioNoticias = retrofit.create(servicioNoticiasRetrofit.class);
+
         Call<ObjectNoticias> llamada = (Call<ObjectNoticias>) servicioNoticias.noticias();
 
         llamada.enqueue(new Callback<ObjectNoticias>() {
@@ -107,6 +108,6 @@ public class Noticias extends Fragment{
     public interface servicioNoticiasRetrofit{ //Interficie per a la llista de popular
         @GET("news/index.js")
         Call<ObjectNoticias> noticias();
-    }
 
+    }
 }

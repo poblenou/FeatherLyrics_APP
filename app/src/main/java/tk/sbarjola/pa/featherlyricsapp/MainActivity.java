@@ -17,6 +17,7 @@ import tk.sbarjola.pa.featherlyricsapp.Fragments.Home;
 import tk.sbarjola.pa.featherlyricsapp.Noticias.Noticias;
 import tk.sbarjola.pa.featherlyricsapp.RankingArtistas.RankingArtistas;
 
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
