@@ -1,5 +1,9 @@
 package tk.sbarjola.pa.featherlyricsapp;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
@@ -8,8 +12,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import tk.sbarjola.pa.featherlyricsapp.Artistas.Artistas;
 import tk.sbarjola.pa.featherlyricsapp.Discografia.Discografia;
@@ -49,6 +55,25 @@ public class MainActivity extends AppCompatActivity
                 .replace(R.id.content_frame, new Home())
                 .commit();
 
+        // Para controlar la musica que se Android este reproduciendo
+
+        IntentFilter iF = new IntentFilter();
+
+        iF.addAction("com.android.music.metachanged");
+        iF.addAction("com.htc.music.metachanged");
+        iF.addAction("fm.last.android.metachanged");
+        iF.addAction("com.sec.android.app.music.metachanged");
+        iF.addAction("com.nullsoft.winamp.metachanged");
+        iF.addAction("com.amazon.mp3.metachanged");
+        iF.addAction("com.miui.player.metachanged");
+        iF.addAction("com.real.IMP.metachanged");
+        iF.addAction("com.sonyericsson.music.metachanged");
+        iF.addAction("com.rdio.android.metachanged");
+        iF.addAction("com.samsung.sec.android.MusicPlayer.metachanged");
+        iF.addAction("com.andrew.apollo.metachanged");
+
+        registerReceiver(mReceiver, iF);
+
         /*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -59,6 +84,21 @@ public class MainActivity extends AppCompatActivity
             }
         });*/
     }
+
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            String artist = intent.getStringExtra("artist");
+            String album = intent.getStringExtra("album");
+            String track = intent.getStringExtra("track");
+
+            String textoCancion = track + " - " + artist;
+
+            Toast.makeText(MainActivity.this, textoCancion, Toast.LENGTH_SHORT).show();
+        }
+    };
 
     @Override
     public void onBackPressed() {

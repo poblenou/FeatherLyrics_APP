@@ -28,4 +28,5 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:+'
     compile 'com.squareup.retrofit:converter-gson:+'
     compile 'com.squareup.picasso:picasso:+'
+    compile 'com.github.markushi:circlebutton:1.1'
 }

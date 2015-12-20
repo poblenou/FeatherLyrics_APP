@@ -30,8 +30,7 @@
             android:textSize="35dp"
             android:id="@+id/textView3"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="45dp" />
+            android:layout_centerHorizontal="true" />
 
         <ImageView
             android:layout_width="300dp"
@@ -39,6 +38,24 @@
             android:id="@+id/featherIcon"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/textView2" />
+
+        <at.markushi.ui.CircleButton
+            android:layout_width="90dip"
+            android:layout_height="90dip"
+            android:src="@drawable/feather_icon"
+            app:cb_color="#99CC00"
+            app:cb_pressedRingWidth="8dip"
+            android:layout_below="@+id/featherIcon"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/view" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No hay canciones en reproduccion"
+            android:id="@+id/songName"
+            android:layout_below="@+id/view"
+            android:layout_centerHorizontal="true" />
 
     </RelativeLayout>
 </ScrollView>

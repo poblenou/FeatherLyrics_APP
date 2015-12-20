@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="tk.sbarjola.pa.featherlyricsapp" >
+    xmlns:tools="http://schemas.android.com/tools"
+    package="tk.sbarjola.pa.featherlyricsapp">
+
+    <uses-sdk tools:overrideLibrary="at.markushi.circlebutton" />
 
     <application
         android:allowBackup="true"
