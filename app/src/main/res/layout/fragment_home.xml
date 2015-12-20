@@ -34,7 +34,7 @@
 
         <ImageView
             android:layout_width="300dp"
-            android:layout_height="200dp"
+            android:layout_height="300dp"
             android:id="@+id/featherIcon"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/textView2" />

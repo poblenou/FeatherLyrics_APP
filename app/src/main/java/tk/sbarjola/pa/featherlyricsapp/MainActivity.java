@@ -72,6 +72,8 @@ public class MainActivity extends AppCompatActivity
         iF.addAction("com.rdio.android.metachanged");
         iF.addAction("com.samsung.sec.android.MusicPlayer.metachanged");
         iF.addAction("com.andrew.apollo.metachanged");
+        iF.addAction("com.spotify.mobile.android.metadatachanged");
+        iF.addAction("com.spotify.music.metadatachanged");
 
         registerReceiver(mReceiver, iF);
 
@@ -92,7 +94,6 @@ public class MainActivity extends AppCompatActivity
         public void onReceive(Context context, Intent intent) {
 
             String artist = intent.getStringExtra("artist");    // Sacamos el artista del intent
-            String album = intent.getStringExtra("album");      // Sacamos el album
             String track = intent.getStringExtra("track");      // sacamos la pista
             String textoCancion = track + " - " + artist;       // Creamos el texto de la cancion
 
