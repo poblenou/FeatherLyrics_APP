@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import tk.sbarjola.pa.featherlyricsapp.Artistas.Artistas;
@@ -90,13 +91,15 @@ public class MainActivity extends AppCompatActivity
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            String artist = intent.getStringExtra("artist");
-            String album = intent.getStringExtra("album");
-            String track = intent.getStringExtra("track");
+            String artist = intent.getStringExtra("artist");    // Sacamos el artista del intent
+            String album = intent.getStringExtra("album");      // Sacamos el album
+            String track = intent.getStringExtra("track");      // sacamos la pista
+            String textoCancion = track + " - " + artist;       // Creamos el texto de la cancion
 
-            String textoCancion = track + " - " + artist;
+            TextView nombreCancion = (TextView) findViewById(R.id.songName);
+            nombreCancion.setText(textoCancion);    // Lo asignamos al testView
 
-            Toast.makeText(MainActivity.this, textoCancion, Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, textoCancion, Toast.LENGTH_SHORT).show(); // Y lanzamos la toast
         }
     };
 
