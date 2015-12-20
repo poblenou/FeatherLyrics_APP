@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -48,7 +49,9 @@ public class Noticias extends Fragment{
     @Override
     public void onStart() { //Cada vez que se abra el fragment que se descargen las noticias
         super.onStart();
-        descargarNoticias();
+
+        DescargarNoticias descargarNoticias = new DescargarNoticias();  // Instanciams nuestro asyncTask para descargar en segundo plano las noticias
+        descargarNoticias.execute();    // Y lo ejecutamos
     }
 
     @Override
@@ -79,7 +82,6 @@ public class Noticias extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
         View fragmentoLista = inflater.inflate(R.layout.fragment_artistas, container, false);    //Definimos el fragment
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(container.getContext());   // necesario para referenciar y leer la configuración del programa
 
         items = new ArrayList<>();     //array list que contindrà les pel·licules
         listaNoticias = (ListView) fragmentoLista.findViewById(R.id.listaNoticias);    //Asignme el id
@@ -88,7 +90,7 @@ public class Noticias extends Fragment{
 
         listaNoticias.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {  //Listener para el list
-
+            // De momento no hace nada
             }
         });
 
@@ -96,18 +98,25 @@ public class Noticias extends Fragment{
         return fragmentoLista;
     }
 
-    /*
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){ //Afegim una opcio "Refresh" al menu del fragment
         super.onCreateOptionsMenu(menu, inflater);
 
-        inflater.inflate(R.menu.menu_fragment, menu);
+        inflater.inflate(R.menu.noticias_fragment_menu, menu);
     }
-    */
 
     public interface servicioNoticiasRetrofit{ //Interficie per a la llista de popular
         @GET("news/index.js")
         Call<NewsList> noticias();
 
+    }
+
+    class DescargarNoticias extends AsyncTask {
+        @Override
+        protected Object doInBackground(Object[] params) {
+            descargarNoticias();
+            return null;
+        }
     }
 }
