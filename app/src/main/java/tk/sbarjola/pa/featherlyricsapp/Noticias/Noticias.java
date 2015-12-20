@@ -96,14 +96,13 @@ public class Noticias extends Fragment{
         return fragmentoLista;
     }
 
-    /*
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){ //Afegim una opcio "Refresh" al menu del fragment
         super.onCreateOptionsMenu(menu, inflater);
 
-        inflater.inflate(R.menu.menu_fragment, menu);
+        inflater.inflate(R.menu.noticias_fragment_menu, menu);
     }
-    */
 
     public interface servicioNoticiasRetrofit{ //Interficie per a la llista de popular
         @GET("news/index.js")
