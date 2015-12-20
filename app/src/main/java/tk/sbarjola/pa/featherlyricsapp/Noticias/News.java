@@ -1,13 +1,14 @@
 package tk.sbarjola.pa.featherlyricsapp.Noticias;
 
 /**
- * Created by sergi on 18/12/15.
+ * Created by sergi on 20/12/15.
  */
 import java.util.HashMap;
 import java.util.Map;
 
 public class News {
 
+    private String id;
     private String headline;
     private String kicker;
     private String url;
@@ -18,6 +19,24 @@ public class News {
     private String picHeight;
     private String picCaption;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+    /**
+     *
+     * @return
+     * The id
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     *
+     * @param id
+     * The id
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
 
     /**
      *

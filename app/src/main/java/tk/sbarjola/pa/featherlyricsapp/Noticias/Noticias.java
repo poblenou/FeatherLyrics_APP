@@ -61,12 +61,12 @@ public class Noticias extends Fragment{
 
         servicioNoticias = retrofit.create(servicioNoticiasRetrofit.class);
 
-        Call<ObjectNoticias> llamada = (Call<ObjectNoticias>) servicioNoticias.noticias();
+        Call<NewsList> llamada = (Call<NewsList>) servicioNoticias.noticias();
 
-        llamada.enqueue(new Callback<ObjectNoticias>() {
+        llamada.enqueue(new Callback<NewsList>() {
             @Override
-            public void onResponse(Response<ObjectNoticias> response, Retrofit retrofit) {
-                ObjectNoticias resultado = response.body();
+            public void onResponse(Response<NewsList> response, Retrofit retrofit) {
+                NewsList resultado = response.body();
                 myListAdapter.clear();
                 myListAdapter.addAll(resultado.getNews());
             }
@@ -107,7 +107,7 @@ public class Noticias extends Fragment{
 
     public interface servicioNoticiasRetrofit{ //Interficie per a la llista de popular
         @GET("news/index.js")
-        Call<ObjectNoticias> noticias();
+        Call<NewsList> noticias();
 
     }
 }

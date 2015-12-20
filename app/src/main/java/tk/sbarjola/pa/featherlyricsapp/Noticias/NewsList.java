@@ -1,14 +1,14 @@
 package tk.sbarjola.pa.featherlyricsapp.Noticias;
 
 /**
- * Created by sergi on 18/12/15.
+ * Created by sergi on 20/12/15.
  */
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ObjectNoticias {
+public class NewsList {
 
     private List<News> news = new ArrayList<News>();
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
