@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +34,10 @@ public class MainActivity extends AppCompatActivity
     private DrawerLayout drawer;
     private NavigationView navigationView;
     Fragment fragment = null;
+
+    String artist;
+    String track;
+    String textoCancion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +89,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, textoCancion, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });*/
@@ -93,14 +100,18 @@ public class MainActivity extends AppCompatActivity
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            String artist = intent.getStringExtra("artist");    // Sacamos el artista del intent
-            String track = intent.getStringExtra("track");      // sacamos la pista
-            String textoCancion = track + " - " + artist;       // Creamos el texto de la cancion
+           artist = intent.getStringExtra("artist");    // Sacamos el artista del intent
+           track = intent.getStringExtra("track");      // sacamos la pista
+           textoCancion = track + " - " + artist;       // Creamos el texto de la cancion
 
             TextView nombreCancion = (TextView) findViewById(R.id.songName);
+            nombreCancion.setSelected(true);    // Es necesario para hacer el texto scrollable
             nombreCancion.setText(textoCancion);    // Lo asignamos al testView
 
             Toast.makeText(MainActivity.this, textoCancion, Toast.LENGTH_SHORT).show(); // Y lanzamos la toast
+
+            Snackbar.make(findViewById(R.id.content_frame), textoCancion, Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
         }
     };
 
