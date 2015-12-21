@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import java.io.Serializable;
 import java.util.List;
-
 import tk.sbarjola.pa.featherlyricsapp.R;
 
 /**

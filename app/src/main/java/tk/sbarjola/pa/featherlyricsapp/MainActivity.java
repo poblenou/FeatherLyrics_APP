@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Hacemos que autmaticamente arranque en el fragmento "Home"
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.content_frame, new Home())
+                .replace(R.id.content_frame, new Home(), "home")
                 .commit();
 
         /*
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Para controlar la musica que se Android este reproduciendo
 
-        IntentFilter iF = new IntentFilter();
+        IntentFilter iF = new IntentFilter();   // Intent filter que usaremos para recibir informacion de los reproductores de audio
 
         iF.addAction("com.android.music.metachanged");
         iF.addAction("com.htc.music.metachanged");
@@ -96,7 +96,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             String artist = intent.getStringExtra("artist");    // Sacamos el artista del intent
             String track = intent.getStringExtra("track");      // sacamos la pista
 
-            home.setLetra(artist, track);
+            if (home != null) {
+                home.setLetra(artist, track);
+            }
         }
     };
 

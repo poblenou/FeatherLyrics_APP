@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,10 +46,10 @@ public class Home extends Fragment{
     private String BaseURL = "http://api.vagalume.com.br/";  //Principio de la URL que usará retrofit
     private String apiKey = "754f223018be007a45003e3b87877bac";     // Key de Vagalume. Máximo 100.000 peticiones /dia
 
-    private List<Mu> resultadosLetras;
-    public String artist;
+    private List<Mu> resultadosLetras;  // List con el resultado de las letras obtenidas
+    public String artist;               // Nombre del artista
     public String track;
-    public String textoCancion;
+
     public String letraCancion;
 
     // Variables y Adapters
@@ -57,8 +59,8 @@ public class Home extends Fragment{
     NoticiasAdapter myListAdapter;  //Adaptador per al listView
 
     // Declaramos el retrofit como variable global para poder reutilizarlo si es necesario
-    private Retrofit retrofit = new Retrofit.Builder()  //Retrofit
-            .baseUrl(BaseURL)                           //Primera parte de la url
+    private Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl(BaseURL)
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 
@@ -83,6 +85,9 @@ public class Home extends Fragment{
 
     public void setLetra(String artist, String track) {
 
+        String textoCancion = "";   // Variable que usaremos para asignar info de la cancion a la snackbar
+
+        // Les damos a las variables globales el valor de la que hemos recibido para pasarsela a retrofit
         this.artist = artist;
         this.track = track;
 
@@ -90,10 +95,10 @@ public class Home extends Fragment{
 
         Toast.makeText(getContext(), textoCancion, Toast.LENGTH_SHORT).show(); // Y lanzamos la toast
 
-        Snackbar.make(this.getView().findViewById(R.id.content_frame), textoCancion, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        //Snackbar.make(this.getView().findViewById(R.id.content_frame), textoCancion, Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
-        DescargarLetras descargarLetras = new DescargarLetras();  // Instanciams nuestro asyncTask para descargar en segundo plano las noticias
-        descargarLetras.execute();    // Y lo ejecutamos*/
+        DescargarLetras descargarLetras = new DescargarLetras();  // Instanciams nuestro asyncTask para descargar en segundo plano la letra
+        descargarLetras.execute();    // Y lo ejecutamos
     }
 
     class DescargarLetras extends AsyncTask {
@@ -113,22 +118,33 @@ public class Home extends Fragment{
         llamada.enqueue(new Callback<LyricsList>() {
             @Override
             public void onResponse(Response<LyricsList> response, Retrofit retrofit) {
-                LyricsList resultado = response.body();
-                resultadosLetras = resultado.getMus();
+                if (response.isSuccess()){
+                    LyricsList resultado = response.body();
+                    resultadosLetras = resultado.getMus();
+
+                    letraCancion = resultadosLetras.get(0).getText();
+                    TextView textCancion = (TextView) getView().findViewById(R.id.songName);
+                    textCancion.setText(letraCancion);
+                    textCancion.setSelected(true);    // Es necesario para hacer el texto scrollable
+                } else {
+                    try {
+                        Log.e(null, response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
             }
 
             @Override
             public void onFailure(Throwable t) {
+                t.printStackTrace();
             }
         });
 
-        letraCancion = resultadosLetras.get(0).getText();
-        TextView textCancion = (TextView) getView().findViewById(R.id.songName);
-        textCancion.setText(letraCancion);
-        textCancion.setSelected(true);    // Es necesario para hacer el texto scrollable
     }
 
-    public interface servicioLetrasRetrofit{ //Interficie per a la llista de popular
+    public interface servicioLetrasRetrofit{ //Interficie para descargar las letras
         @GET("search.php")
         Call<LyricsList> letras(
                 @Query("art") String artista,

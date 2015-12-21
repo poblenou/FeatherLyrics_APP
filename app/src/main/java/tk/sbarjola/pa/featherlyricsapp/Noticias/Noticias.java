@@ -26,14 +26,14 @@ public class Noticias extends Fragment{
     private String apiKey = "754f223018be007a45003e3b87877bac";     // Key de Vagalume. Máximo 100.000 peticiones /dia
 
     // Variables y Adapters
-    private servicioNoticiasRetrofit servicioNoticias;   // Interfaz para las peliculas populares
+    private servicioNoticiasRetrofit servicioNoticias;   // Interfaz para las noticias
     private ArrayList<News> items; ///ArrayList amb els items
     private ListView listaNoticias; //ListView on mostrarem els items
     NoticiasAdapter myListAdapter;  //Adaptador per al listView
 
     // Declaramos el retrofit como variable global para poder reutilizarlo si es necesario
-    private Retrofit retrofit = new Retrofit.Builder()  //Retrofit
-            .baseUrl(BaseURL)                           //Primera parte de la url
+    private Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl(BaseURL)
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 
@@ -97,7 +97,7 @@ public class Noticias extends Fragment{
         inflater.inflate(R.menu.noticias_fragment_menu, menu);
     }
 
-    public interface servicioNoticiasRetrofit{ //Interficie per a la llista de popular
+    public interface servicioNoticiasRetrofit{ //Interficie para descargar las noticias
         @GET("news/index.js")
         Call<NewsList> noticias();
     }
