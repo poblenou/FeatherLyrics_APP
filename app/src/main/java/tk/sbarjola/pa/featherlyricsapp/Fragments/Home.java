@@ -33,9 +33,7 @@ import retrofit.Response;
 import retrofit.Retrofit;
 import retrofit.http.GET;
 import retrofit.http.Query;
-import tk.sbarjola.pa.featherlyricsapp.MainActivity;
 import tk.sbarjola.pa.featherlyricsapp.Noticias.News;
-import tk.sbarjola.pa.featherlyricsapp.Noticias.NewsList;
 import tk.sbarjola.pa.featherlyricsapp.Noticias.NoticiasAdapter;
 import tk.sbarjola.pa.featherlyricsapp.R;
 

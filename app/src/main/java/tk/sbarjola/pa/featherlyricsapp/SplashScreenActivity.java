@@ -5,17 +5,11 @@ package tk.sbarjola.pa.featherlyricsapp;
  */
 import java.util.Timer;
 import java.util.TimerTask;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.Window;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 
 public class SplashScreenActivity extends Activity {

@@ -4,10 +4,6 @@ package tk.sbarjola.pa.featherlyricsapp.Noticias;
  * Created by sergi on 20/12/15.
  */
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

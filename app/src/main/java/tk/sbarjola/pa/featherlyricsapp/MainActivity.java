@@ -4,10 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,32 +12,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.GsonConverterFactory;
-import retrofit.Response;
-import retrofit.Retrofit;
-import retrofit.http.GET;
-import retrofit.http.Query;
 import tk.sbarjola.pa.featherlyricsapp.Artistas.Artistas;
 import tk.sbarjola.pa.featherlyricsapp.Discografia.Discografia;
 import tk.sbarjola.pa.featherlyricsapp.Fragments.Home;
-import tk.sbarjola.pa.featherlyricsapp.Fragments.LyricsList;
-import tk.sbarjola.pa.featherlyricsapp.Fragments.Mu;
-import tk.sbarjola.pa.featherlyricsapp.Noticias.News;
 import tk.sbarjola.pa.featherlyricsapp.Noticias.Noticias;
-import tk.sbarjola.pa.featherlyricsapp.Noticias.NoticiasAdapter;
 import tk.sbarjola.pa.featherlyricsapp.RankingArtistas.RankingArtistas;
 
 
@@ -49,7 +26,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // Datos de la API
     private String BaseURL = "http://api.vagalume.com.br/";  //Principio de la URL que usará retrofit
     private String apiKey = "754f223018be007a45003e3b87877bac";     // Key de Vagalume. Máximo 100.000 peticiones /dia
-    private String letraCancion;
 
     private DrawerLayout drawer;
     private NavigationView navigationView;
@@ -71,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        // Ajustamos el navigationView
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -78,9 +55,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_frame, new Home())
                 .commit();
-
-        /*nombreCancion = (TextView) this.findViewById(R.id.songName);
-        nombreCancion.setText(letraCancion);*/
 
         /*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -117,8 +91,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-
             Home home = (Home) getSupportFragmentManager().findFragmentByTag("home");
+
             String artist = intent.getStringExtra("artist");    // Sacamos el artista del intent
             String track = intent.getStringExtra("track");      // sacamos la pista
 
@@ -177,7 +151,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             item.setChecked(true);  // Y lo ponemos como marcado.
             getSupportActionBar().setTitle(item.getTitle());
-
         }
 
         drawer.closeDrawers();

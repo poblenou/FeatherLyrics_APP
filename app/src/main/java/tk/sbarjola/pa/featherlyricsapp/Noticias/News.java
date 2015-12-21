@@ -3,8 +3,6 @@ package tk.sbarjola.pa.featherlyricsapp.Noticias;
 /**
  * Created by sergi on 20/12/15.
  */
-import java.util.HashMap;
-import java.util.Map;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
