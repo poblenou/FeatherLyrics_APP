@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,6 +16,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
+
 import tk.sbarjola.pa.featherlyricsapp.Artistas.Artistas;
 import tk.sbarjola.pa.featherlyricsapp.Discografia.Discografia;
 import tk.sbarjola.pa.featherlyricsapp.Fragments.Home;
@@ -56,16 +61,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .replace(R.id.content_frame, new Home(), "home")
                 .commit();
 
-        /*
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, textoCancion, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
-
         // Para controlar la musica que se Android este reproduciendo
 
         IntentFilter iF = new IntentFilter();   // Intent filter que usaremos para recibir informacion de los reproductores de audio
@@ -96,8 +91,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             String artist = intent.getStringExtra("artist");    // Sacamos el artista del intent
             String track = intent.getStringExtra("track");      // sacamos la pista
 
+            Toast.makeText(context, track + " - " + artist, Toast.LENGTH_SHORT).show(); // Y lanzamos la toast
+
+            Snackbar.make(findViewById(R.id.content_frame), track + " - " + artist, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
             if (home != null) {
-                home.setLetra(artist, track);
+                home.setSong(artist, track);
             }
         }
     };

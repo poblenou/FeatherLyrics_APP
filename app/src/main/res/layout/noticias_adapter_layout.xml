@@ -7,6 +7,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp"
         android:text="00/00/00"
         android:id="@+id/list_fecha"
         android:layout_gravity="right"
@@ -21,6 +23,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp"
         android:text="Titular"
         android:id="@+id/list_titular"
         android:textSize="20dp"
@@ -32,6 +36,8 @@
     <ImageView
         android:layout_width="500dp"
         android:layout_height="150dp"
+        android:paddingRight="5dp"
+        android:paddingLeft="5dp"
         android:id="@+id/list_imagenNoticias"
         android:layout_below="@+id/list_descripcion"
         android:layout_alignParentLeft="true"
@@ -40,6 +46,8 @@
     <TextView
         android:layout_width="210dp"
         android:layout_height="50dp"
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp"
         android:text="Descripcion"
         android:id="@+id/list_descripcion"
         android:maxLines="8"
@@ -50,5 +58,14 @@
         android:textStyle="normal"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <ImageView
+        android:layout_width="400dp"
+        android:layout_height="10dp"
+        android:id="@+id/imageView2"
+        android:src="@drawable/separation_bar"
+        android:layout_below="@+id/list_imagenNoticias"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

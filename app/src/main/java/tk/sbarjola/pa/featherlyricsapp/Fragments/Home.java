@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -28,6 +29,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import at.markushi.ui.CircleButton;
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.GsonConverterFactory;
@@ -47,8 +49,8 @@ public class Home extends Fragment{
     private String apiKey = "754f223018be007a45003e3b87877bac";     // Key de Vagalume. Máximo 100.000 peticiones /dia
 
     private List<Mu> resultadosLetras;  // List con el resultado de las letras obtenidas
-    public String artist;               // Nombre del artista
-    public String track;
+    public String artist = "Marea";               // Nombre del artista
+    public String track = "Perro Verde";
 
     public String letraCancion;
 
@@ -69,12 +71,16 @@ public class Home extends Fragment{
 
         View view = inflater.inflate(R.layout.fragment_home, contenedor, false);
 
-        ImageView featherIcon = (ImageView) view.findViewById(R.id.featherIcon);    //Asignme el id
-        featherIcon.setImageResource(R.drawable.feather_icon);
+        CircleButton button = (CircleButton) view.findViewById(R.id.circleButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                descargarInfo();
+            }
+        });
 
         return view;
     }
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){ //Afegim una opcio "Refresh" al menu del fragment
@@ -83,20 +89,13 @@ public class Home extends Fragment{
         inflater.inflate(R.menu.noticias_fragment_menu, menu);
     }
 
-    public void setLetra(String artist, String track) {
-
-        String textoCancion = "";   // Variable que usaremos para asignar info de la cancion a la snackbar
-
+    public void setSong(String artist, String track) {
         // Les damos a las variables globales el valor de la que hemos recibido para pasarsela a retrofit
         this.artist = artist;
         this.track = track;
+    }
 
-        textoCancion = track + " - " + artist;       // Creamos el texto de la cancion
-
-        Toast.makeText(getContext(), textoCancion, Toast.LENGTH_SHORT).show(); // Y lanzamos la toast
-
-        //Snackbar.make(this.getView().findViewById(R.id.content_frame), textoCancion, Snackbar.LENGTH_LONG).setAction("Action", null).show();
-
+    public void descargarInfo(){
         DescargarLetras descargarLetras = new DescargarLetras();  // Instanciams nuestro asyncTask para descargar en segundo plano la letra
         descargarLetras.execute();    // Y lo ejecutamos
     }
@@ -123,10 +122,11 @@ public class Home extends Fragment{
                     resultadosLetras = resultado.getMus();
 
                     letraCancion = resultadosLetras.get(0).getText();
-                    TextView textCancion = (TextView) getView().findViewById(R.id.songName);
+                    TextView textCancion = (TextView) getView().findViewById(R.id.lyricsTextView);
                     textCancion.setText(letraCancion);
                     textCancion.setSelected(true);    // Es necesario para hacer el texto scrollable
-                } else {
+                }
+                else {
                     try {
                         Log.e(null, response.errorBody().string());
                     } catch (IOException e) {
