@@ -6,19 +6,41 @@ package tk.sbarjola.pa.featherlyricsapp.Noticias;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class News {
 
+    @SerializedName("id")
+    @Expose
     private String id;
+    @SerializedName("headline")
+    @Expose
     private String headline;
+    @SerializedName("kicker")
+    @Expose
     private String kicker;
+    @SerializedName("url")
+    @Expose
     private String url;
+    @SerializedName("inserted")
+    @Expose
     private String inserted;
+    @SerializedName("modified")
+    @Expose
     private String modified;
+    @SerializedName("pic_src")
+    @Expose
     private String picSrc;
+    @SerializedName("pic_width")
+    @Expose
     private String picWidth;
+    @SerializedName("pic_height")
+    @Expose
     private String picHeight;
+    @SerializedName("pic_caption")
+    @Expose
     private String picCaption;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
      *
@@ -199,13 +221,4 @@ public class News {
     public void setPicCaption(String picCaption) {
         this.picCaption = picCaption;
     }
-
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
 }

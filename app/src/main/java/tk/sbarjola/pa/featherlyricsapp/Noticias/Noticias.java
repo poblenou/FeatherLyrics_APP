@@ -81,7 +81,7 @@ public class Noticias extends Fragment{
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
-        View fragmentoLista = inflater.inflate(R.layout.fragment_artistas, container, false);    //Definimos el fragment
+        View fragmentoLista = inflater.inflate(R.layout.fragment_noticias, container, false);    //Definimos el fragment
 
         items = new ArrayList<>();     //array list que contindrà les pel·licules
         listaNoticias = (ListView) fragmentoLista.findViewById(R.id.listaNoticias);    //Asignme el id
@@ -109,7 +109,6 @@ public class Noticias extends Fragment{
     public interface servicioNoticiasRetrofit{ //Interficie per a la llista de popular
         @GET("news/index.js")
         Call<NewsList> noticias();
-
     }
 
     class DescargarNoticias extends AsyncTask {

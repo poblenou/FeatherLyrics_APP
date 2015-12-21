@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="tk.sbarjola.pa.featherlyricsapp">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-sdk tools:overrideLibrary="at.markushi.circlebutton" />
 
     <application

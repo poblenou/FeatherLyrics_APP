@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.squareup.picasso.Picasso;
 import java.io.Serializable;
 import java.text.DecimalFormat;
@@ -38,14 +40,15 @@ public class NoticiasAdapter extends ArrayAdapter<News> implements Serializable 
         // Asociamos cada variable a su elemento del layout
         TextView titular = (TextView) convertView.findViewById(R.id.list_titular);
         TextView fecha = (TextView) convertView.findViewById(R.id.list_fecha);
-        ImageView imagenPoster = (ImageView) convertView.findViewById(R.id.list_imagenPoster);
+        ImageView imagenNoticias = (ImageView) convertView.findViewById(R.id.list_imagenNoticias);
         TextView description = (TextView) convertView.findViewById(R.id.list_descripcion);
 
         // Incorporamos los objetos al layout
+        String urlImagen = noticia.getPicSrc();
         titular.setText(noticia.getHeadline());
         fecha.setText(noticia.getInserted());
         description.setText(noticia.getKicker());
-        Picasso.with(getContext()).load(noticia.getPicSrc()).fit().into(imagenPoster);
+        Picasso.with(getContext()).load(urlImagen).fit().centerCrop().into(imagenNoticias);
 
         return convertView; //Devolvemos la view ya rellena
     }

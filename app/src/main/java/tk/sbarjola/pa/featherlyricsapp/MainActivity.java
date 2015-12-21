@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,26 +19,41 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.GsonConverterFactory;
+import retrofit.Response;
+import retrofit.Retrofit;
+import retrofit.http.GET;
+import retrofit.http.Query;
 import tk.sbarjola.pa.featherlyricsapp.Artistas.Artistas;
 import tk.sbarjola.pa.featherlyricsapp.Discografia.Discografia;
 import tk.sbarjola.pa.featherlyricsapp.Fragments.Home;
+import tk.sbarjola.pa.featherlyricsapp.Fragments.LyricsList;
+import tk.sbarjola.pa.featherlyricsapp.Fragments.Mu;
+import tk.sbarjola.pa.featherlyricsapp.Noticias.News;
 import tk.sbarjola.pa.featherlyricsapp.Noticias.Noticias;
+import tk.sbarjola.pa.featherlyricsapp.Noticias.NoticiasAdapter;
 import tk.sbarjola.pa.featherlyricsapp.RankingArtistas.RankingArtistas;
 
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    // Datos de la API
+    private String BaseURL = "http://api.vagalume.com.br/";  //Principio de la URL que usará retrofit
+    private String apiKey = "754f223018be007a45003e3b87877bac";     // Key de Vagalume. Máximo 100.000 peticiones /dia
+    private String letraCancion;
 
     private DrawerLayout drawer;
     private NavigationView navigationView;
     Fragment fragment = null;
-
-    String artist;
-    String track;
-    String textoCancion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +79,19 @@ public class MainActivity extends AppCompatActivity
                 .replace(R.id.content_frame, new Home())
                 .commit();
 
+        /*nombreCancion = (TextView) this.findViewById(R.id.songName);
+        nombreCancion.setText(letraCancion);*/
+
+        /*
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, textoCancion, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });*/
+
         // Para controlar la musica que se Android este reproduciendo
 
         IntentFilter iF = new IntentFilter();
@@ -83,44 +112,28 @@ public class MainActivity extends AppCompatActivity
         iF.addAction("com.spotify.music.metadatachanged");
 
         registerReceiver(mReceiver, iF);
-
-        /*
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, textoCancion, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
     }
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
-
         @Override
         public void onReceive(Context context, Intent intent) {
 
-           artist = intent.getStringExtra("artist");    // Sacamos el artista del intent
-           track = intent.getStringExtra("track");      // sacamos la pista
-           textoCancion = track + " - " + artist;       // Creamos el texto de la cancion
+            Home home = (Home) getSupportFragmentManager().findFragmentByTag("home");
+            String artist = intent.getStringExtra("artist");    // Sacamos el artista del intent
+            String track = intent.getStringExtra("track");      // sacamos la pista
 
-            TextView nombreCancion = (TextView) findViewById(R.id.songName);
-            nombreCancion.setSelected(true);    // Es necesario para hacer el texto scrollable
-            nombreCancion.setText(textoCancion);    // Lo asignamos al testView
-
-            Toast.makeText(MainActivity.this, textoCancion, Toast.LENGTH_SHORT).show(); // Y lanzamos la toast
-
-            Snackbar.make(findViewById(R.id.content_frame), textoCancion, Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+            home.setLetra(artist, track);
         }
     };
 
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        }
+        else {
             super.onBackPressed();
         }
     }
@@ -133,10 +146,13 @@ public class MainActivity extends AppCompatActivity
 
         boolean transaccion = false; // Cuadno el boleano sea tre, se cambiará a otro fragment
 
+        String tag = null;
+
         // Asignamos las acciones a cada menuItem del drawer
         if (id == R.id.nav_home) {
             fragment = new Home();
             transaccion = true;
+            tag = "home";
         }
         else if (id == R.id.nav_artistas) {
             fragment = new Artistas();
@@ -156,7 +172,7 @@ public class MainActivity extends AppCompatActivity
 
         if(transaccion){    // Si el boleano es true llamamos al nuevo fragment
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.content_frame, fragment)
+                    .replace(R.id.content_frame, fragment, tag)
                     .commit();
 
             item.setChecked(true);  // Y lo ponemos como marcado.
@@ -174,7 +190,6 @@ public class MainActivity extends AppCompatActivity
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
