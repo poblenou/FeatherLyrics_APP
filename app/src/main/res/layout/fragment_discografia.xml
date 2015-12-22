@@ -1,10 +1,43 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="tk.sbarjola.pa.featherlyricsapp.Discografia.Discografia">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/scrollView"
+    android:background="#ffffff"
+    android:paddingTop="12dp"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <GridView
+        android:layout_width="325dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/discografia_gridDiscos"
+        android:layout_marginTop="18dp"
+        android:layout_below="@+id/discografia_nombreArtista"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:columnWidth="170dp"
+        android:numColumns="auto_fit" />
 
-</FrameLayout>
+    <TextView
+        android:text="Nombre Artista"
+        android:layout_width="340dp"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:id="@+id/discografia_nombreArtista"
+        android:gravity="center"
+        android:singleLine="false"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:layout_alignParentStart="true"
+        android:textStyle="bold"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>
+

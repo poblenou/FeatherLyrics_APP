@@ -1,15 +1,7 @@
 package tk.sbarjola.pa.featherlyricsapp.Fragments;
 
-import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.media.Image;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,13 +9,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -132,7 +119,7 @@ public class Home extends Fragment{
                     }
 
                     TextView textCancion = (TextView) getView().findViewById(R.id.lyricsTextView);
-                    TextView tituloCancion = (TextView) getView().findViewById(R.id.tituloCancion);
+                    TextView tituloCancion = (TextView) getView().findViewById(R.id.discografia_nombreArtista);
 
                     textCancion.setText(letraCancion);
                     textCancion.setSelected(true);    // Es necesario para hacer el texto scrollable
