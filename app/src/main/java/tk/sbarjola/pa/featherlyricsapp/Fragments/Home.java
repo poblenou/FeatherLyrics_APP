@@ -45,20 +45,20 @@ import tk.sbarjola.pa.featherlyricsapp.R;
 public class Home extends Fragment{
 
     // Datos de la API
-    private String BaseURL = "http://api.vagalume.com.br/";  //Principio de la URL que usará retrofit
+    private String BaseURL = "http://api.vagalume.com.br/";         //Principio de la URL que usará retrofit
     private String apiKey = "754f223018be007a45003e3b87877bac";     // Key de Vagalume. Máximo 100.000 peticiones /dia
 
-    private List<Mu> resultadosLetras;  // List con el resultado de las letras obtenidas
-    public String artist = "Marea";               // Nombre del artista
-    public String track = "Perro Verde";
+    private List<Mu> resultadosLetras;      // List con el resultado de las letras obtenidas
+    public String artist = "Marea";         // Nombre del artista
+    public String track = "Perro Verde";    // Nombre de la pista
 
     public String letraCancion;
 
     // Variables y Adapters
-    private servicioLetrasRetrofit servicioLetras;   // Interfaz para las peliculas populares
-    private ArrayList<News> items; ///ArrayList amb els items
-    private ListView listaNoticias; //ListView on mostrarem els items
-    NoticiasAdapter myListAdapter;  //Adaptador per al listView
+    private servicioLetrasRetrofit servicioLetras;  // Interfaz para las peliculas populares
+    private ArrayList<News> items;                  ///ArrayList amb els items
+    private ListView listaNoticias;                 //ListView on mostrarem els items
+    NoticiasAdapter myListAdapter;                  //Adaptador per al listView
 
     // Declaramos el retrofit como variable global para poder reutilizarlo si es necesario
     private Retrofit retrofit = new Retrofit.Builder()
@@ -99,7 +99,7 @@ public class Home extends Fragment{
 
     public void descargarInfo(){
         DescargarLetras descargarLetras = new DescargarLetras();  // Instanciams nuestro asyncTask para descargar en segundo plano la letra
-        descargarLetras.execute();    // Y lo ejecutamos
+        descargarLetras.execute();                                // Y lo ejecutamos
     }
 
     class DescargarLetras extends AsyncTask {
@@ -121,14 +121,23 @@ public class Home extends Fragment{
             public void onResponse(Response<LyricsList> response, Retrofit retrofit) {
                 if (response.isSuccess()){
                     LyricsList resultado = response.body();
+
                     resultadosLetras = resultado.getMus();
-                    letraCancion = resultadosLetras.get(0).getText();
+
+                    if(resultadosLetras.get(0) == null){
+                        letraCancion = "Letra no disponible";
+                    }
+                    else{
+                        letraCancion = resultadosLetras.get(0).getText();
+                    }
 
                     TextView textCancion = (TextView) getView().findViewById(R.id.lyricsTextView);
+                    TextView tituloCancion = (TextView) getView().findViewById(R.id.tituloCancion);
+
                     textCancion.setText(letraCancion);
                     textCancion.setSelected(true);    // Es necesario para hacer el texto scrollable
 
-                    TextView tituloCancion = (TextView) getView().findViewById(R.id.tituloCancion);
+
                     tituloCancion.setText(track + "\n" + artist);
                 }
                 else {

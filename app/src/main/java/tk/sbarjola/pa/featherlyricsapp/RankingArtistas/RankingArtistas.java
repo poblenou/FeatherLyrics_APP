@@ -18,7 +18,7 @@ import tk.sbarjola.pa.featherlyricsapp.R;
 public class RankingArtistas extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup contenedor, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_artistas, contenedor, false);
+        View view = inflater.inflate(R.layout.fragment_ranking_artistas, contenedor, false);
         return view;
     }
 }
