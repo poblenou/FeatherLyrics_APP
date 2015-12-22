@@ -24,13 +24,12 @@ public class Noticias extends Fragment{
 
     // Datos de la API
     private String BaseURL = "http://api.vagalume.com.br/";  //Principio de la URL que usará retrofit
-    private String apiKey = "754f223018be007a45003e3b87877bac";     // Key de Vagalume. Máximo 100.000 peticiones /dia
 
     // Variables y Adapters
     private servicioNoticiasRetrofit servicioNoticias;   // Interfaz para las noticias
-    private ArrayList<News> items; ///ArrayList amb els items
-    private ListView listaNoticias; //ListView on mostrarem els items
-    NoticiasAdapter myListAdapter;  //Adaptador per al listView
+    private ArrayList<News> items;                       ///ArrayList amb els items
+    private ListView listaNoticias;                      //ListView on mostrarem els items
+    NoticiasAdapter myListAdapter;                       //Adaptador per al listView
 
     // Declaramos el retrofit como variable global para poder reutilizarlo si es necesario
     private Retrofit retrofit = new Retrofit.Builder()

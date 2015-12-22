@@ -93,6 +93,8 @@ public class Home extends Fragment{
         // Les damos a las variables globales el valor de la que hemos recibido para pasarsela a retrofit
         this.artist = artist;
         this.track = track;
+
+        descargarInfo();
     }
 
     public void descargarInfo(){
@@ -120,11 +122,14 @@ public class Home extends Fragment{
                 if (response.isSuccess()){
                     LyricsList resultado = response.body();
                     resultadosLetras = resultado.getMus();
-
                     letraCancion = resultadosLetras.get(0).getText();
+
                     TextView textCancion = (TextView) getView().findViewById(R.id.lyricsTextView);
                     textCancion.setText(letraCancion);
                     textCancion.setSelected(true);    // Es necesario para hacer el texto scrollable
+
+                    TextView tituloCancion = (TextView) getView().findViewById(R.id.tituloCancion);
+                    tituloCancion.setText(track + "\n" + artist);
                 }
                 else {
                     try {
@@ -133,7 +138,6 @@ public class Home extends Fragment{
                         e.printStackTrace();
                     }
                 }
-
             }
 
             @Override
