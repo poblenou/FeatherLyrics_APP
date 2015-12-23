@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 public class SplashScreenActivity extends Activity {
@@ -29,6 +31,9 @@ public class SplashScreenActivity extends Activity {
         setContentView(R.layout.splash_screen);
 
         ImageView icon = (ImageView) findViewById(R.id.SplashIcon);
+
+        Animation myFadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fadein);
+        icon.startAnimation(myFadeInAnimation); //Set animation to your ImageView
 
         TimerTask task = new TimerTask() {
             @Override

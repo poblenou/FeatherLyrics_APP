@@ -9,34 +9,14 @@
     android:layout_alignParentLeft="true"
     android:layout_alignParentStart="true">
 
-    <TextView
-            android:text="Haz clic en el botón para buscar la letra de la canción que esté sonando"
-            android:layout_width="340dp"
-            android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:id="@+id/discografia_nombreArtista"
-            android:gravity="center"
-            android:singleLine="false"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:layout_alignParentStart="true"
-            android:textStyle="bold"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-        <at.markushi.ui.CircleButton
-            android:layout_width="82dip"
-            android:layout_height="82dip"
-            android:src="@drawable/feather_icon"
-            app:cb_color="#99CC00"
-            app:cb_pressedRingWidth="8dip"
-            android:id="@+id/circleButton"
-            android:clickable="true"
-            android:layout_marginTop="11dp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/discografia_nombreArtista" />
+    <ImageView
+        android:layout_width="500dp"
+        android:layout_height="500dp"
+        android:id="@+id/home_featherIcon"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/feather_icon" />
 
 </RelativeLayout>
 

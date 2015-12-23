@@ -1,35 +1,18 @@
 package tk.sbarjola.pa.featherlyricsapp;
 
-import android.os.AsyncTask;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.TextView;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 import at.markushi.ui.CircleButton;
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.GsonConverterFactory;
-import retrofit.Response;
-import retrofit.Retrofit;
-import retrofit.http.GET;
-import retrofit.http.Query;
-import tk.sbarjola.pa.featherlyricsapp.Canciones.LyricsList;
-import tk.sbarjola.pa.featherlyricsapp.Canciones.Mu;
-import tk.sbarjola.pa.featherlyricsapp.Noticias.News;
-import tk.sbarjola.pa.featherlyricsapp.Noticias.NoticiasAdapter;
-import tk.sbarjola.pa.featherlyricsapp.R;
-
 
 public class Home extends Fragment{
 
@@ -37,13 +20,7 @@ public class Home extends Fragment{
 
         View view = inflater.inflate(R.layout.fragment_home, contenedor, false);
 
-        CircleButton button = (CircleButton) view.findViewById(R.id.circleButton);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        ImageView featherIcon = (ImageView) view.findViewById(R.id.home_featherIcon);
 
         return view;
     }

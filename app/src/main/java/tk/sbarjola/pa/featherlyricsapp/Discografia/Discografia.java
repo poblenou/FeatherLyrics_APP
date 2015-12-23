@@ -14,9 +14,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.List;
+
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.GsonConverterFactory;
@@ -39,8 +43,10 @@ public class Discografia extends Fragment {
     // Variables y Adapters
     private servicioDiscografiaRetrofit servicioDiscografia;   // Interfaz para las noticias
     private ArrayList<Item> items;
-    private GridView gridDiscos;                      //ListView on mostrarem els items
-    DiscografiaAdapter myGridAdapter;                       //Adaptador para el gridView
+    private GridView gridDiscos;                        // Grid View donde mostraremos los discos
+    private ListView listCanciones;                     // List View donde mostraremos los discos
+    DiscografiaAdapter myGridAdapter;                   // Adaptador para el gridView
+    private ArrayAdapter<String> myListAdapter;
 
     // Declaramos el retrofit como variable global para poder reutilizarlo si es necesario
     private Retrofit retrofit = new Retrofit.Builder()
@@ -72,9 +78,27 @@ public class Discografia extends Fragment {
         myGridAdapter = new DiscografiaAdapter(container.getContext(), 0, items);  // Definim adaptador al layaout predefinit i al nostre array items
         gridDiscos.setAdapter(myGridAdapter);    //Acoplem el adaptador
 
+        listCanciones = (ListView) view.findViewById(R.id.discografia_listCanciones);
+        myListAdapter = new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_list_item_1);
+        listCanciones.setAdapter(myListAdapter);
+
+
         gridDiscos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {  //Listener para el list
-                // De momento no hace nada
+
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                gridDiscos.setVisibility(View.GONE);
+                listCanciones.setVisibility(View.VISIBLE);
+
+                List<List<Disc>> disco = items.get(position).getDiscs();
+
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(items.get(position).getDesc() + " - " + artist + " - " + items.get(position).getPublished());
+
+                for (int iterador1 = 0; iterador1 < disco.size(); iterador1++) {
+                    for (int iterador2 = 0; iterador2 < disco.get(iterador1).size(); iterador2++) {
+                        myListAdapter.add(disco.get(iterador1).get(iterador2).getDesc());
+                    }
+                }
             }
         });
 
