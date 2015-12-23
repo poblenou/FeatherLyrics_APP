@@ -8,7 +8,7 @@
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/listaNoticias"
+        android:id="@+id/noticias_listaNoticias"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:divider="@drawable/separation_bar"

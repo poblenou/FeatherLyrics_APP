@@ -22,7 +22,6 @@ import tk.sbarjola.pa.featherlyricsapp.Discografia.Discografia;
 import tk.sbarjola.pa.featherlyricsapp.Noticias.Noticias;
 import tk.sbarjola.pa.featherlyricsapp.RankingArtistas.RankingArtistas;
 
-
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     // Datos de la API
@@ -172,6 +171,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 drawer.openDrawer(GravityCompat.START);
                 return true;
         }
+
+        if (item.getItemId() == R.id.action_settings) {
+            // Intent i = new Intent(this, SettingsActivity.class);    // intent para ir a la activity de settings
+            // startActivity(i);                                       // hacemos el intent
+            return true;
+        }
+
+
         return super.onOptionsItemSelected(item);
     }
 }

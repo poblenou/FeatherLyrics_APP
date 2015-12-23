@@ -31,29 +31,27 @@ import retrofit.http.Url;
 import tk.sbarjola.pa.featherlyricsapp.MainActivity;
 import tk.sbarjola.pa.featherlyricsapp.R;
 
-
 public class Discografia extends Fragment {
 
     // Datos de la API
-    private String BaseURL = "http://api.vagalume.com.br/";  //Principio de la URL que usará retrofit
-    private final static String endURL = "/discografia/index.js";
-    private String URL = "";
-    private String artist = "Iron Maiden";
+    private String BaseURL = "http://api.vagalume.com.br/";         //Principio de la URL que usará retrofit
+    private final static String endURL = "/discografia/index.js";   // Ultima parte de la url
+    private String URL = "";                                        // Parte del medio que será el artista en minusculas y los espacios cambiados por guiones
+    private String artist = "Iron Maiden";                          // Nombre del artista
 
     // Variables y Adapters
-    private servicioDiscografiaRetrofit servicioDiscografia;   // Interfaz para las noticias
-    private ArrayList<Item> items;
-    private GridView gridDiscos;                        // Grid View donde mostraremos los discos
-    private ListView listCanciones;                     // List View donde mostraremos los discos
-    DiscografiaAdapter myGridAdapter;                   // Adaptador para el gridView
-    private ArrayAdapter<String> myListAdapter;
+    private servicioDiscografiaRetrofit servicioDiscografia;   // Interfaz para descargar la discografia
+    private ArrayList<Item> items = new ArrayList<>();;        // ArrayList que llenaremos con los albumes
+    private GridView gridDiscos;                               // Grid View donde mostraremos los discos
+    private ListView listCanciones;                            // List View donde mostraremos las canciones
+    DiscografiaAdapter myGridAdapter;                          // Adaptador para el gridView
+    private ArrayAdapter<String> myListAdapter;                // Adaptador para el listView (con uno predefinido nos sirve)
 
     // Declaramos el retrofit como variable global para poder reutilizarlo si es necesario
     private Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BaseURL)
             .addConverterFactory(GsonConverterFactory.create())
             .build();
-
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -73,29 +71,36 @@ public class Discografia extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_discografia, container, false);
 
-        items = new ArrayList<>();     //array list que contindrà les pel·licules
-        gridDiscos = (GridView) view.findViewById(R.id.discografia_gridDiscos);    //Asignme el id
-        myGridAdapter = new DiscografiaAdapter(container.getContext(), 0, items);  // Definim adaptador al layaout predefinit i al nostre array items
-        gridDiscos.setAdapter(myGridAdapter);    //Acoplem el adaptador
-
+        // Asignamos el grid y el list a sus variables
+        gridDiscos = (GridView) view.findViewById(R.id.discografia_gridDiscos);
         listCanciones = (ListView) view.findViewById(R.id.discografia_listCanciones);
-        myListAdapter = new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_list_item_1);
-        listCanciones.setAdapter(myListAdapter);
+
+        // Seccion del grid y los albumes
+
+        myGridAdapter = new DiscografiaAdapter(container.getContext(), 0, items);  // Definimos nuestro adaptador
+        gridDiscos.setAdapter(myGridAdapter);                                      // Y acoplamos el adaptador
+
+        // Sección del list y las canciones
+
+        myListAdapter = new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_list_item_1);   // Definimos nuestro adaptador
+        listCanciones.setAdapter(myListAdapter);                                                            // Y acoplamos el adaptador
 
 
         gridDiscos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {  // En caso de pulsar sobre un album
 
-                gridDiscos.setVisibility(View.GONE);
-                listCanciones.setVisibility(View.VISIBLE);
+                gridDiscos.setVisibility(View.GONE);            // Ocultamos el grid
+                listCanciones.setVisibility(View.VISIBLE);      // Mostramos el list
 
-                List<List<Disc>> disco = items.get(position).getDiscs();
+                List<List<Disc>> disco = items.get(position).getDiscs();    // Sacamos los discos del elemento que hayamos pulsado
 
+                // Cambioamos el titulo de la toolbar
                 ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(items.get(position).getDesc() + " - " + artist + " - " + items.get(position).getPublished());
 
-                for (int iterador1 = 0; iterador1 < disco.size(); iterador1++) {
-                    for (int iterador2 = 0; iterador2 < disco.get(iterador1).size(); iterador2++) {
+                // Y cargamos las canciones del album correspondiente a nuestro listView
+                for (int iterador1 = 0; iterador1 < disco.size(); iterador1++) {                        // El primer for recorre los cd's del album, ya que pueden ser varios
+                    for (int iterador2 = 0; iterador2 < disco.get(iterador1).size(); iterador2++) {     // El segundo las canciones
                         myListAdapter.add(disco.get(iterador1).get(iterador2).getDesc());
                     }
                 }
@@ -117,9 +122,8 @@ public class Discografia extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 artist = query;
-
-                DescargarDiscografia descargarDiscografia = new DescargarDiscografia();  // Instanciams nuestro asyncTask para descargar en segundo plano las noticias
-                descargarDiscografia.execute();    // Y lo ejecutamos
+                DescargarDiscografia descargarDiscografia = new DescargarDiscografia();  // Instanciams nuestro asyncTask para descargar en segundo plano la discografia
+                descargarDiscografia.execute();                                          // Y lo ejecutamos
                 return false;
             }
 
@@ -133,7 +137,7 @@ public class Discografia extends Fragment {
 
     public void descargarDiscografia(){
 
-        artist = artist.toLowerCase();  // la busqueda del usuario la pasamos a minusculas
+        artist = artist.toLowerCase();      // la busqueda del usuario la pasamos a minusculas
         artist = artist.replace(" ", "-");  // y cambiamos los espacios por guiones
 
         URL = BaseURL + artist + endURL;    // Y construimos la URL

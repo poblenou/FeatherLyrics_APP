@@ -10,10 +10,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.io.Serializable;
 import java.util.List;
 
-import tk.sbarjola.pa.featherlyricsapp.Noticias.News;
 import tk.sbarjola.pa.featherlyricsapp.R;
 
 /**
@@ -39,8 +37,8 @@ public class DiscografiaAdapter extends ArrayAdapter<Item> {
         }
 
         // Asociamos cada variable a su elemento del layout
-        TextView titular = (TextView) convertView.findViewById(R.id.grid_Titulo);
-        ImageView imagenAlbum = (ImageView) convertView.findViewById(R.id.grid_imagenAlbum);
+        TextView titular = (TextView) convertView.findViewById(R.id.discografia_adapter_Titulo);
+        ImageView imagenAlbum = (ImageView) convertView.findViewById(R.id.discografia_adapter_imagenAlbum);
 
         // Incorporamos los objetos al layout
         String urlImagen = BASE_URL + item.getCover();

@@ -23,14 +23,13 @@ import tk.sbarjola.pa.featherlyricsapp.R;
 public class Noticias extends Fragment{
 
     // Datos de la API
-    private String BaseURL = "http://api.vagalume.com.br/";  //Principio de la URL que usará retrofit
-    private String apiKey = "754f223018be007a45003e3b87877bac";     // Key de Vagalume. Máximo 100.000 peticiones /dia
+    private String BaseURL = "http://api.vagalume.com.br/";         //Principio de la URL que usará retrofit
 
     // Variables y Adapters
     private servicioNoticiasRetrofit servicioNoticias;   // Interfaz para las noticias
-    private ArrayList<News> items;                       ///ArrayList amb els items
-    private ListView listaNoticias;                        //ListView on mostrarem els items
-    NoticiasAdapter myListAdapter;  //Adaptador per al listView
+    private ArrayList<News> items = new ArrayList<>();   // ArrayList con los items
+    private ListView listaNoticias;                      // ListView en el que mostraremos los items
+    NoticiasAdapter myListAdapter;                       //Adaptador per al listView
 
     // Declaramos el retrofit como variable global para poder reutilizarlo si es necesario
     private Retrofit retrofit = new Retrofit.Builder()
@@ -39,9 +38,10 @@ public class Noticias extends Fragment{
             .build();
 
     @Override
-    public void onStart() { //Cada vez que se abra el fragment que se descargen las noticias
+    public void onStart() {
         super.onStart();
 
+        //Cada vez que se abra el fragment que se descargen las noticias
         DescargarNoticias descargarNoticias = new DescargarNoticias();  // Instanciams nuestro asyncTask para descargar en segundo plano las noticias
         descargarNoticias.execute();    // Y lo ejecutamos
     }
@@ -49,7 +49,8 @@ public class Noticias extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);    //Aixo fa que mostri el menu. Com n'hi han fragments no grafics cal especificar-ho
+
+        setHasOptionsMenu(true);
     }
 
     public void descargarNoticias(){
@@ -76,10 +77,11 @@ public class Noticias extends Fragment{
 
         View fragmentoLista = inflater.inflate(R.layout.fragment_noticias, container, false);    //Definimos el fragment
 
-        items = new ArrayList<>();     //array list que contindrà les pel·licules
-        listaNoticias = (ListView) fragmentoLista.findViewById(R.id.listaNoticias);    //Asignme el id
-        myListAdapter = new NoticiasAdapter(container.getContext(), 0, items);  // Definim adaptador al layaout predefinit i al nostre array items
-        listaNoticias.setAdapter(myListAdapter);    //Acoplem el adaptador
+        // Asignamos el list a su variable
+        listaNoticias = (ListView) fragmentoLista.findViewById(R.id.noticias_listaNoticias);
+
+        myListAdapter = new NoticiasAdapter(container.getContext(), 0, items);  // Definimos el adapter
+        listaNoticias.setAdapter(myListAdapter);                                // Acoplamos el adaptador
 
         listaNoticias.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {  //Listener para el list
@@ -87,7 +89,6 @@ public class Noticias extends Fragment{
             }
         });
 
-        //Afegim diverses entrades al ListView que apareixeran per defecte
         return fragmentoLista;
     }
 
@@ -101,10 +102,10 @@ public class Noticias extends Fragment{
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_refresh) {
 
-            items.clear();
-
+            items.clear();  // Limpia el arrayList que contiene las noticias
             DescargarNoticias descargarNoticias = new DescargarNoticias();  // Instanciams nuestro asyncTask para descargar en segundo plano las noticias
             descargarNoticias.execute();    // Y lo ejecutamos
+
             return true;
         }
         return super.onOptionsItemSelected(item);

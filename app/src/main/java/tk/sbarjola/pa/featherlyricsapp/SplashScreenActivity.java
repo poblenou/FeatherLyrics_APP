@@ -21,19 +21,21 @@ public class SplashScreenActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
-        // Set portrait orientation
+        // Obligamos a que la pantalla esté en portrait
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        // Hide title bar
+        // Ocultamos la titlebar
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.splash_screen);
 
-        ImageView icon = (ImageView) findViewById(R.id.SplashIcon);
+        // Referenciamos nuestra imagen
+        ImageView icon = (ImageView) findViewById(R.id.splashscreen_splashIcon);
 
-        Animation myFadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fadein);
-        icon.startAnimation(myFadeInAnimation); //Set animation to your ImageView
+        Animation myFadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fadein);    // Creamos la nueva animación haciendo referencia al xml
+        icon.startAnimation(myFadeInAnimation); // Y se la damos a nuestra imagen
 
         TimerTask task = new TimerTask() {
             @Override
