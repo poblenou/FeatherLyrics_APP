@@ -1,4 +1,4 @@
-package tk.sbarjola.pa.featherlyricsapp.Fragments;
+package tk.sbarjola.pa.featherlyricsapp.Canciones;
 
 /**
  * Created by 46465442z on 21/12/15.

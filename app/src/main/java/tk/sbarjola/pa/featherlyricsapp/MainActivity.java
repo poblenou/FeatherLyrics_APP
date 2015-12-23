@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
@@ -16,12 +15,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
-import tk.sbarjola.pa.featherlyricsapp.Artistas.Artistas;
+import tk.sbarjola.pa.featherlyricsapp.Canciones.Canciones;
 import tk.sbarjola.pa.featherlyricsapp.Discografia.Discografia;
-import tk.sbarjola.pa.featherlyricsapp.Fragments.Home;
 import tk.sbarjola.pa.featherlyricsapp.Noticias.Noticias;
 import tk.sbarjola.pa.featherlyricsapp.RankingArtistas.RankingArtistas;
 
@@ -86,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Home home = (Home) getSupportFragmentManager().findFragmentByTag("home");
+            Canciones canciones = (Canciones) getSupportFragmentManager().findFragmentByTag("canciones");
 
             String artist = intent.getStringExtra("artist");    // Sacamos el artista del intent
             String track = intent.getStringExtra("track");      // sacamos la pista
@@ -95,8 +92,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             Snackbar.make(findViewById(R.id.content_frame), track + " - " + artist, Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
-            if (home != null) {
-                home.setSong(artist, track);
+            if (canciones != null) {
+                canciones.setSong(artist, track);
             }
         }
     };
@@ -127,11 +124,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_home) {
             fragment = new Home();
             transaccion = true;
-            tag = "home";
         }
-        else if (id == R.id.nav_artistas) {
-            fragment = new Artistas();
+        else if (id == R.id.nav_canciones) {
+            fragment = new Canciones();
             transaccion = true;
+            tag = "canciones";
         }else if (id == R.id.nav_discografia) {
             fragment = new Discografia();
             transaccion = true;

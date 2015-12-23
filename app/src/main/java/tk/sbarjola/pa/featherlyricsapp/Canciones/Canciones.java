@@ -1,4 +1,4 @@
-package tk.sbarjola.pa.featherlyricsapp.Fragments;
+package tk.sbarjola.pa.featherlyricsapp.Canciones;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,7 +29,7 @@ import tk.sbarjola.pa.featherlyricsapp.Noticias.NoticiasAdapter;
 import tk.sbarjola.pa.featherlyricsapp.R;
 
 
-public class Home extends Fragment{
+public class Canciones extends Fragment{
 
     // Datos de la API
     private String BaseURL = "http://api.vagalume.com.br/";         //Principio de la URL que usará retrofit
@@ -56,7 +56,7 @@ public class Home extends Fragment{
 
     public View onCreateView(LayoutInflater inflater, ViewGroup contenedor, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_home, contenedor, false);
+        View view = inflater.inflate(R.layout.fragment_canciones, contenedor, false);
 
         CircleButton button = (CircleButton) view.findViewById(R.id.circleButton);
         button.setOnClickListener(new View.OnClickListener() {

@@ -7,9 +7,9 @@
             android:icon="@android:drawable/ic_menu_view"
             android:title="Home" />
         <item
-            android:id="@+id/nav_artistas"
+            android:id="@+id/nav_canciones"
             android:icon="@android:drawable/ic_menu_camera"
-            android:title="Artistas" />
+            android:title="Canciones" />
         <item
             android:id="@+id/nav_discografia"
             android:icon="@android:drawable/ic_menu_gallery"

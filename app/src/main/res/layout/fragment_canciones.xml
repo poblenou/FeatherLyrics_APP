@@ -1,0 +1,78 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/scrollView"
+    android:background="#ffffff"
+    android:paddingTop="12dp"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true">
+
+    <ScrollView
+        android:layout_width="325dp"
+        android:layout_height="330dp"
+        android:id="@+id/scrollView2"
+        android:layout_marginTop="18dp"
+        android:layout_below="@+id/discografia_nombreArtista"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:background="#ffffff"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/lyricsTextView"
+                android:gravity="center"
+                android:layout_below="@+id/discografia_nombreArtista"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:textSize="16dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <TextView
+        android:text="Haz clic en el botón para buscar la letra de la canción que esté sonando"
+        android:layout_width="340dp"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:id="@+id/discografia_nombreArtista"
+        android:gravity="center"
+        android:singleLine="false"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/scrollView2"
+        android:layout_alignEnd="@+id/scrollView2"
+        android:textStyle="bold" />
+
+    <at.markushi.ui.CircleButton
+        android:layout_width="82dip"
+        android:layout_height="82dip"
+        android:src="@drawable/feather_icon"
+        app:cb_color="#99CC00"
+        app:cb_pressedRingWidth="8dip"
+        android:id="@+id/circleButton"
+        android:clickable="true"
+        android:layout_marginTop="11dp"
+        android:layout_below="@+id/scrollView2"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
+

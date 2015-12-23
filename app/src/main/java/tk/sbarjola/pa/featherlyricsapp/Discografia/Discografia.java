@@ -2,6 +2,7 @@ package tk.sbarjola.pa.featherlyricsapp.Discografia;
 
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,7 +34,7 @@ public class Discografia extends Fragment {
     private String BaseURL = "http://api.vagalume.com.br/";  //Principio de la URL que usará retrofit
     private final static String endURL = "/discografia/index.js";
     private String URL = "";
-    private String artist = "iron-maiden";
+    private String artist = "Iron Maiden";
 
     // Variables y Adapters
     private servicioDiscografiaRetrofit servicioDiscografia;   // Interfaz para las noticias
@@ -92,8 +93,6 @@ public class Discografia extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 artist = query;
-                artist = artist.toLowerCase();
-                artist = artist.replace(" ", "-");
 
                 DescargarDiscografia descargarDiscografia = new DescargarDiscografia();  // Instanciams nuestro asyncTask para descargar en segundo plano las noticias
                 descargarDiscografia.execute();    // Y lo ejecutamos
@@ -110,7 +109,10 @@ public class Discografia extends Fragment {
 
     public void descargarDiscografia(){
 
-        URL = BaseURL + artist + endURL;
+        artist = artist.toLowerCase();  // la busqueda del usuario la pasamos a minusculas
+        artist = artist.replace(" ", "-");  // y cambiamos los espacios por guiones
+
+        URL = BaseURL + artist + endURL;    // Y construimos la URL
 
         servicioDiscografia = retrofit.create(servicioDiscografiaRetrofit.class);
 
@@ -124,9 +126,8 @@ public class Discografia extends Fragment {
                 Discography discografia = resultado.getDiscography();
 
                 myGridAdapter.clear();
-
-                TextView nombreArtista = (TextView) getView().findViewById(R.id.discografia_nombreArtista);
-                nombreArtista.setText(resultado.getDiscography().getArtist().getDesc());
+                artist = resultado.getDiscography().getArtist().getDesc();
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(artist);
 
                 for(int iterador = 0; iterador < discografia.getItem().size(); iterador++){
                     myGridAdapter.add(discografia.getItem().get(iterador));
@@ -141,7 +142,7 @@ public class Discografia extends Fragment {
 
     public interface servicioDiscografiaRetrofit{ //Interficie para descargar las discografia de un artista
         @GET
-        Call<ListDiscografia> discografia(@Url String url);
+        Call<ListDiscografia> discografia(@Url String url); // Le pasamos la URL entera ya construida
     }
 
     class DescargarDiscografia extends AsyncTask {
