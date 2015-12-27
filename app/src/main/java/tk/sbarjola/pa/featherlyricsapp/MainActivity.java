@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView navigationView;      // NavigationView
     Fragment fragment = null;                   // fragmento que ocupara el centro de nuestro navigation drawer
     SharedPreferences preferencias;             // Preferencias personalizadas
+    String artist = "no artist";                // Nombre del artista de la canción en reproducción
+    String track = "no track";                  // Nombre de la pista en reproducción
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +60,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         preferencias = getSharedPreferences("myPreferences", Context.MODE_PRIVATE);
 
-        // Para controlar la musica que se Android este reproduciendo
+        extraerInfoMusica();
+    }
+
+    public void extraerInfoMusica(){
+
+        // Para controlar la musica que Android este reproduciendo
 
         IntentFilter iF = new IntentFilter();   // Intent filter que usaremos para recibir informacion de los reproductores de audio
 
@@ -87,8 +94,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             Canciones canciones = (Canciones) getSupportFragmentManager().findFragmentByTag("canciones");
 
-            String artist = intent.getStringExtra("artist");    // Sacamos el artista del intent
-            String track = intent.getStringExtra("track");      // sacamos la pista
+            artist = intent.getStringExtra("artist");    // Sacamos el artista del intent
+            track = intent.getStringExtra("track");      // sacamos la pista
 
             if (preferencias.getBoolean("toastNotificacion", true)){
                 Toast.makeText(context, track + " - " + artist, Toast.LENGTH_SHORT).show(); // Y lanzamos la toast
@@ -129,8 +136,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_home) {
             fragment = new Home();
             transaccion = true;
-        }
-        else if (id == R.id.nav_canciones) {
+        }else if (id == R.id.nav_canciones) {
             fragment = new Canciones();
             transaccion = true;
             tag = "canciones";
@@ -206,5 +212,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public String getArtist() {
+        return artist;
+    }
+
+    public String getTrack() {
+        return track;
     }
 }

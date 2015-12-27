@@ -39,8 +39,8 @@ public class Canciones extends Fragment{
 
     // Variables del fragmento
     private List<Mu> resultadosLetras = null;      // List con el resultado de las letras obtenidas
-    public String artist = "null";                 // Nombre del artista
-    public String track = "null";                  // Nombre de la pista
+    public String artist = "no artist";                 // Nombre del artista
+    public String track = "no track";                  // Nombre de la pista
     public String letraCancion;                    // String en el que guardaremos la letra de la canción
     public boolean searching = false;              // Booleano que nos indica si se está buscando una canción
 
@@ -66,6 +66,10 @@ public class Canciones extends Fragment{
 
         CircleButton button = (CircleButton) view.findViewById(R.id.canciones_circleButton);
 
+        // Extrae el artista y pista del MainActivity
+        artist = ((MainActivity)getActivity()).getArtist();
+        track = ((MainActivity)getActivity()).getTrack();
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,7 +78,8 @@ public class Canciones extends Fragment{
             }
         });
 
-        if(artist != null && searching == false){
+        // Si ha encontrado que algo se está reproduciendo, descarga la letra
+        if(artist != "no artist" && searching == false){
             descargarInfo();    // Si no estamos buscando que automaticamente ponga la letra de la canción que está sonando
         }
 
@@ -96,7 +101,7 @@ public class Canciones extends Fragment{
             public boolean onQueryTextSubmit(String query) {
                 track = query.split("-")[0];   // Cojemos la primer aparte de la busqueda que será la canción
                 artist = query.split("-")[1];  // Y la segunda que será el grupo
-                searching = true;
+                searching = true;              // Ponemos como que se está buscando
                 descargarInfo();
                 return false;
             }
