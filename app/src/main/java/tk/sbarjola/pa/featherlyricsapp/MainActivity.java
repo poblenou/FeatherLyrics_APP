@@ -12,23 +12,24 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
-
 import tk.sbarjola.pa.featherlyricsapp.Canciones.Canciones;
 import tk.sbarjola.pa.featherlyricsapp.Discografia.Discografia;
 import tk.sbarjola.pa.featherlyricsapp.Noticias.Noticias;
-import tk.sbarjola.pa.featherlyricsapp.RankingArtistas.RankingArtistas;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;                // Drawer
     private NavigationView navigationView;      // NavigationView
     Fragment fragment = null;                   // fragmento que ocupara el centro de nuestro navigation drawer
-    SharedPreferences preferencias;
+    SharedPreferences preferencias;             // Preferencias personalizadas
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -138,12 +140,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_noticias) {
             fragment = new Noticias();
             transaccion = true;
-        } else if (id == R.id.nav_rankingArtistas) {
-            fragment = new RankingArtistas();
-            transaccion = true;
-        } else if (id == R.id.nav_preferencias){
+        } else if (id == R.id.nav_preferencias) {
             Intent i = new Intent(this, SettingsActivity.class);
             startActivity(i);
+        } else if (id == R.id.nav_bio){
+            showAbout();
         } else if (id == R.id.nav_salir) {
             finish();   // La última opción es para cerrar la APP
         }
@@ -159,6 +160,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         drawer.closeDrawers();
         return true;
+    }
+
+    protected void showAbout() {
+        // Inflate the about message contents
+        View messageView = getLayoutInflater().inflate(R.layout.about, null, false);
+
+        // When linking text, force to always use default color. This works
+        // around a pressed color state bug.
+        TextView textView = (TextView) messageView.findViewById(R.id.about_credits);
+        int defaultColor = textView.getTextColors().getDefaultColor();
+        textView.setTextColor(defaultColor);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setIcon(R.drawable.feather_icon);
+        builder.setTitle(R.string.app_name);
+        builder.setView(messageView);
+        builder.create();
+        builder.show();
     }
 
     @Override

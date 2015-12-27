@@ -8,7 +8,7 @@
             android:title="Home" />
         <item
             android:id="@+id/nav_canciones"
-            android:icon="@android:drawable/ic_menu_camera"
+            android:icon="@android:drawable/ic_media_play"
             android:title="Canciones" />
         <item
             android:id="@+id/nav_discografia"
@@ -16,7 +16,7 @@
             android:title="Discografia" />
         <item
             android:id="@+id/nav_noticias"
-            android:icon="@android:drawable/ic_menu_slideshow"
+            android:icon="@android:drawable/ic_menu_view"
             android:title="Noticias" />
         <item
             android:id="@+id/nav_rankingArtistas"
@@ -29,7 +29,12 @@
             <item
                 android:id="@+id/nav_preferencias"
                 android:icon="@android:drawable/ic_menu_report_image"
-                android:title="Configuracion" />
+                android:title="Configuración" />
+
+            <item
+                android:id="@+id/nav_bio"
+                android:icon="@android:drawable/ic_menu_preferences"
+                android:title="About" />
 
             <item
                 android:id="@+id/nav_salir"
