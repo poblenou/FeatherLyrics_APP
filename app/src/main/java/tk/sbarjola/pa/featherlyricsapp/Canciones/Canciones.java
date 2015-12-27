@@ -30,7 +30,6 @@ import retrofit.http.Query;
 import tk.sbarjola.pa.featherlyricsapp.MainActivity;
 import tk.sbarjola.pa.featherlyricsapp.R;
 
-
 public class Canciones extends Fragment{
 
     // Datos de la API
@@ -39,8 +38,8 @@ public class Canciones extends Fragment{
 
     // Variables del fragmento
     private List<Mu> resultadosLetras = null;      // List con el resultado de las letras obtenidas
-    public String artist = "no artist";                 // Nombre del artista
-    public String track = "no track";                  // Nombre de la pista
+    public String artist = "no artist";            // Nombre del artista
+    public String track = "no track";              // Nombre de la pista
     public String letraCancion;                    // String en el que guardaremos la letra de la canción
     public boolean searching = false;              // Booleano que nos indica si se está buscando una canción
 
@@ -156,6 +155,10 @@ public class Canciones extends Fragment{
                     }
                     else{
                         letraCancion = resultadosLetras.get(0).getText();
+
+                        // Ajustamos correctamente el nombre de pista y el del artista
+                        track = resultadosLetras.get(0).getName();
+                        artist = resultado.getArt().getName();
 
                         TextView textCancion = (TextView) getView().findViewById(R.id.canciones_letraCancion);
                         TextView tituloCancion = (TextView) getView().findViewById(R.id.canciones_instrucciones);

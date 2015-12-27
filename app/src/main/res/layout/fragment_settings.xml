@@ -20,7 +20,6 @@
         android:textAlignment="viewStart"
         android:textSize="20dp"
         android:textStyle="bold"
-        android:paddingLeft="30dp"
         android:paddingRight="30dp"
         android:paddingTop="0dp"
         android:paddingBottom="0dp"
@@ -37,11 +36,9 @@
         android:layout_height="wrap_content"
         android:text="Mostar una notificación con el nombre y artista de la canción en reproducción"
         android:id="@+id/textView2"
-        android:layout_marginTop="24dp"
         android:layout_alignTop="@+id/settings_mostrarToast"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="29dp"
-        android:layout_marginStart="29dp" />
+        android:layout_marginTop="24dp" />
 
 </RelativeLayout>

@@ -16,24 +16,20 @@
             android:title="Discografia" />
         <item
             android:id="@+id/nav_noticias"
-            android:icon="@android:drawable/ic_menu_view"
+            android:icon="@android:drawable/ic_menu_week"
             android:title="Noticias" />
-        <item
-            android:id="@+id/nav_rankingArtistas"
-            android:icon="@android:drawable/ic_menu_manage"
-            android:title="Ranking Artistas" />
     </group>
 
     <item android:title="Ajustes">
         <menu>
             <item
                 android:id="@+id/nav_preferencias"
-                android:icon="@android:drawable/ic_menu_report_image"
+                android:icon="@android:drawable/ic_menu_preferences"
                 android:title="Configuración" />
 
             <item
                 android:id="@+id/nav_bio"
-                android:icon="@android:drawable/ic_menu_preferences"
+                android:icon="@android:drawable/ic_menu_info_details"
                 android:title="About" />
 
             <item
