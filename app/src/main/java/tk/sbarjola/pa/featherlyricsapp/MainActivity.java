@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -24,13 +25,10 @@ import tk.sbarjola.pa.featherlyricsapp.RankingArtistas.RankingArtistas;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    // Datos de la API
-    private String BaseURL = "http://api.vagalume.com.br/";  //Principio de la URL que usará retrofit
-    private String apiKey = "754f223018be007a45003e3b87877bac";     // Key de Vagalume. Máximo 100.000 peticiones /dia
-
-    private DrawerLayout drawer;
-    private NavigationView navigationView;
-    Fragment fragment = null;
+    private DrawerLayout drawer;                // Drawer
+    private NavigationView navigationView;      // NavigationView
+    Fragment fragment = null;                   // fragmento que ocupara el centro de nuestro navigation drawer
+    SharedPreferences preferencias;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .replace(R.id.content_frame, new Home(), "home")
                 .commit();
 
+        preferencias = getSharedPreferences("myPreferences", Context.MODE_PRIVATE);
+
         // Para controlar la musica que se Android este reproduciendo
 
         IntentFilter iF = new IntentFilter();   // Intent filter que usaremos para recibir informacion de los reproductores de audio
@@ -80,14 +80,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+
         @Override
         public void onReceive(Context context, Intent intent) {
+
             Canciones canciones = (Canciones) getSupportFragmentManager().findFragmentByTag("canciones");
 
             String artist = intent.getStringExtra("artist");    // Sacamos el artista del intent
             String track = intent.getStringExtra("track");      // sacamos la pista
 
-            Toast.makeText(context, track + " - " + artist, Toast.LENGTH_SHORT).show(); // Y lanzamos la toast
+            if (preferencias.getBoolean("toastNotificacion", true)){
+                Toast.makeText(context, track + " - " + artist, Toast.LENGTH_SHORT).show(); // Y lanzamos la toast
+            }
 
             Snackbar.make(findViewById(R.id.content_frame), track + " - " + artist, Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
@@ -137,6 +141,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_rankingArtistas) {
             fragment = new RankingArtistas();
             transaccion = true;
+        } else if (id == R.id.nav_preferencias){
+            Intent i = new Intent(this, SettingsActivity.class);
+            startActivity(i);
         } else if (id == R.id.nav_salir) {
             finish();   // La última opción es para cerrar la APP
         }

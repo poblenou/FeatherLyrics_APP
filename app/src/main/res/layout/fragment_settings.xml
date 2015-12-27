@@ -1,0 +1,47 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    tools:showIn="@layout/activity_settings"
+    tools:context="tk.sbarjola.pa.featherlyricsapp.SettingsActivityFragment">
+
+    <Switch
+        android:gravity="start"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:text="Mostrar notificaciones"
+        android:id="@+id/settings_mostrarToast"
+        android:checked="true"
+        android:textColor="#000000"
+        android:textAlignment="viewStart"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp"
+        android:showText="false"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="14dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mostar una notificación con el nombre y artista de la canción en reproducción"
+        android:id="@+id/textView2"
+        android:layout_marginTop="24dp"
+        android:layout_alignTop="@+id/settings_mostrarToast"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="29dp"
+        android:layout_marginStart="29dp" />
+
+</RelativeLayout>

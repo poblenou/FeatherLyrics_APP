@@ -1,12 +1,15 @@
 package tk.sbarjola.pa.featherlyricsapp.Discografia;
 
+import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +21,8 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +49,7 @@ public class Discografia extends Fragment {
     private ArrayList<Item> items = new ArrayList<>();;        // ArrayList que llenaremos con los albumes
     private GridView gridDiscos;                               // Grid View donde mostraremos los discos
     private ListView listCanciones;                            // List View donde mostraremos las canciones
-    DiscografiaAdapter myGridAdapter;                          // Adaptador para el gridView
+    private DiscografiaAdapter myGridAdapter;                  // Adaptador para el gridView
     private ArrayAdapter<String> myListAdapter;                // Adaptador para el listView (con uno predefinido nos sirve)
 
     // Declaramos el retrofit como variable global para poder reutilizarlo si es necesario
@@ -65,7 +70,7 @@ public class Discografia extends Fragment {
         super.onStart();
 
         DescargarDiscografia descargarDiscografia = new DescargarDiscografia();  // Instanciams nuestro asyncTask para descargar en segundo plano las noticias
-        descargarDiscografia.execute();    // Y lo ejecutamos
+        descargarDiscografia.execute();                                          // Y lo ejecutamos
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

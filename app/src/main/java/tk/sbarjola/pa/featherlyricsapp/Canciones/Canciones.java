@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -156,6 +157,9 @@ public class Canciones extends Fragment{
 
                         tituloCancion.setText(track + "\n" + artist);   // Asignamos el titulo de la canción y el grupo a su textView
                         textCancion.setText(letraCancion);  // Asigamos la letra de la canción a su textView
+
+                        ScrollView scrollLetra = (ScrollView) getView().findViewById(R.id.canciones_scrollView);
+                        scrollLetra.fullScroll(ScrollView.FOCUS_UP);    // Cada vez que pone el texto de una canción, mueve el scrollView al principio
                     }
                 }
                 else {
