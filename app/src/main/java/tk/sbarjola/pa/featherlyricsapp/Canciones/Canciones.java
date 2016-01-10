@@ -42,6 +42,7 @@ public class Canciones extends Fragment{
     public String track = "no track";              // Nombre de la pista
     public String letraCancion;                    // String en el que guardaremos la letra de la canción
     public boolean searching = false;              // Booleano que nos indica si se está buscando una canción
+    public boolean discografia = false;            // Booleano que determina si la informacion de la cancion vino del fragment discografia
 
     // Variables y Adapters
     private servicioLetrasRetrofit servicioLetras;  // Interfaz para las peliculas populares
@@ -66,8 +67,13 @@ public class Canciones extends Fragment{
         CircleButton button = (CircleButton) view.findViewById(R.id.canciones_circleButton);
 
         // Extrae el artista y pista del MainActivity
-        artist = ((MainActivity)getActivity()).getArtist();
-        track = ((MainActivity)getActivity()).getTrack();
+            artist = ((MainActivity)getActivity()).getPlayingArtist();
+            track = ((MainActivity)getActivity()).getPlayingTrack();
+
+        if(discografia = true){
+            artist = ((MainActivity)getActivity()).getSearchedArtist();
+            track = ((MainActivity)getActivity()).getSearchedTrack();
+        }
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -194,5 +200,9 @@ public class Canciones extends Fragment{
                 @Query("mus") String songName,
                 @Query("apikey") String api
         );
+    }
+
+    public void setDiscography(boolean a){
+        discografia = a;
     }
 }

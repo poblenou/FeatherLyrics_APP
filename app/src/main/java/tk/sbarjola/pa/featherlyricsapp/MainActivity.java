@@ -30,8 +30,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView navigationView;      // NavigationView
     Fragment fragment = null;                   // fragmento que ocupara el centro de nuestro navigation drawer
     SharedPreferences preferencias;             // Preferencias personalizadas
-    String artist = "no artist";                // Nombre del artista de la canción en reproducción
-    String track = "no track";                  // Nombre de la pista en reproducción
+    String playingArtist = "no artist";         // Nombre del artista de la canción en reproducción
+    String playingTrack = "no track";           // Nombre de la pista en reproducción
+    String searchedArtist = "no artist";        // Nombre del artista seleccionado en discografia
+    String searchedTrack = "no track";          // Nombre de la pista seleccionada en discografia
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,17 +96,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             Canciones canciones = (Canciones) getSupportFragmentManager().findFragmentByTag("canciones");
 
-            artist = intent.getStringExtra("artist");    // Sacamos el artista del intent
-            track = intent.getStringExtra("track");      // sacamos la pista
+            playingArtist = intent.getStringExtra("artist");    // Sacamos el artista del intent
+            playingTrack = intent.getStringExtra("track");      // sacamos la pista
 
             if (preferencias.getBoolean("toastNotificacion", true)){
-                Toast.makeText(context, track + " - " + artist, Toast.LENGTH_SHORT).show(); // Y lanzamos la toast
+                Toast.makeText(context, playingTrack + " - " + playingArtist, Toast.LENGTH_SHORT).show(); // Y lanzamos la toast
             }
 
-            Snackbar.make(findViewById(R.id.content_frame), track + " - " + artist, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            Snackbar.make(findViewById(R.id.content_frame), playingTrack + " - " + playingArtist, Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
             if (canciones != null) {
-                canciones.setSong(artist, track);
+                canciones.setSong(playingArtist, playingTrack);
             }
         }
     };
@@ -119,6 +121,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         else {
             super.onBackPressed();
+        }
+    }
+
+    public void abrirCanciones(){
+
+        fragment = new Canciones();
+        String tag = "canciones";
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.content_frame, fragment, tag)
+                .commit();
+
+        getSupportActionBar().setTitle("Canciones");
+
+        Canciones canciones = (Canciones) getSupportFragmentManager().findFragmentByTag("canciones");
+
+        if (canciones != null) {
+            canciones.setSong(searchedArtist, searchedTrack);
+            canciones.setDiscography(true);
         }
     }
 
@@ -214,11 +235,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
-    public String getArtist() {
-        return artist;
+    // Setters
+
+    public void setSearchedArtist(String searchedArtist){
+        this.searchedArtist = searchedArtist;
     }
 
-    public String getTrack() {
-        return track;
+    public void setSearchedTrack(String searchedTrack){
+        this.searchedTrack = searchedTrack;
+    }
+
+
+    // Getters
+
+    public String getPlayingArtist() {
+        return playingArtist;
+    }
+
+    public String getPlayingTrack() {
+        return playingTrack;
+    }
+
+    public String getSearchedArtist() {
+        return searchedArtist;
+    }
+
+    public String getSearchedTrack() {
+        return searchedTrack;
     }
 }

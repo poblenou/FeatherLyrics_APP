@@ -112,6 +112,17 @@ public class Discografia extends Fragment {
             }
         });
 
+        listCanciones.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {  // En caso de pulsar sobre un album
+
+                // Extrae el artista y pista del MainActivity
+                ((MainActivity) getActivity()).setSearchedArtist(artist);
+                ((MainActivity) getActivity()).setSearchedTrack(listCanciones.getItemAtPosition(position).toString());
+                ((MainActivity) getActivity()).abrirCanciones();
+            }
+        });
+
         return view;
     }
 
