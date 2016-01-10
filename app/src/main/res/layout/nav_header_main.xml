@@ -10,7 +10,7 @@
     <ImageView android:layout_width="197dp"
         android:gravity="top"
         android:layout_height="50dp"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:paddingTop="25dp"
         android:src="@drawable/drawer_icon"
         android:id="@+id/imageView"
         android:layout_weight="0.92" />
@@ -18,12 +18,13 @@
     <TextView android:layout_width="150dp"
         android:gravity="bottom"
         android:layout_height="wrap_content"
-        android:paddingTop="25dp"
+        android:paddingTop="10dp"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:text="Feather Music"
+        android:text="Feather Lyrics"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="#FFF" />
+        android:textColor="#FFF"
+        android:id="@+id/featherLyrics" />
 
     <TextView
         android:gravity="bottom"

@@ -70,9 +70,9 @@ public class Canciones extends Fragment{
             artist = ((MainActivity)getActivity()).getPlayingArtist();
             track = ((MainActivity)getActivity()).getPlayingTrack();
 
-        if(discografia = true){
-            artist = ((MainActivity)getActivity()).getSearchedArtist();
-            track = ((MainActivity)getActivity()).getSearchedTrack();
+        if(discografia = true){ // Si la informacion proviende de discografia, coge el artista correspondiente
+            artist = ((MainActivity)getActivity()).getDiscographyArtist();
+            track = ((MainActivity)getActivity()).getDiscographyTrack();
         }
 
         button.setOnClickListener(new View.OnClickListener() {

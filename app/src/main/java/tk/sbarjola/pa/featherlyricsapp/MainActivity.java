@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     SharedPreferences preferencias;             // Preferencias personalizadas
     String playingArtist = "no artist";         // Nombre del artista de la canción en reproducción
     String playingTrack = "no track";           // Nombre de la pista en reproducción
-    String searchedArtist = "no artist";        // Nombre del artista seleccionado en discografia
-    String searchedTrack = "no track";          // Nombre de la pista seleccionada en discografia
+    String discographyArtist = "no artist";        // Nombre del artista seleccionado en discografia
+    String discographyTrack = "no track";          // Nombre de la pista seleccionada en discografia
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Canciones canciones = (Canciones) getSupportFragmentManager().findFragmentByTag("canciones");
 
         if (canciones != null) {
-            canciones.setSong(searchedArtist, searchedTrack);
+            canciones.setSong(discographyArtist, discographyTrack);
             canciones.setDiscography(true);
         }
     }
@@ -238,11 +238,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // Setters
 
     public void setSearchedArtist(String searchedArtist){
-        this.searchedArtist = searchedArtist;
+        this.discographyArtist = searchedArtist;
     }
 
     public void setSearchedTrack(String searchedTrack){
-        this.searchedTrack = searchedTrack;
+        this.discographyTrack = searchedTrack;
     }
 
 
@@ -256,11 +256,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return playingTrack;
     }
 
-    public String getSearchedArtist() {
-        return searchedArtist;
+    public String getDiscographyArtist() {
+        return discographyArtist;
     }
 
-    public String getSearchedTrack() {
-        return searchedTrack;
+    public String getDiscographyTrack() {
+        return discographyTrack;
     }
 }
