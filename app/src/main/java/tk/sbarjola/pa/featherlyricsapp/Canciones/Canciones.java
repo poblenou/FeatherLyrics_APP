@@ -83,12 +83,15 @@ public class Canciones extends Fragment{
             @Override
             public void onClick(View v) {
                 searching = false;  // Si pulsamos el botón dejamos el buscando a false
+                ProgressBar progress = (ProgressBar) getView().findViewById(R.id.progressAnimation);   // Animacion de cargando
+                progress.setVisibility(View.VISIBLE);
                 descargarInfo();    // Y descargamos la letra de la canción que esté sonando
             }
         });
 
         // Si ha encontrado que algo se está reproduciendo, descarga la letra
         if(artist != "no artist" && searching == false){
+            progress.setVisibility(View.VISIBLE);
             descargarInfo();    // Si no estamos buscando que automaticamente ponga la letra de la canción que está sonando
         }
 
@@ -111,7 +114,7 @@ public class Canciones extends Fragment{
                 track = query.split("-")[0];   // Cojemos la primer aparte de la busqueda que será la canción
                 artist = query.split("-")[1];  // Y la segunda que será el grupo
                 searching = true;              // Ponemos como que se está buscando
-                descargarInfo();
+                descargarInfo();               // Descargamos la información de las canciones
                 return false;
             }
 
@@ -132,12 +135,12 @@ public class Canciones extends Fragment{
 
         TextView textCancion = (TextView) getView().findViewById(R.id.canciones_letraCancion);
         textCancion.setText("");
+        ProgressBar progress = (ProgressBar) getView().findViewById(R.id.progressAnimation);   // Animacion de cargando
+        progress.setVisibility(View.VISIBLE);
         descargarInfo();    // Y descargamos la letra
     }
 
     public void descargarInfo(){
-        ProgressBar progress = (ProgressBar) getView().findViewById(R.id.progressAnimation);   // Animacion de cargando
-        progress.setVisibility(View.VISIBLE);
         DescargarLetras descargarLetras = new DescargarLetras();  // Instanciams nuestro asyncTask para descargar en segundo plano la letra
         descargarLetras.execute();                                // Y lo ejecutamos
     }
