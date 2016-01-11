@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -64,7 +65,10 @@ public class Canciones extends Fragment{
 
         View view = inflater.inflate(R.layout.fragment_canciones, contenedor, false);
 
+        ProgressBar progress = (ProgressBar) view.findViewById(R.id.progressAnimation);   // Animacion de cargando
         CircleButton button = (CircleButton) view.findViewById(R.id.canciones_circleButton);
+
+        progress.setVisibility(View.GONE);
 
         // Extrae el artista y pista del MainActivity
             artist = ((MainActivity)getActivity()).getPlayingArtist();
@@ -126,10 +130,14 @@ public class Canciones extends Fragment{
         this.artist = artist;
         this.track = track;
 
+        TextView textCancion = (TextView) getView().findViewById(R.id.canciones_letraCancion);
+        textCancion.setText("");
         descargarInfo();    // Y descargamos la letra
     }
 
     public void descargarInfo(){
+        ProgressBar progress = (ProgressBar) getView().findViewById(R.id.progressAnimation);   // Animacion de cargando
+        progress.setVisibility(View.VISIBLE);
         DescargarLetras descargarLetras = new DescargarLetras();  // Instanciams nuestro asyncTask para descargar en segundo plano la letra
         descargarLetras.execute();                                // Y lo ejecutamos
     }
@@ -151,15 +159,14 @@ public class Canciones extends Fragment{
         llamada.enqueue(new Callback<LyricsList>() {
             @Override
             public void onResponse(Response<LyricsList> response, Retrofit retrofit) {
-                if (response.isSuccess()){
+                if (response.isSuccess()) {
                     LyricsList resultado = response.body();
 
                     resultadosLetras = resultado.getMus();
 
-                    if(resultadosLetras.size() == 0){   // Si no hemos conseguido nada mostramos que la letra no está disponible
+                    if (resultadosLetras.size() == 0) {   // Si no hemos conseguido nada mostramos que la letra no está disponible
                         letraCancion = "Letra no disponible";
-                    }
-                    else{
+                    } else {
                         letraCancion = resultadosLetras.get(0).getText();
 
                         // Ajustamos correctamente el nombre de pista y el del artista
@@ -168,15 +175,16 @@ public class Canciones extends Fragment{
 
                         TextView textCancion = (TextView) getView().findViewById(R.id.canciones_letraCancion);
                         TextView tituloCancion = (TextView) getView().findViewById(R.id.canciones_instrucciones);
+                        ProgressBar progress = (ProgressBar) getView().findViewById(R.id.progressAnimation);   // Animacion de cargando
 
+                        progress.setVisibility(View.GONE);  // Una vez descargado todo ocultamos la animación
                         tituloCancion.setText(track + "\n" + artist);   // Asignamos el titulo de la canción y el grupo a su textView
                         textCancion.setText(letraCancion);  // Asigamos la letra de la canción a su textView
 
                         ScrollView scrollLetra = (ScrollView) getView().findViewById(R.id.canciones_scrollView);
                         scrollLetra.fullScroll(ScrollView.FOCUS_UP);    // Cada vez que pone el texto de una canción, mueve el scrollView al principio
                     }
-                }
-                else {
+                } else {
                     try {
                         Log.e(null, response.errorBody().string());
                     } catch (IOException e) {

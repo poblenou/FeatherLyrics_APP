@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id="@+id/scrollView"
+    android:id="@+id/relativeLayout"
     android:background="#ffffff"
     android:paddingTop="12dp"
     android:layout_alignParentTop="true"
@@ -53,14 +53,14 @@
         android:id="@+id/canciones_instrucciones"
         android:gravity="center"
         android:singleLine="false"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/scrollView2"
-        android:layout_alignEnd="@+id/scrollView2"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <at.markushi.ui.CircleButton
         android:layout_width="82dip"
@@ -72,6 +72,15 @@
         android:clickable="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
+    <ProgressBar
+        android:id="@+id/progressAnimation"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="visible">
+    </ProgressBar>
 
 </RelativeLayout>
 
