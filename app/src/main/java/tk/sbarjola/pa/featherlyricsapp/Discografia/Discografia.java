@@ -1,15 +1,13 @@
 package tk.sbarjola.pa.featherlyricsapp.Discografia;
 
-import android.content.Intent;
+import android.media.Image;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,9 +17,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,11 @@ import retrofit.Response;
 import retrofit.Retrofit;
 import retrofit.http.GET;
 import retrofit.http.Url;
+import tk.sbarjola.pa.featherlyricsapp.Discografia.Spotify.ArtistSpotify;
+import tk.sbarjola.pa.featherlyricsapp.Discografia.Vagalume.Disc;
+import tk.sbarjola.pa.featherlyricsapp.Discografia.Vagalume.Discography;
+import tk.sbarjola.pa.featherlyricsapp.Discografia.Vagalume.Item;
+import tk.sbarjola.pa.featherlyricsapp.Discografia.Vagalume.ListDiscografia;
 import tk.sbarjola.pa.featherlyricsapp.MainActivity;
 import tk.sbarjola.pa.featherlyricsapp.R;
 
@@ -41,11 +47,13 @@ public class Discografia extends Fragment {
     // Datos de la API
     private String BaseURL = "http://api.vagalume.com.br/";         //Principio de la URL que usará retrofit
     private final static String endURL = "/discografia/index.js";   // Ultima parte de la url
-    private String URL = "";                                        // Parte del medio que será el artista en minusculas y los espacios cambiados por guiones
+    private String URLVagalume = "";                                // Parte del medio que será el artista en minusculas y los espacios cambiados por guiones
+    private String URLSpotify = "";                                 // Spotify
     private String artist = "Iron Maiden";                          // Nombre del artista
 
     // Variables y Adapters
     private servicioDiscografiaRetrofit servicioDiscografia;   // Interfaz para descargar la discografia
+    private servicioImagenArtistaRetrofit servicioImagen;      // Interfaz para descargar la imagen
     private ArrayList<Item> items = new ArrayList<>();;        // ArrayList que llenaremos con los albumes
     private GridView gridDiscos;                               // Grid View donde mostraremos los discos
     private ListView listCanciones;                            // List View donde mostraremos las canciones
@@ -95,8 +103,15 @@ public class Discografia extends Fragment {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {  // En caso de pulsar sobre un album
 
+                // Imagen y textView relacionados con el artista
+                ImageView imagenArtista = (ImageView) getView().findViewById(R.id.discografia_artistImage);
+                TextView infoArtista = (TextView) getView().findViewById(R.id.discografia_artistInfo);
+
                 gridDiscos.setVisibility(View.GONE);            // Ocultamos el grid
                 listCanciones.setVisibility(View.VISIBLE);      // Mostramos el list
+                imagenArtista.setVisibility(View.GONE);
+                infoArtista.setVisibility(View.GONE);
+
 
                 List<List<Disc>> disco = items.get(position).getDiscs();    // Sacamos los discos del elemento que hayamos pulsado
 
@@ -156,11 +171,12 @@ public class Discografia extends Fragment {
         artist = artist.toLowerCase();      // la busqueda del usuario la pasamos a minusculas
         artist = artist.replace(" ", "-");  // y cambiamos los espacios por guiones
 
-        URL = BaseURL + artist + endURL;    // Y construimos la URL
+        URLVagalume = BaseURL + artist + endURL;    // Y construimos la URL
+        URLSpotify = "https://api.spotify.com/v1/search?q=" + artist + "&type=artist";
 
         servicioDiscografia = retrofit.create(servicioDiscografiaRetrofit.class);
 
-        Call<ListDiscografia> llamada = (Call<ListDiscografia>) servicioDiscografia.discografia(URL);
+        Call<ListDiscografia> llamada = (Call<ListDiscografia>) servicioDiscografia.discografia(URLVagalume);
 
         llamada.enqueue(new Callback<ListDiscografia>() {
             @Override
@@ -182,11 +198,47 @@ public class Discografia extends Fragment {
             public void onFailure(Throwable t) {
             }
         });
+
+        servicioImagen = retrofit.create(servicioImagenArtistaRetrofit.class);
+
+        Call<ArtistSpotify> llamadaSpotify = (Call<ArtistSpotify>) servicioImagen.artistsSpotify(URLSpotify);
+
+        llamadaSpotify.enqueue(new Callback<ArtistSpotify>() {
+            @Override
+            public void onResponse(Response<ArtistSpotify> response, Retrofit retrofit) {
+                ArtistSpotify resultado = response.body();
+
+                // Imagen y textView relacionados con el artista
+                ImageView imagenArtista = (ImageView) getView().findViewById(R.id.discografia_artistImage);
+                TextView infoArtista = (TextView) getView().findViewById(R.id.discografia_artistInfo);
+
+                infoArtista.setText("Popularidad: " + resultado.getArtists().getItems().get(0).getPopularity() + "%\n" +
+                "Género: " + resultado.getArtists().getItems().get(0).getGenres().get(0).toString());
+
+                String URLimagen = resultado.getArtists().getItems().get(0).getImages().get(0).toString();
+
+                URLimagen = URLimagen.split(",")[1].split(",")[0].replace("url=", "");
+
+                Picasso.with(getContext()).load(URLimagen).fit().centerCrop().into(imagenArtista);
+
+                Toast.makeText(getContext(), URLimagen, Toast.LENGTH_SHORT).show(); // Y lanzamos la toast
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
     }
 
     public interface servicioDiscografiaRetrofit{ //Interficie para descargar las discografia de un artista
         @GET
         Call<ListDiscografia> discografia(@Url String url); // Le pasamos la URL entera ya construida
+    }
+
+    public interface servicioImagenArtistaRetrofit{
+        @GET
+        Call<ArtistSpotify> artistsSpotify(@Url String url); // Le pasamos la URL entera ya construida
     }
 
     class DescargarDiscografia extends AsyncTask {

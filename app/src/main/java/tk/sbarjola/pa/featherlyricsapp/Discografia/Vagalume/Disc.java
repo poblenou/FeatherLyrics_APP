@@ -1,4 +1,4 @@
-package tk.sbarjola.pa.featherlyricsapp.Discografia;
+package tk.sbarjola.pa.featherlyricsapp.Discografia.Vagalume;
 
 /**
  * Created by sergi on 22/12/15.
@@ -7,7 +7,7 @@ package tk.sbarjola.pa.featherlyricsapp.Discografia;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Artist {
+public class Disc {
 
     @SerializedName("id")
     @Expose
@@ -18,6 +18,9 @@ public class Artist {
     @SerializedName("url")
     @Expose
     private String url;
+    @SerializedName("turl")
+    @Expose
+    private String turl;
 
     /**
      *
@@ -71,6 +74,24 @@ public class Artist {
      */
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    /**
+     *
+     * @return
+     * The turl
+     */
+    public String getTurl() {
+        return turl;
+    }
+
+    /**
+     *
+     * @param turl
+     * The turl
+     */
+    public void setTurl(String turl) {
+        this.turl = turl;
     }
 
 }
