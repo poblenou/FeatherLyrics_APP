@@ -78,7 +78,9 @@ public class Discografia extends Fragment {
         super.onStart();
 
         DescargarDiscografia descargarDiscografia = new DescargarDiscografia();  // Instanciams nuestro asyncTask para descargar en segundo plano las noticias
+        DescargarArtista descargarArt = new DescargarArtista();                  // Lo mismo para los datos del artista
         descargarDiscografia.execute();                                          // Y lo ejecutamos
+        descargarArt.execute();
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -154,7 +156,9 @@ public class Discografia extends Fragment {
             public boolean onQueryTextSubmit(String query) {
                 artist = query;
                 DescargarDiscografia descargarDiscografia = new DescargarDiscografia();  // Instanciams nuestro asyncTask para descargar en segundo plano la discografia
+                DescargarArtista descargarArt = new DescargarArtista();                  // Lo mismo para los datos del artista
                 descargarDiscografia.execute();                                          // Y lo ejecutamos
+                descargarArt.execute();
                 return false;
             }
 
@@ -189,7 +193,7 @@ public class Discografia extends Fragment {
                 artist = resultado.getDiscography().getArtist().getDesc();
                 ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(artist);
 
-                for(int iterador = 0; iterador < discografia.getItem().size(); iterador++){
+                for (int iterador = 0; iterador < discografia.getItem().size(); iterador++) {
                     myGridAdapter.add(discografia.getItem().get(iterador));
                 }
             }
@@ -198,6 +202,9 @@ public class Discografia extends Fragment {
             public void onFailure(Throwable t) {
             }
         });
+    }
+
+    public void descargaArtista(){
 
         servicioImagen = retrofit.create(servicioImagenArtistaRetrofit.class);
 
@@ -213,11 +220,15 @@ public class Discografia extends Fragment {
                 TextView infoArtista = (TextView) getView().findViewById(R.id.discografia_artistInfo);
 
                 infoArtista.setText("Popularidad: " + resultado.getArtists().getItems().get(0).getPopularity() + "%\n" +
-                "Género: " + resultado.getArtists().getItems().get(0).getGenres().get(0).toString());
+                        "Género: " + resultado.getArtists().getItems().get(0).getGenres().get(0).toString());
 
                 String URLimagen = resultado.getArtists().getItems().get(0).getImages().get(0).toString();
 
+                System.out.println(URLimagen+"-----------------------------------------");
+
                 URLimagen = URLimagen.split(",")[1].split(",")[0].replace("url=", "");
+
+                System.out.println(URLimagen+"-----------------------------------------");
 
                 Picasso.with(getContext()).load(URLimagen).fit().centerCrop().into(imagenArtista);
 
@@ -245,6 +256,14 @@ public class Discografia extends Fragment {
         @Override
         protected Object doInBackground(Object[] params) {
             descargarDiscografia();
+            return null;
+        }
+    }
+
+    class DescargarArtista extends AsyncTask {
+        @Override
+        protected Object doInBackground(Object[] params) {
+            descargaArtista();
             return null;
         }
     }
