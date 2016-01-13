@@ -6,8 +6,11 @@ package tk.sbarjola.pa.featherlyricsapp;
 import java.util.Timer;
 import java.util.TimerTask;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.animation.Animation;
@@ -18,42 +21,56 @@ public class SplashScreenActivity extends Activity {
 
     // Set the duration of the splash screen
     private static final long SPLASH_SCREEN_DELAY = 3000;
+    SharedPreferences preferencias; // Preferencias personalizadas
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
-        // Obligamos a que la pantalla esté en portrait
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        // Ocultamos la titlebar
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        preferencias = getSharedPreferences("myPreferences", Context.MODE_PRIVATE);
 
-        setContentView(R.layout.splash_screen);
+        if (preferencias.getBoolean("sound", true)) {
+            MediaPlayer mp = MediaPlayer.create(this, R.raw.intro);
+            mp.start();
+        }
 
-        // Referenciamos nuestra imagen
-        ImageView icon = (ImageView) findViewById(R.id.splashscreen_splashIcon);
+        if (preferencias.getBoolean("splash", true)) {
 
-        Animation myFadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fadein);    // Creamos la nueva animación haciendo referencia al xml
-        icon.startAnimation(myFadeInAnimation); // Y se la damos a nuestra imagen
+            // Obligamos a que la pantalla esté en portrait
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            // Ocultamos la titlebar
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
+            setContentView(R.layout.splash_screen);
 
-                // Start the next activity
-                Intent mainIntent = new Intent().setClass(SplashScreenActivity.this, MainActivity.class);
-                startActivity(mainIntent);
+            // Referenciamos nuestra imagen
+            ImageView icon = (ImageView) findViewById(R.id.splashscreen_splashIcon);
 
-                // Close the activity so the user won't able to go back this
-                // activity pressing Back button
-                finish();
-            }
-        };
+            Animation myFadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fadein);    // Creamos la nueva animación haciendo referencia al xml
+            icon.startAnimation(myFadeInAnimation); // Y se la damos a nuestra imagen
 
-        // Simulate a long loading process on application startup.
-        Timer timer = new Timer();
-        timer.schedule(task, SPLASH_SCREEN_DELAY);
+            TimerTask task = new TimerTask() {
+                @Override
+                public void run() {
+
+                    // Start the next activity
+                    Intent mainIntent = new Intent().setClass(SplashScreenActivity.this, MainActivity.class);
+                    startActivity(mainIntent);
+
+                    // Close the activity so the user won't able to go back this
+                    // activity pressing Back button
+                    finish();
+                }
+            };
+            // Simulate a long loading process on application startup.
+            Timer timer = new Timer();
+            timer.schedule(task, SPLASH_SCREEN_DELAY);
+        }
+        else {
+            // Start the next activity
+            Intent mainIntent = new Intent().setClass(SplashScreenActivity.this, MainActivity.class);
+            startActivity(mainIntent);
+        }
     }
-
 }
