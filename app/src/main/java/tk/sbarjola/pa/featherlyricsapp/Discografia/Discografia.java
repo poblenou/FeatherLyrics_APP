@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -108,14 +109,11 @@ public class Discografia extends Fragment {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {  // En caso de pulsar sobre un album
 
-                // Imagen y textView relacionados con el artista
-                ImageView imagenArtista = (ImageView) getView().findViewById(R.id.discografia_artistImage);
-                TextView infoArtista = (TextView) getView().findViewById(R.id.discografia_artistInfo);
+                TextView artista = (TextView) getView().findViewById(R.id.discografia_artistName);
 
+                artista.setVisibility(View.GONE);               // Ocultamos el nombre del artista
                 gridDiscos.setVisibility(View.GONE);            // Ocultamos el grid
                 listCanciones.setVisibility(View.VISIBLE);      // Mostramos el list
-                imagenArtista.setVisibility(View.GONE);
-                infoArtista.setVisibility(View.GONE);
 
                 List<List<Disc>> disco = items.get(position).getDiscs();    // Sacamos los discos del elemento que hayamos pulsado
 
@@ -128,6 +126,8 @@ public class Discografia extends Fragment {
                         myListAdapter.add(disco.get(iterador1).get(iterador2).getDesc());
                     }
                 }
+
+                setListViewHeightBasedOnChildren(listCanciones, 1);
             }
         });
 
@@ -201,6 +201,8 @@ public class Discografia extends Fragment {
                 for (int iterador = 0; iterador < discografia.getItem().size(); iterador++) {
                     myGridAdapter.add(discografia.getItem().get(iterador));
                 }
+
+                setGridViewHeightBasedOnChildren(gridDiscos, 2);
             }
 
             @Override
@@ -225,7 +227,7 @@ public class Discografia extends Fragment {
                 ImageView imagenArtista = (ImageView) getView().findViewById(R.id.discografia_artistImage);
                 TextView infoArtista = (TextView) getView().findViewById(R.id.discografia_artistInfo);
 
-                String datosArtista = "Popularidad: " + resultado.getArtists().getItems().get(0).getPopularity() + "%";
+                String datosArtista = " Popularidad: " + resultado.getArtists().getItems().get(0).getPopularity() + "%";
 
                 if(resultado.getArtists().getItems().get(0).getGenres().size() != 0){
                     datosArtista = datosArtista + "\n Género: " + resultado.getArtists().getItems().get(0).getGenres().get(0).toString();
@@ -245,12 +247,7 @@ public class Discografia extends Fragment {
 
                         TextView artista = (TextView) getView().findViewById(R.id.discografia_artistName);
 
-                        Picasso.with(getContext()).load(URLimagen).fit().centerCrop().into(imagenArtista,
-                                PicassoPalette.with(URLimagen, imagenArtista)
-                                        .use(PicassoPalette.Profile.VIBRANT_DARK)
-                                        .intoBackground(artista)
-                                        .intoTextColor(artista)
-                        );
+                        Picasso.with(getContext()).load(URLimagen).fit().centerCrop().into(imagenArtista);
                     }
                 }
             }
@@ -287,5 +284,51 @@ public class Discografia extends Fragment {
             descargaArtista();
             return null;
         }
+    }
+
+    public void setGridViewHeightBasedOnChildren(GridView gridView, int columns) {
+
+        int totalHeight = 0;
+        int items = myGridAdapter.getCount();
+        int rows = 0;
+
+        View listItem = myGridAdapter.getView(0, null, gridView);
+        listItem.measure(0, 0);
+        totalHeight = listItem.getMeasuredHeight();
+
+        float x = 1;
+        if( items > columns ){
+            x = items/columns;
+            rows = (int) (x + 1);
+            totalHeight *= rows;
+        }
+
+        ViewGroup.LayoutParams params = gridView.getLayoutParams();
+        params.height = totalHeight;
+        gridView.setLayoutParams(params);
+
+    }
+
+    public void setListViewHeightBasedOnChildren(ListView listView, int columns) {
+
+        int totalHeight = 0;
+        int items = myListAdapter.getCount();
+        int rows = 0;
+
+        View listItem = myListAdapter.getView(0, null, listView);
+        listItem.measure(0, 0);
+        totalHeight = listItem.getMeasuredHeight();
+
+        float x = 1;
+        if( items > columns ){
+            x = items/columns;
+            rows = (int) (x + 1);
+            totalHeight *= rows;
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight;
+        listView.setLayoutParams(params);
+
     }
 }
