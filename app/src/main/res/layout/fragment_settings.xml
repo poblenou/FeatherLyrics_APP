@@ -30,18 +30,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <Viewz
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        android:id="@+id/separationbar"
-        android:paddingTop="20dp"
-        android:paddingBot="15dp"
-        android:layout_below="@+id/textView2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="6dp" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -51,18 +39,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="24dp" />
-
-    <Viewz
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        android:id="@+id/separationbar2"
-        android:paddingTop="20dp"
-        android:paddingBot="15dp"
-        android:layout_marginTop="9dp"
-        android:layout_below="@+id/textView3"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
 
     <Switch
         android:gravity="start"
@@ -123,9 +99,9 @@
         android:layout_height="wrap_content"
         android:text="Reproduce el sonido de la aplicación al inicio"
         android:id="@+id/textView4"
+        android:layout_marginBottom="7dp"
         android:layout_alignBottom="@+id/settings_sound"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="9dp" />
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

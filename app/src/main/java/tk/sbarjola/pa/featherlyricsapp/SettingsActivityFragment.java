@@ -31,6 +31,7 @@ public class SettingsActivityFragment extends PreferenceFragment {
         View settingsActivity = inflater.inflate(R.layout.fragment_settings, container, false);
 
         myPreferences = getActivity().getSharedPreferences("myPreferences", Context.MODE_PRIVATE);
+
         toastSwitch = (Switch) settingsActivity.findViewById(R.id.settings_mostrarToast);
         splashSwitch = (Switch) settingsActivity.findViewById(R.id.settings_mostarSplashScreen);
         soundSwitch = (Switch) settingsActivity.findViewById(R.id.settings_sound);
