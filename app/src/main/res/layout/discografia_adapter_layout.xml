@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FFF">
+    android:layout_height="match_parent">
 
     <ImageView
         android:layout_width="180dp"
@@ -24,10 +23,17 @@
         android:background="#a0141414"
         android:textColor="#fff"
         android:textAlignment="center"
+        android:maxLines="2"
+        android:minLines="2"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:textStyle="bold"
         android:layout_alignBottom="@+id/discografia_adapter_imagenAlbum"
+        android:layout_alignLeft="@+id/discografia_adapter_imagenAlbum"
+        android:layout_alignStart="@+id/discografia_adapter_imagenAlbum"
         android:layout_alignRight="@+id/discografia_adapter_imagenAlbum"
         android:layout_alignEnd="@+id/discografia_adapter_imagenAlbum"
-        android:layout_alignLeft="@+id/discografia_adapter_imagenAlbum"
-        android:layout_alignStart="@+id/discografia_adapter_imagenAlbum" />
+        android:textSize="12dp"
+        android:gravity="right" />
 
 </RelativeLayout>

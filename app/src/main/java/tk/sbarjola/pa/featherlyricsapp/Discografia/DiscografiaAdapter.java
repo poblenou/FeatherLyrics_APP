@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.florent37.picassopalette.BitmapPalette;
+import com.github.florent37.picassopalette.PicassoPalette;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -44,7 +46,7 @@ public class DiscografiaAdapter extends ArrayAdapter<Item> {
         // Incorporamos los objetos al layout
         String urlImagen = BASE_URL + item.getCover();
         urlImagen.replace("W125", "W512");
-        titular.setText(item.getDesc() + " - " + item.getPublished());
+        titular.setText(item.getDesc() + "\n" + item.getPublished());
         Picasso.with(getContext()).load(urlImagen).fit().centerCrop().into(imagenAlbum);
 
         return convertView; //Devolvemos la view ya rellena

@@ -1,5 +1,6 @@
 package tk.sbarjola.pa.featherlyricsapp.Discografia;
 
+import android.content.Context;
 import android.media.Image;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
@@ -8,6 +9,7 @@ import android.support.v7.widget.SearchView;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +24,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.florent37.picassopalette.PicassoPalette;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -114,7 +117,6 @@ public class Discografia extends Fragment {
                 imagenArtista.setVisibility(View.GONE);
                 infoArtista.setVisibility(View.GONE);
 
-
                 List<List<Disc>> disco = items.get(position).getDiscs();    // Sacamos los discos del elemento que hayamos pulsado
 
                 // Cambioamos el titulo de la toolbar
@@ -193,6 +195,9 @@ public class Discografia extends Fragment {
                 artist = resultado.getDiscography().getArtist().getDesc();
                 ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(artist);
 
+                TextView artista = (TextView) getView().findViewById(R.id.discografia_artistName);
+                artista.setText(artist);
+
                 for (int iterador = 0; iterador < discografia.getItem().size(); iterador++) {
                     myGridAdapter.add(discografia.getItem().get(iterador));
                 }
@@ -213,27 +218,43 @@ public class Discografia extends Fragment {
         llamadaSpotify.enqueue(new Callback<ArtistSpotify>() {
             @Override
             public void onResponse(Response<ArtistSpotify> response, Retrofit retrofit) {
+
                 ArtistSpotify resultado = response.body();
 
                 // Imagen y textView relacionados con el artista
                 ImageView imagenArtista = (ImageView) getView().findViewById(R.id.discografia_artistImage);
                 TextView infoArtista = (TextView) getView().findViewById(R.id.discografia_artistInfo);
 
-                infoArtista.setText("Popularidad: " + resultado.getArtists().getItems().get(0).getPopularity() + "%\n" +
-                        "Género: " + resultado.getArtists().getItems().get(0).getGenres().get(0).toString());
+                String datosArtista = "Popularidad: " + resultado.getArtists().getItems().get(0).getPopularity() + "%";
 
-                String URLimagen = resultado.getArtists().getItems().get(0).getImages().get(0).toString();
+                if(resultado.getArtists().getItems().get(0).getGenres().size() != 0){
+                    datosArtista = datosArtista + "\n Género: " + resultado.getArtists().getItems().get(0).getGenres().get(0).toString();
+                }
 
-                System.out.println(URLimagen+"-----------------------------------------");
+                infoArtista.setText(datosArtista);  // Asignamos los datos del artista
 
-                URLimagen = URLimagen.split(",")[1].split(",")[0].replace("url=", "");
+                 //Comprobamos si el artista tiene imagen
 
-                System.out.println(URLimagen+"-----------------------------------------");
+                if(resultado.getArtists().getItems().size() != 0){
 
-                Picasso.with(getContext()).load(URLimagen).fit().centerCrop().into(imagenArtista);
+                    if(resultado.getArtists().getItems().get(0).getImages().size() != 0){
 
-                Toast.makeText(getContext(), URLimagen, Toast.LENGTH_SHORT).show(); // Y lanzamos la toast
+                         // Extraemos la URL de nuestra imagen
+                        String URLimagen = resultado.getArtists().getItems().get(0).getImages().get(0).toString();
+                        URLimagen = URLimagen.split(",")[1].split(",")[0].replace("url=", "").trim();
+
+                        TextView artista = (TextView) getView().findViewById(R.id.discografia_artistName);
+
+                        Picasso.with(getContext()).load(URLimagen).fit().centerCrop().into(imagenArtista,
+                                PicassoPalette.with(URLimagen, imagenArtista)
+                                        .use(PicassoPalette.Profile.VIBRANT_DARK)
+                                        .intoBackground(artista)
+                                        .intoTextColor(artista)
+                        );
+                    }
+                }
             }
+
 
             @Override
             public void onFailure(Throwable t) {
