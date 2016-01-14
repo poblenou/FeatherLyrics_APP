@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.List;
@@ -66,7 +67,7 @@ public class Canciones extends Fragment{
         View view = inflater.inflate(R.layout.fragment_canciones, contenedor, false);
 
         ProgressBar progress = (ProgressBar) view.findViewById(R.id.progressAnimation);   // Animacion de cargando
-        CircleButton button = (CircleButton) view.findViewById(R.id.canciones_circleButton);
+        CircleButton button = (CircleButton) view.findViewById(R.id.canciones_circleButton);   // Nuestro circle button
 
         progress.setVisibility(View.GONE);
 
@@ -82,9 +83,24 @@ public class Canciones extends Fragment{
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                searching = false;  // Si pulsamos el botón dejamos el buscando a false
-                ProgressBar progress = (ProgressBar) getView().findViewById(R.id.progressAnimation);   // Animacion de cargando
-                progress.setVisibility(View.VISIBLE);
+
+                // Extrae el artista y pista del MainActivity
+
+                if(((MainActivity)getActivity()).getPlayingArtist() != "no artist"){    // Comprueba si hay algún artista en reproducción
+
+                    searching = false;  // Si pulsamos el botón dejamos el buscando a false
+
+                    artist = ((MainActivity)getActivity()).getPlayingArtist();;
+                    track = ((MainActivity)getActivity()).getPlayingTrack();
+
+                    ProgressBar progress = (ProgressBar) getView().findViewById(R.id.progressAnimation);   // Animacion de cargando
+                    progress.setVisibility(View.VISIBLE);
+                    descargarInfo();    // Si no estamos buscando que automaticamente ponga la letra de la canción que está sonando
+                }
+                else {
+                    Toast.makeText(getContext(), "No se ha detectado ninguna canción en reproducción", Toast.LENGTH_SHORT).show(); // Mostramos un toast
+                }
+
                 descargarInfo();    // Y descargamos la letra de la canción que esté sonando
             }
         });

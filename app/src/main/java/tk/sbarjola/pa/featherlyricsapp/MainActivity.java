@@ -126,6 +126,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void abrirCanciones(){
 
+        // Función para llamar al fragment de canciones
+
         fragment = new Canciones();
         String tag = "canciones";
 
@@ -133,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .replace(R.id.content_frame, fragment, tag)
                 .commit();
 
-        getSupportActionBar().setTitle("Canciones");
+        getSupportActionBar().setTitle("Canciones");    // Cambiamos el titulo del ActionBar
 
         Canciones canciones = (Canciones) getSupportFragmentManager().findFragmentByTag("canciones");
 
@@ -176,7 +178,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             finish();   // La última opción es para cerrar la APP
         }
 
-        if(transaccion){    // Si el boleano es true llamamos al nuevo fragment
+        // Si el boleano es true llamamos al nuevo fragment
+        if(transaccion){
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.content_frame, fragment, tag)
                     .commit();

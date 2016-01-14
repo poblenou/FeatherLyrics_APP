@@ -9,6 +9,7 @@ import android.support.v7.widget.SearchView;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -114,8 +115,8 @@ public class Discografia extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {  // En caso de pulsar sobre un album
 
                 TextView artista = (TextView) getView().findViewById(R.id.discografia_artistName);
+                artista.setText(items.get(position).getDesc());
 
-                artista.setVisibility(View.GONE);               // Ocultamos el nombre del artista
                 gridDiscos.setVisibility(View.GONE);            // Ocultamos el grid
                 listCanciones.setVisibility(View.VISIBLE);      // Mostramos el list
 
@@ -124,14 +125,17 @@ public class Discografia extends Fragment {
                 // Cambioamos el titulo de la toolbar
                 ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(items.get(position).getDesc() + " - " + artist + " - " + items.get(position).getPublished());
 
+                int numeroPista = 1;
+
                 // Y cargamos las canciones del album correspondiente a nuestro listView
                 for (int iterador1 = 0; iterador1 < disco.size(); iterador1++) {                        // El primer for recorre los cd's del album, ya que pueden ser varios
                     for (int iterador2 = 0; iterador2 < disco.get(iterador1).size(); iterador2++) {     // El segundo las canciones
-                        myListAdapter.add(disco.get(iterador1).get(iterador2).getDesc());
+                        myListAdapter.add(numeroPista + " - " + disco.get(iterador1).get(iterador2).getDesc());
+                        numeroPista++;
                     }
                 }
 
-                setListViewHeightBasedOnChildren(listCanciones, 1);
+                setListViewHeightBasedOnChildren(listCanciones);
             }
         });
 
@@ -162,9 +166,9 @@ public class Discografia extends Fragment {
             public boolean onQueryTextSubmit(String query) {
                 artist = query;
                 DescargarDiscografia descargarDiscografia = new DescargarDiscografia();  // Instanciams nuestro asyncTask para descargar en segundo plano la discografia
-                DescargarArtista descargarArt = new DescargarArtista();                  // Lo mismo para los datos del artista
                 descargarDiscografia.execute();                                          // Y lo ejecutamos
-                descargarArt.execute();
+                DescargarArtista descargarArt = new DescargarArtista();                  // Lo mismo para los datos del artista
+                descargarArt.execute();                                                  // Y ejecutamos tambien
                 return false;
             }
 
@@ -191,6 +195,7 @@ public class Discografia extends Fragment {
         llamada.enqueue(new Callback<ListDiscografia>() {
             @Override
             public void onResponse(Response<ListDiscografia> response, Retrofit retrofit) {
+
                 ListDiscografia resultado = response.body();
 
                 Discography discografia = resultado.getDiscography();
@@ -245,7 +250,7 @@ public class Discografia extends Fragment {
 
                     if(resultado.getArtists().getItems().get(0).getImages().size() != 0){
 
-                         // Extraemos la URL de nuestra imagen
+                         // Extraemos la URL de nuestra imagen parsendo el JSON
                         String URLimagen = resultado.getArtists().getItems().get(0).getImages().get(0).toString();
                         URLimagen = URLimagen.split(",")[1].split(",")[0].replace("url=", "").trim();
 
@@ -254,7 +259,7 @@ public class Discografia extends Fragment {
                         Picasso.with(getContext()).load(URLimagen).fit().centerCrop().into(imagenArtista);
 
                         ScrollView scrollLetra = (ScrollView) getView().findViewById(R.id.discografia_scrollViewDiscografia);
-                        scrollLetra.fullScroll(ScrollView.FOCUS_UP);    // Cada vez que pone el texto de una canción, mueve el scrollView al principio
+                        scrollLetra.fullScroll(ScrollView.FOCUS_UP);
                     }
                 }
             }
@@ -272,10 +277,12 @@ public class Discografia extends Fragment {
         Call<ListDiscografia> discografia(@Url String url); // Le pasamos la URL entera ya construida
     }
 
-    public interface servicioImagenArtistaRetrofit{
+    public interface servicioImagenArtistaRetrofit{ // Interficie para descargar la imagen del artista
         @GET
         Call<ArtistSpotify> artistsSpotify(@Url String url); // Le pasamos la URL entera ya construida
     }
+
+    // AsyncTasks en los que ejecutaremos nuestras descargas en segundo plano
 
     class DescargarDiscografia extends AsyncTask {
         @Override
@@ -293,48 +300,54 @@ public class Discografia extends Fragment {
         }
     }
 
-    public void setGridViewHeightBasedOnChildren(GridView gridView, int columns) {
+    // Métodos auxiliares que calculan como expandir el list view y el gridView
 
-        int totalHeight = 0;
+    public void setGridViewHeightBasedOnChildren(GridView gridView, int columnas) {
+
+        // Calculamos caunto hay que desplegar el GridView para poder mostrarlo todo dentro del ScrollView
+
+        int alturaTotal = 0;
         int items = myGridAdapter.getCount();
-        int rows = 0;
+        int filas = 0;
 
         View listItem = myGridAdapter.getView(0, null, gridView);
         listItem.measure(0, 0);
-        totalHeight = listItem.getMeasuredHeight();
+        alturaTotal = listItem.getMeasuredHeight();
 
         float x = 1;
-        if( items > columns ){
-            x = items/columns;
-            rows = (int) (x + 1);
-            totalHeight *= rows;
+
+        if( items > columnas ){
+            x = items/columnas;
+            filas = (int) (x + 1);
+            alturaTotal *= filas;
         }
 
         ViewGroup.LayoutParams params = gridView.getLayoutParams();
-        params.height = totalHeight;
+        params.height = alturaTotal;
         gridView.setLayoutParams(params);
-
     }
 
-    public void setListViewHeightBasedOnChildren(ListView listView, int columns) {
+    public void setListViewHeightBasedOnChildren(ListView listView) {
 
-        int totalHeight = 0;
+        // Calculamos caunto hay que desplegar el GridView para poder mostrarlo todo dentro del ScrollView
+
+        int alturaTotal = 0;
         int items = myListAdapter.getCount();
-        int rows = 0;
+        int filas = 0;
 
         View listItem = myListAdapter.getView(0, null, listView);
         listItem.measure(0, 0);
-        totalHeight = listItem.getMeasuredHeight();
+        alturaTotal = listItem.getMeasuredHeight();
 
         float x = 1;
-        if( items > columns ){
-            x = items/columns;
-            rows = (int) (x + 1);
-            totalHeight *= rows;
-        }
+
+        x = items;
+        filas = (int) (x + 1);
+        alturaTotal *= filas;
+
 
         ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight;
+        params.height = alturaTotal;
         listView.setLayoutParams(params);
 
     }
