@@ -22,6 +22,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -94,8 +95,11 @@ public class Discografia extends Fragment {
         gridDiscos = (GridView) view.findViewById(R.id.discografia_gridDiscos);
         listCanciones = (ListView) view.findViewById(R.id.discografia_listCanciones);
 
-        // Seccion del grid y los albumes
+        // Los hacemos no focusable para que el scrollView inicie al principio
+        gridDiscos.setFocusable(false);
+        listCanciones.setFocusable(false);
 
+        // Seccion del grid y los albumes
         myGridAdapter = new DiscografiaAdapter(container.getContext(), 0, items);  // Definimos nuestro adaptador
         gridDiscos.setAdapter(myGridAdapter);                                      // Y acoplamos el adaptador
 
@@ -248,6 +252,9 @@ public class Discografia extends Fragment {
                         TextView artista = (TextView) getView().findViewById(R.id.discografia_artistName);
 
                         Picasso.with(getContext()).load(URLimagen).fit().centerCrop().into(imagenArtista);
+
+                        ScrollView scrollLetra = (ScrollView) getView().findViewById(R.id.discografia_scrollViewDiscografia);
+                        scrollLetra.fullScroll(ScrollView.FOCUS_UP);    // Cada vez que pone el texto de una canción, mueve el scrollView al principio
                     }
                 }
             }
