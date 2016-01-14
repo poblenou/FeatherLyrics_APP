@@ -99,10 +99,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             playingArtist = intent.getStringExtra("artist");    // Sacamos el artista del intent
             playingTrack = intent.getStringExtra("track");      // sacamos la pista
 
-            if (preferencias.getBoolean("toastNotificacion", true)){
-                Toast.makeText(context, playingTrack + " - " + playingArtist, Toast.LENGTH_SHORT).show(); // Y lanzamos la toast
-            }
-
             Snackbar.make(findViewById(R.id.content_frame), playingTrack + " - " + playingArtist, Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
             if (canciones != null) {
