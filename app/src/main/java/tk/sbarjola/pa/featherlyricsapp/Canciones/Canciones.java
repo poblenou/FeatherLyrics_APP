@@ -91,8 +91,6 @@ public class Canciones extends Fragment{
             cancionMostrada = "reproduccion";
         }
 
-        Toast.makeText(getContext(), playingArtist + " - " + playingTrack, Toast.LENGTH_SHORT).show(); // Mostramos un toast
-
         // Que descargue letras
         DescargarLetras descargarLetras = new DescargarLetras();  // Instanciams nuestro asyncTask para descargar en segundo plano la letra
         descargarLetras.execute();                                // Y lo ejecutamos
