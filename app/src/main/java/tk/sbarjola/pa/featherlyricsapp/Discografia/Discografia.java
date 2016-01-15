@@ -115,8 +115,10 @@ public class Discografia extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {  // En caso de pulsar sobre un album
 
                 TextView artista = (TextView) getView().findViewById(R.id.discografia_artistName);
+                TextView detalles = (TextView) getView().findViewById(R.id.discografia_artistInfo);
                 artista.setText(items.get(position).getDesc());
 
+                detalles.setVisibility(View.GONE);              // Ocultamos la información de los artistas
                 gridDiscos.setVisibility(View.GONE);            // Ocultamos el grid
                 listCanciones.setVisibility(View.VISIBLE);      // Mostramos el list
 
@@ -198,24 +200,32 @@ public class Discografia extends Fragment {
 
                 ListDiscografia resultado = response.body();
 
-                Discography discografia = resultado.getDiscography();
+                if (resultado.getDiscography() != null){
 
-                myGridAdapter.clear();
-                artist = resultado.getDiscography().getArtist().getDesc();
-                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(artist);
+                    Discography discografia = resultado.getDiscography();
 
-                TextView artista = (TextView) getView().findViewById(R.id.discografia_artistName);
-                artista.setText(artist);
+                    myGridAdapter.clear();
 
-                for (int iterador = 0; iterador < discografia.getItem().size(); iterador++) {
-                    myGridAdapter.add(discografia.getItem().get(iterador));
+                    artist = resultado.getDiscography().getArtist().getDesc();
+                    ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(artist);
+
+                    TextView artista = (TextView) getView().findViewById(R.id.discografia_artistName);
+                    artista.setText(artist);
+
+                    for (int iterador = 0; iterador < discografia.getItem().size(); iterador++) {
+                        myGridAdapter.add(discografia.getItem().get(iterador));
+                    }
+
+                    if(myGridAdapter.getCount() != 0){
+                        setGridViewHeightBasedOnChildren(gridDiscos, 2);
+                    }
                 }
-
-                setGridViewHeightBasedOnChildren(gridDiscos, 2);
             }
 
             @Override
             public void onFailure(Throwable t) {
+                myGridAdapter.clear();
+                Toast.makeText(getContext(), "Se ha producido un error", Toast.LENGTH_SHORT).show(); // Mostramos un toast
             }
         });
     }
@@ -232,21 +242,23 @@ public class Discografia extends Fragment {
 
                 ArtistSpotify resultado = response.body();
 
-                // Imagen y textView relacionados con el artista
-                ImageView imagenArtista = (ImageView) getView().findViewById(R.id.discografia_artistImage);
-                TextView infoArtista = (TextView) getView().findViewById(R.id.discografia_artistInfo);
+                if(resultado.getArtists().getItems().size() != 0){
 
-                String datosArtista = " Popularidad: " + resultado.getArtists().getItems().get(0).getPopularity() + "%";
+                    // Imagen y textView relacionados con el artista
+                    ImageView imagenArtista = (ImageView) getView().findViewById(R.id.discografia_artistImage);
+                    TextView infoArtista = (TextView) getView().findViewById(R.id.discografia_artistInfo);
+                    String datosArtista = "";
 
-                if(resultado.getArtists().getItems().get(0).getGenres().size() != 0){
-                    datosArtista = datosArtista + "\n Género: " + resultado.getArtists().getItems().get(0).getGenres().get(0).toString();
-                }
+                    if(resultado.getArtists().getItems().get(0).getPopularity() != null){
+                        datosArtista = "Popularidad: " + resultado.getArtists().getItems().get(0).getPopularity() + "%";
+                    }
 
-                infoArtista.setText(datosArtista);  // Asignamos los datos del artista
+                    if(resultado.getArtists().getItems().get(0).getGenres().size() != 0){
+                        datosArtista = datosArtista + "                   Género: " + resultado.getArtists().getItems().get(0).getGenres().get(0).toString();
+                        infoArtista.setText(datosArtista);  // Asignamos los datos del artista
+                    }
 
                  //Comprobamos si el artista tiene imagen
-
-                if(resultado.getArtists().getItems().size() != 0){
 
                     if(resultado.getArtists().getItems().get(0).getImages().size() != 0){
 
@@ -264,10 +276,9 @@ public class Discografia extends Fragment {
                 }
             }
 
-
             @Override
             public void onFailure(Throwable t) {
-
+                Toast.makeText(getContext(), "Se ha producido un error", Toast.LENGTH_SHORT).show(); // Mostramos un toast
             }
         });
     }

@@ -145,6 +145,7 @@ public class Canciones extends Fragment{
 
                 track = discographyTrack;
                 artist = discographyArtist;
+                cancionMostrada = "busqueda";
 
                 // Descargamos la información de las canciones
                 DescargarLetras descargarLetras = new DescargarLetras();  // Instanciams nuestro asyncTask para descargar en segundo plano la letra
@@ -217,7 +218,7 @@ public class Canciones extends Fragment{
 
             @Override
             public void onFailure(Throwable t) {
-                t.printStackTrace();
+                Toast.makeText(getContext(), "Se ha producido un error", Toast.LENGTH_SHORT).show(); // Mostramos un toast
             }
         });
 
