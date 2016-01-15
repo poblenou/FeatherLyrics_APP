@@ -105,7 +105,6 @@ public class Discografia extends Fragment {
         gridDiscos.setAdapter(myGridAdapter);                                      // Y acoplamos el adaptador
 
         // Sección del list y las canciones
-
         myListAdapter = new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_list_item_1);   // Definimos nuestro adaptador
         listCanciones.setAdapter(myListAdapter);                                                            // Y acoplamos el adaptador
 
@@ -113,6 +112,10 @@ public class Discografia extends Fragment {
         gridDiscos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {  // En caso de pulsar sobre un album
+
+                // Subimos al inicio del ScrollView
+                ScrollView scrollLetra = (ScrollView) getView().findViewById(R.id.discografia_scrollViewDiscografia);
+                scrollLetra.fullScroll(ScrollView.FOCUS_UP);
 
                 TextView artista = (TextView) getView().findViewById(R.id.discografia_artistName);
                 TextView detalles = (TextView) getView().findViewById(R.id.discografia_artistInfo);
