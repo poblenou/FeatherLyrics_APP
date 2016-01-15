@@ -41,12 +41,14 @@ public class DiscografiaAdapter extends ArrayAdapter<Item> {
 
         // Asociamos cada variable a su elemento del layout
         TextView titular = (TextView) convertView.findViewById(R.id.discografia_adapter_Titulo);
+        TextView anyo = (TextView) convertView.findViewById(R.id.discografia_anyoAlbum);
         ImageView imagenAlbum = (ImageView) convertView.findViewById(R.id.discografia_adapter_imagenAlbum);
 
         // Incorporamos los objetos al layout
         String urlImagen = BASE_URL + item.getCover();
         urlImagen.replace("W125", "W512");
-        titular.setText(item.getDesc() + "\n" + item.getPublished());
+        titular.setText(item.getDesc());
+        anyo.setText(item.getPublished());
         Picasso.with(getContext()).load(urlImagen).fit().centerCrop().into(imagenAlbum);
 
         return convertView; //Devolvemos la view ya rellena

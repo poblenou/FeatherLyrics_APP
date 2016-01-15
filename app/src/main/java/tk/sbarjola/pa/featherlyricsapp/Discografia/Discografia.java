@@ -257,7 +257,7 @@ public class Discografia extends Fragment {
                     }
 
                     if(resultado.getArtists().getItems().get(0).getGenres().size() != 0){
-                        datosArtista = datosArtista + "                   Género: " + resultado.getArtists().getItems().get(0).getGenres().get(0).toString();
+                        datosArtista = datosArtista + "                 Género: " + resultado.getArtists().getItems().get(0).getGenres().get(0).toString();
                         infoArtista.setText(datosArtista);  // Asignamos los datos del artista
                     }
 
