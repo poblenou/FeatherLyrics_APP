@@ -23,6 +23,7 @@ import android.widget.Toast;
 import tk.sbarjola.pa.featherlyricsapp.Canciones.Canciones;
 import tk.sbarjola.pa.featherlyricsapp.Discografia.Discografia;
 import tk.sbarjola.pa.featherlyricsapp.Noticias.Noticias;
+import tk.sbarjola.pa.featherlyricsapp.receiver.MusicBroadcastReceiver;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -62,50 +63,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         preferencias = getSharedPreferences("myPreferences", Context.MODE_PRIVATE);
 
+        BroadcastReceiver broadcastReceiver = null;
+        broadcastReceiver = new MusicBroadcastReceiver();
+        MusicBroadcastReceiver.setMainActivityHandler(this);
+        IntentFilter callInterceptorIntentFilter = new IntentFilter("android.intent.action.ANY_ACTION");
+        registerReceiver(broadcastReceiver, callInterceptorIntentFilter);
+
         extraerInfoMusica();
     }
 
     public void extraerInfoMusica(){
 
-        // Para controlar la musica que Android este reproduciendo
+        playingArtist = MusicBroadcastReceiver.getPlayingArtist();    // Sacamos el artista del intent
+        playingTrack = MusicBroadcastReceiver.getPlayingTrack();      // sacamos la pista
 
-        IntentFilter iF = new IntentFilter();   // Intent filter que usaremos para recibir informacion de los reproductores de audio
-
-        iF.addAction("com.android.music.metachanged");
-        iF.addAction("com.htc.music.metachanged");
-        iF.addAction("fm.last.android.metachanged");
-        iF.addAction("com.sec.android.app.music.metachanged");
-        iF.addAction("com.nullsoft.winamp.metachanged");
-        iF.addAction("com.amazon.mp3.metachanged");
-        iF.addAction("com.miui.player.metachanged");
-        iF.addAction("com.real.IMP.metachanged");
-        iF.addAction("com.sonyericsson.music.metachanged");
-        iF.addAction("com.rdio.android.metachanged");
-        iF.addAction("com.samsung.sec.android.MusicPlayer.metachanged");
-        iF.addAction("com.andrew.apollo.metachanged");
-        iF.addAction("com.spotify.mobile.android.metadatachanged");
-        iF.addAction("com.spotify.music.metadatachanged");
-
-        registerReceiver(mReceiver, iF);
+        if(playingArtist != "no artist"){
+            Snackbar.make(findViewById(R.id.content_frame), playingTrack + " - " + playingArtist, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        }
     }
 
-    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    public void actualizarMusica(){
 
-        @Override
-        public void onReceive(Context context, Intent intent) {
+        Canciones canciones = (Canciones) getSupportFragmentManager().findFragmentByTag("canciones");
 
-            Canciones canciones = (Canciones) getSupportFragmentManager().findFragmentByTag("canciones");
-
-            playingArtist = intent.getStringExtra("artist");    // Sacamos el artista del intent
-            playingTrack = intent.getStringExtra("track");      // sacamos la pista
-
-            Snackbar.make(findViewById(R.id.content_frame), playingTrack + " - " + playingArtist, Snackbar.LENGTH_LONG).setAction("Action", null).show();
-
-            if (canciones != null) {
-                canciones.setSong(playingArtist, playingTrack);
-            }
+        if (canciones.isAdded()) {
+            canciones.setSong(playingArtist, playingTrack);
         }
-    };
+    }
 
     @Override
     public void onBackPressed() {
@@ -120,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public void abrirCanciones(){
+    public void abrirCanciones() {
 
         // Función para llamar al fragment de canciones
 
@@ -132,13 +116,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .commit();
 
         getSupportActionBar().setTitle("Canciones");    // Cambiamos el titulo del ActionBar
-
-        Canciones canciones = (Canciones) getSupportFragmentManager().findFragmentByTag("canciones");
-
-        if (canciones != null) {
-            canciones.setSong(discographyArtist, discographyTrack);
-            canciones.setDiscography(true);
-        }
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

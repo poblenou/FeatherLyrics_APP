@@ -3,6 +3,7 @@ package tk.sbarjola.pa.featherlyricsapp.Canciones;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
@@ -31,20 +32,27 @@ import retrofit.http.GET;
 import retrofit.http.Query;
 import tk.sbarjola.pa.featherlyricsapp.MainActivity;
 import tk.sbarjola.pa.featherlyricsapp.R;
+import tk.sbarjola.pa.featherlyricsapp.receiver.MusicBroadcastReceiver;
 
 public class Canciones extends Fragment{
 
     // Datos de la API
     private String BaseURL = "http://api.vagalume.com.br/";         //Principio de la URL que usará retrofit
     private String apiKey = "754f223018be007a45003e3b87877bac";     // Key de Vagalume. Máximo 100.000 peticiones /dia
-
-    // Variables del fragmento
     private List<Mu> resultadosLetras = null;      // List con el resultado de las letras obtenidas
-    public String artist = "no artist";            // Nombre del artista
-    public String track = "no track";              // Nombre de la pista
-    public String letraCancion;                    // String en el que guardaremos la letra de la canción
-    public boolean searching = false;              // Booleano que nos indica si se está buscando una canción
-    public boolean discografia = false;            // Booleano que determina si la informacion de la cancion vino del fragment discografia
+
+    // Variables del fragment
+    String playingArtist = "no artist";            // Nombre del artista de la canción en reproducción
+    String playingTrack = "no track";              // Nombre de la pista en reproducción
+    String discographyArtist = "no artist";        // Nombre del artista seleccionado en discografia
+    String discographyTrack = "no track";          // Nombre de la pista seleccionada en discografia
+
+    // Artista y pista que vamos a mostrar
+    String artist = "no artist";
+    String track = "no track";
+
+    String cancionMostrada = "reproduccion";       // Que canción estamos mostrando en este momento
+    String letraCancion;                           // String en el que guardaremos la letra de la canción
 
     // Variables y Adapters
     private servicioLetrasRetrofit servicioLetras;  // Interfaz para las peliculas populares
@@ -69,16 +77,25 @@ public class Canciones extends Fragment{
         ProgressBar progress = (ProgressBar) view.findViewById(R.id.progressAnimation);   // Animacion de cargando
         CircleButton button = (CircleButton) view.findViewById(R.id.canciones_circleButton);   // Nuestro circle button
 
+        extraerInfoMusica();
         progress.setVisibility(View.GONE);
 
-        // Extrae el artista y pista del MainActivity
-            artist = ((MainActivity)getActivity()).getPlayingArtist();
-            track = ((MainActivity)getActivity()).getPlayingTrack();
-
-        if(discografia = true){ // Si la informacion proviende de discografia, coge el artista correspondiente
-            artist = ((MainActivity)getActivity()).getDiscographyArtist();
-            track = ((MainActivity)getActivity()).getDiscographyTrack();
+        if(!discographyArtist.equals("no artist")){
+            artist = discographyArtist;
+            track = discographyTrack;
+            cancionMostrada = "busqueda";
         }
+        else{
+            artist = playingArtist;
+            track = playingTrack;
+            cancionMostrada = "reproduccion";
+        }
+
+        Toast.makeText(getContext(), playingArtist + " - " + playingTrack, Toast.LENGTH_SHORT).show(); // Mostramos un toast
+
+        // Que descargue letras
+        DescargarLetras descargarLetras = new DescargarLetras();  // Instanciams nuestro asyncTask para descargar en segundo plano la letra
+        descargarLetras.execute();                                // Y lo ejecutamos
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,30 +103,29 @@ public class Canciones extends Fragment{
 
                 // Extrae el artista y pista del MainActivity
 
-                if(((MainActivity)getActivity()).getPlayingArtist() != "no artist"){    // Comprueba si hay algún artista en reproducción
-
-                    searching = false;  // Si pulsamos el botón dejamos el buscando a false
-
-                    artist = ((MainActivity)getActivity()).getPlayingArtist();;
-                    track = ((MainActivity)getActivity()).getPlayingTrack();
+                if (!playingArtist.equals("no artist") && !discographyArtist.equals("no artist")) {    // Comprueba si hay algún artista en reproducción
 
                     ProgressBar progress = (ProgressBar) getView().findViewById(R.id.progressAnimation);   // Animacion de cargando
-                    progress.setVisibility(View.VISIBLE);
-                    descargarInfo();    // Si no estamos buscando que automaticamente ponga la letra de la canción que está sonando
-                }
-                else {
-                    Toast.makeText(getContext(), "No se ha detectado ninguna canción en reproducción", Toast.LENGTH_SHORT).show(); // Mostramos un toast
-                }
 
-                descargarInfo();    // Y descargamos la letra de la canción que esté sonando
+                    if (cancionMostrada.equals("reproduccion") && !discographyArtist.equals("no artist") && !discographyTrack.equals("no track")) {
+                        artist = discographyArtist;
+                        track = discographyTrack;
+                        cancionMostrada = "busqueda";
+                        progress.setVisibility(View.VISIBLE);
+                    } else if (cancionMostrada.equals("busqueda") && !playingTrack.equals("no track")) {
+                        artist = playingArtist;
+                        track = playingTrack;
+                        cancionMostrada = "reproduccion";
+                        progress.setVisibility(View.VISIBLE);
+                    }
+
+                    DescargarLetras descargarLetras = new DescargarLetras();  // Instanciams nuestro asyncTask para descargar en segundo plano la letra
+                    descargarLetras.execute();                                // Y lo ejecutamos
+                } else {
+                    Toast.makeText(getContext(), "No se ha detectado ningun artista", Toast.LENGTH_SHORT).show(); // Mostramos un toast
+                }
             }
         });
-
-        // Si ha encontrado que algo se está reproduciendo, descarga la letra
-        if(artist != "no artist" && searching == false){
-            progress.setVisibility(View.VISIBLE);
-            descargarInfo();    // Si no estamos buscando que automaticamente ponga la letra de la canción que está sonando
-        }
 
         return view;
     }
@@ -127,10 +143,17 @@ public class Canciones extends Fragment{
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-                track = query.split("-")[0];   // Cojemos la primer aparte de la busqueda que será la canción
-                artist = query.split("-")[1];  // Y la segunda que será el grupo
-                searching = true;              // Ponemos como que se está buscando
-                descargarInfo();               // Descargamos la información de las canciones
+
+                discographyTrack = query.split("-")[0];   // Cojemos la primer aparte de la busqueda que será la canción
+                discographyArtist = query.split("-")[1];  // Y la segunda que será el grupo
+
+                track = discographyTrack;
+                artist = discographyArtist;
+
+                // Descargamos la información de las canciones
+                DescargarLetras descargarLetras = new DescargarLetras();  // Instanciams nuestro asyncTask para descargar en segundo plano la letra
+                descargarLetras.execute();                                // Y lo ejecutamos
+
                 return false;
             }
 
@@ -144,22 +167,6 @@ public class Canciones extends Fragment{
         inflater.inflate(R.menu.noticias_fragment_menu, menu);
     }
 
-    public void setSong(String artist, String track) {
-        // Les damos a las variables globales el valor de la que hemos recibido para pasarsela a retrofit
-        this.artist = artist;
-        this.track = track;
-
-        TextView textCancion = (TextView) getView().findViewById(R.id.canciones_letraCancion);
-        textCancion.setText("");
-        ProgressBar progress = (ProgressBar) getView().findViewById(R.id.progressAnimation);   // Animacion de cargando
-        progress.setVisibility(View.VISIBLE);
-        descargarInfo();    // Y descargamos la letra
-    }
-
-    public void descargarInfo(){
-        DescargarLetras descargarLetras = new DescargarLetras();  // Instanciams nuestro asyncTask para descargar en segundo plano la letra
-        descargarLetras.execute();                                // Y lo ejecutamos
-    }
 
     class DescargarLetras extends AsyncTask {
         @Override
@@ -229,7 +236,38 @@ public class Canciones extends Fragment{
         );
     }
 
-    public void setDiscography(boolean a){
-        discografia = a;
+    public void setSong(String artist, String track) {
+
+        // Les damos a las variables globales el valor de la que hemos recibido para pasarsela a retrofit
+        this.playingArtist = artist;
+        this.playingTrack = track;
+        this.artist = artist;
+        this.track = track;
+
+        if(cancionMostrada.equals("reproduccion")) {
+
+            TextView textCancion = (TextView) getView().findViewById(R.id.canciones_letraCancion);
+            textCancion.setText("");
+            ProgressBar progress = (ProgressBar) getView().findViewById(R.id.progressAnimation);   // Animacion de cargando
+            progress.setVisibility(View.VISIBLE);
+
+            // Descargamos la información de las canciones
+            DescargarLetras descargarLetras = new DescargarLetras();  // Instanciams nuestro asyncTask para descargar en segundo plano la letra
+            descargarLetras.execute();                                // Y lo ejecutamos
+        }
+    }
+
+    public void extraerInfoMusica(){
+
+        // Sacamos los datos de la cancion en reproduccion
+        playingArtist = ((MainActivity)getActivity()).getPlayingArtist();
+        playingTrack = ((MainActivity)getActivity()).getPlayingTrack();
+
+        // Y de la cancion buscada
+        discographyArtist = ((MainActivity)getActivity()).getDiscographyArtist();
+        discographyTrack = ((MainActivity)getActivity()).getDiscographyTrack();
+
+        ((MainActivity)getActivity()).setSearchedArtist("no artist");
+        ((MainActivity)getActivity()).setSearchedTrack("no track");
     }
 }

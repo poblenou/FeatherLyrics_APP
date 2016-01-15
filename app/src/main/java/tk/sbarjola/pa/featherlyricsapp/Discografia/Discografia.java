@@ -145,7 +145,7 @@ public class Discografia extends Fragment {
 
                 // Extrae el artista y pista del MainActivity
                 ((MainActivity) getActivity()).setSearchedArtist(artist);
-                ((MainActivity) getActivity()).setSearchedTrack(listCanciones.getItemAtPosition(position).toString());
+                ((MainActivity) getActivity()).setSearchedTrack(listCanciones.getItemAtPosition(position).toString().split(" -")[1].trim());
                 ((MainActivity) getActivity()).abrirCanciones();
             }
         });
