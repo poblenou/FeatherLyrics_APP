@@ -13,22 +13,25 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
+
         <activity
             android:name=".SplashScreenActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:noHistory="true">
+            android:noHistory="true"
+            android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
+
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
@@ -38,37 +41,34 @@
                 android:value="tk.sbarjola.pa.featherlyricsapp.MainActivity" />
         </activity>
 
-        <receiver android:name=".widget.widget" >
+        <receiver
+            android:name=".MusicReceiver.MusicBroadcastReceiver"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.android.music.metachanged" />
+                <action android:name="com.htc.music.metachanged" />
+                <action android:name="fm.last.android.metachanged" />
+                <action android:name="com.sec.android.app.music.metachanged" />
+                <action android:name="com.nullsoft.winamp.metachanged" />
+                <action android:name="com.amazon.mp3.metachanged" />
+                <action android:name="com.miui.player.metachanged" />
+                <action android:name="com.real.IMP.metachanged" />
+                <action android:name="com.sonyericsson.music.metachanged" />
+                <action android:name="com.rdio.android.metachanged" />
+                <action android:name="com.samsung.sec.android.MusicPlayer.metachanged" />
+                <action android:name="com.andrew.apollo.metachanged" />
+                <action android:name="com.spotify.mobile.android.metadatachanged" />
+                <action android:name="com.spotify.music.metadatachanged" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".Widget.Widget" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
+            <meta-data android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info" />
         </receiver>
 
-        <receiver
-            android:name=".receiver.MusicBroadcastReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.android.music.metachanged" />
-                <action android:name="com.htc.music.metachanged"/>
-                <action android:name="fm.last.android.metachanged"/>
-                <action android:name="com.sec.android.app.music.metachanged"/>
-                <action android:name="com.nullsoft.winamp.metachanged"/>
-                <action android:name="com.amazon.mp3.metachanged"/>
-                <action android:name="com.miui.player.metachanged"/>
-                <action android:name="com.real.IMP.metachanged"/>
-                <action android:name="com.sonyericsson.music.metachanged"/>
-                <action android:name="com.rdio.android.metachanged"/>
-                <action android:name="com.samsung.sec.android.MusicPlayer.metachanged"/>
-                <action android:name="com.andrew.apollo.metachanged"/>
-                <action android:name="com.spotify.mobile.android.metadatachanged"/>
-                <action android:name="com.spotify.music.metadatachanged"/>
-            </intent-filter>
-        </receiver>
-
     </application>
-
 </manifest>

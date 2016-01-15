@@ -19,11 +19,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import tk.sbarjola.pa.featherlyricsapp.Canciones.Canciones;
 import tk.sbarjola.pa.featherlyricsapp.Discografia.Discografia;
 import tk.sbarjola.pa.featherlyricsapp.Noticias.Noticias;
-import tk.sbarjola.pa.featherlyricsapp.receiver.MusicBroadcastReceiver;
+import tk.sbarjola.pa.featherlyricsapp.MusicReceiver.MusicBroadcastReceiver;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -36,10 +36,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     String discographyArtist = "no artist";        // Nombre del artista seleccionado en discografia
     String discographyTrack = "no track";          // Nombre de la pista seleccionada en discografia
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Comprobamos si se ha ejecutado a través del widget
+        Bundle extras = getIntent().getExtras();
+        String alertaWidget = "aa";
+
+        if (extras != null) {
+            alertaWidget = extras.getString("alertaWidget");
+        }
 
         // Ajustamos la tooblar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -63,13 +72,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         preferencias = getSharedPreferences("myPreferences", Context.MODE_PRIVATE);
 
+        // Con este BroadcastReceiver escucharemos a nuestro Receiver que controla la Musica
+
         BroadcastReceiver broadcastReceiver = null;
         broadcastReceiver = new MusicBroadcastReceiver();
-        MusicBroadcastReceiver.setMainActivityHandler(this);
+        MusicBroadcastReceiver.setMainActivityHandler(this);    // Le pasamos este activity para vincularlos
         IntentFilter callInterceptorIntentFilter = new IntentFilter("android.intent.action.ANY_ACTION");
         registerReceiver(broadcastReceiver, callInterceptorIntentFilter);
 
         extraerInfoMusica();
+
+        /* Si se ha ejecutado a través del widget, abrimos la sección de canciones
+        para mostar la canción actual en reproducción */
+
+        if(alertaWidget.equals("widget")){
+            abrirCanciones();
+        }
     }
 
     public void extraerInfoMusica(){

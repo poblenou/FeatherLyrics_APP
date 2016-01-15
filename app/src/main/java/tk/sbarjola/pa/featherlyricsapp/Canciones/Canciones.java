@@ -3,7 +3,6 @@ package tk.sbarjola.pa.featherlyricsapp.Canciones;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
@@ -32,7 +31,6 @@ import retrofit.http.GET;
 import retrofit.http.Query;
 import tk.sbarjola.pa.featherlyricsapp.MainActivity;
 import tk.sbarjola.pa.featherlyricsapp.R;
-import tk.sbarjola.pa.featherlyricsapp.receiver.MusicBroadcastReceiver;
 
 public class Canciones extends Fragment{
 

@@ -1,4 +1,4 @@
-package tk.sbarjola.pa.featherlyricsapp.receiver;
+package tk.sbarjola.pa.featherlyricsapp.MusicReceiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -15,10 +15,9 @@ public class MusicBroadcastReceiver extends BroadcastReceiver {
 
     public static String playingArtist = "no artist";
     public static String playingTrack = "no track";
-    static MainActivity mainVar = null;
+    static MainActivity mainVar = null;                 // Esta será la clase del MainActivity
 
     public MusicBroadcastReceiver() {
-
 
 
     }
@@ -39,6 +38,9 @@ public class MusicBroadcastReceiver extends BroadcastReceiver {
         if (preferencias.getBoolean("toastNotificacion", true)){
             Toast.makeText(context, playingTrack + " - " + playingArtist, Toast.LENGTH_SHORT).show(); // Y lanzamos la toast
         }
+
+        /* Si está vinculado al MainActivity, es decir, si la APP se está ejecutando
+         le dará un aviso de que ha habido un cambio de canción */
 
         if(mainVar != null){
             mainVar.extraerInfoMusica();
