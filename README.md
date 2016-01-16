@@ -1,4 +1,4 @@
-# FeatherLyrics_APP
+# Feather Lyrics
 
 This repository contains the source code for the Feather Lyrics Android APP.
 
