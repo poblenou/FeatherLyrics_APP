@@ -43,9 +43,9 @@
             android:maxLines="2"
             android:minLines="1"
             android:paddingTop="5dp"
-            android:paddingBottom="3dp"
+            android:paddingBottom="2dp"
             android:paddingLeft="3dp"
-            android:textSize="14dp"
+            android:textSize="15dp"
             android:gravity="top|left"
             android:textColor="#2e373f"
             android:layout_below="@+id/discografia_adapter_imagenAlbum"
@@ -64,7 +64,7 @@
                 android:layout_below="@+id/discografia_adapter_Titulo"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:textSize="11dp" />
+                android:textSize="12dp" />
 
         </RelativeLayout>
 

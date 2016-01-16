@@ -55,7 +55,7 @@ public class Discografia extends Fragment {
     private final static String endURL = "/discografia/index.js";   // Ultima parte de la url
     private String URLVagalume = "";                                // Parte del medio que será el artista en minusculas y los espacios cambiados por guiones
     private String URLSpotify = "";                                 // Spotify
-    private String artist = "Iron Maiden";                          // Nombre del artista
+    private String artist = "";                                     // Nombre del artista
 
     // Variables y Adapters
     private servicioDiscografiaRetrofit servicioDiscografia;   // Interfaz para descargar la discografia
@@ -83,10 +83,18 @@ public class Discografia extends Fragment {
     public void onStart() { //Cada vez que se abra el fragment que se descargen las noticias
         super.onStart();
 
+        artist = ((MainActivity) getActivity()).getDiscographyStart();
+
+        if (artist.equals("no artist")){
+            artist = "Iron Maiden";
+        }
+
         DescargarDiscografia descargarDiscografia = new DescargarDiscografia();  // Instanciams nuestro asyncTask para descargar en segundo plano las noticias
         DescargarArtista descargarArt = new DescargarArtista();                  // Lo mismo para los datos del artista
         descargarDiscografia.execute();                                          // Y lo ejecutamos
         descargarArt.execute();
+
+        ((MainActivity) getActivity()).setDiscographyStart(artist);
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -174,6 +182,7 @@ public class Discografia extends Fragment {
                 descargarDiscografia.execute();                                          // Y lo ejecutamos
                 DescargarArtista descargarArt = new DescargarArtista();                  // Lo mismo para los datos del artista
                 descargarArt.execute();                                                  // Y ejecutamos tambien
+                ((MainActivity) getActivity()).setDiscographyStart(artist);              // Fijamos el artista en el mainrtista
                 return false;
             }
 
@@ -245,12 +254,12 @@ public class Discografia extends Fragment {
 
                 ArtistSpotify resultado = response.body();
 
+                String datosArtista = "";   // String que contiene la popularidad y generos del artista
+
                 if(resultado.getArtists().getItems().size() != 0){
 
                     // Imagen y textView relacionados con el artista
                     ImageView imagenArtista = (ImageView) getView().findViewById(R.id.discografia_artistImage);
-                    TextView infoArtista = (TextView) getView().findViewById(R.id.discografia_artistInfo);
-                    String datosArtista = "";
 
                     if(resultado.getArtists().getItems().get(0).getPopularity() != null){
                         datosArtista = "Popularidad: " + resultado.getArtists().getItems().get(0).getPopularity() + "%";
@@ -258,7 +267,6 @@ public class Discografia extends Fragment {
 
                     if(resultado.getArtists().getItems().get(0).getGenres().size() != 0){
                         datosArtista = datosArtista + "                 Género: " + resultado.getArtists().getItems().get(0).getGenres().get(0).toString();
-                        infoArtista.setText(datosArtista);  // Asignamos los datos del artista
                     }
 
                  //Comprobamos si el artista tiene imagen
@@ -269,14 +277,16 @@ public class Discografia extends Fragment {
                         String URLimagen = resultado.getArtists().getItems().get(0).getImages().get(0).toString();
                         URLimagen = URLimagen.split(",")[1].split(",")[0].replace("url=", "").trim();
 
-                        TextView artista = (TextView) getView().findViewById(R.id.discografia_artistName);
-
                         Picasso.with(getContext()).load(URLimagen).fit().centerCrop().into(imagenArtista);
 
                         ScrollView scrollLetra = (ScrollView) getView().findViewById(R.id.discografia_scrollViewDiscografia);
                         scrollLetra.fullScroll(ScrollView.FOCUS_UP);
                     }
                 }
+
+                TextView infoArtista = (TextView) getView().findViewById(R.id.discografia_artistInfo);
+                infoArtista.setText(datosArtista);  // Asignamos los datos del artista
+
             }
 
             @Override
@@ -358,7 +368,6 @@ public class Discografia extends Fragment {
         x = items;
         filas = (int) (x + 1);
         alturaTotal *= filas;
-
 
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.height = alturaTotal;

@@ -42,8 +42,8 @@ public class Canciones extends Fragment{
     // Variables del fragment
     String playingArtist = "no artist";            // Nombre del artista de la canción en reproducción
     String playingTrack = "no track";              // Nombre de la pista en reproducción
-    String discographyArtist = "no artist";        // Nombre del artista seleccionado en discografia
-    String discographyTrack = "no track";          // Nombre de la pista seleccionada en discografia
+    String searchedArtist = "no artist";        // Nombre del artista seleccionado en discografia
+    String searchedTrack = "no track";          // Nombre de la pista seleccionada en discografia
 
     // Artista y pista que vamos a mostrar
     String artist = "no artist";
@@ -78,9 +78,9 @@ public class Canciones extends Fragment{
         extraerInfoMusica();
         progress.setVisibility(View.GONE);
 
-        if(!discographyArtist.equals("no artist")){
-            artist = discographyArtist;
-            track = discographyTrack;
+        if(!searchedArtist.equals("no artist")){
+            artist = searchedArtist;
+            track = searchedTrack;
             cancionMostrada = "busqueda";
         }
         else{
@@ -99,13 +99,13 @@ public class Canciones extends Fragment{
 
                 // Extrae el artista y pista del MainActivity
 
-                if (!playingArtist.equals("no artist") && !discographyArtist.equals("no artist")) {    // Comprueba si hay algún artista en reproducción
+                if (!playingArtist.equals("no artist") && !searchedArtist.equals("no artist")) {    // Comprueba si hay algún artista en reproducción
 
                     ProgressBar progress = (ProgressBar) getView().findViewById(R.id.progressAnimation);   // Animacion de cargando
 
-                    if (cancionMostrada.equals("reproduccion") && !discographyArtist.equals("no artist") && !discographyTrack.equals("no track")) {
-                        artist = discographyArtist;
-                        track = discographyTrack;
+                    if (cancionMostrada.equals("reproduccion") && !searchedArtist.equals("no artist") && !searchedTrack.equals("no track")) {
+                        artist = searchedArtist;
+                        track = searchedTrack;
                         cancionMostrada = "busqueda";
                         progress.setVisibility(View.VISIBLE);
                     } else if (cancionMostrada.equals("busqueda") && !playingTrack.equals("no track")) {
@@ -140,11 +140,12 @@ public class Canciones extends Fragment{
             @Override
             public boolean onQueryTextSubmit(String query) {
 
-                discographyTrack = query.split("-")[0];   // Cojemos la primer aparte de la busqueda que será la canción
-                discographyArtist = query.split("-")[1];  // Y la segunda que será el grupo
+                searchedTrack = query.split("-")[0];   // Cojemos la primer aparte de la busqueda que será la canción
+                searchedArtist = query.split("-")[1];  // Y la segunda que será el grupo
 
-                track = discographyTrack;
-                artist = discographyArtist;
+                // Seteamos las variables
+                track = searchedTrack;
+                artist = searchedArtist;
                 cancionMostrada = "busqueda";
 
                 // Descargamos la información de las canciones
@@ -261,10 +262,11 @@ public class Canciones extends Fragment{
         playingTrack = ((MainActivity)getActivity()).getPlayingTrack();
 
         // Y de la cancion buscada
-        discographyArtist = ((MainActivity)getActivity()).getDiscographyArtist();
-        discographyTrack = ((MainActivity)getActivity()).getDiscographyTrack();
+        searchedArtist = ((MainActivity)getActivity()).getSearchedArtist();
+        searchedTrack = ((MainActivity)getActivity()).getSearchedTrack();
 
         ((MainActivity)getActivity()).setSearchedArtist("no artist");
         ((MainActivity)getActivity()).setSearchedTrack("no track");
+
     }
 }

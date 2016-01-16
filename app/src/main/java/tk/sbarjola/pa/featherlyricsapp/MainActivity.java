@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import tk.sbarjola.pa.featherlyricsapp.Canciones.Canciones;
 import tk.sbarjola.pa.featherlyricsapp.Discografia.Discografia;
@@ -31,10 +32,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView navigationView;      // NavigationView
     Fragment fragment = null;                   // fragmento que ocupara el centro de nuestro navigation drawer
     SharedPreferences preferencias;             // Preferencias personalizadas
+    String discographyStart = "no artist";      // Nombre del artista que mostraremos en la sección de discografia
     String playingArtist = "no artist";         // Nombre del artista de la canción en reproducción
     String playingTrack = "no track";           // Nombre de la pista en reproducción
-    String discographyArtist = "no artist";        // Nombre del artista seleccionado en discografia
-    String discographyTrack = "no track";          // Nombre de la pista seleccionada en discografia
+    String searchedArtist = "no artist";        // Nombre del artista seleccionado en discografia
+    String searchedTrack = "no track";          // Nombre de la pista seleccionada en discografia
 
 
     @Override
@@ -155,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             transaccion = true;
             tag = "canciones";
         }else if (id == R.id.nav_discografia) {
+            Toast.makeText(this, searchedArtist, Toast.LENGTH_SHORT).show(); // Mostramos un toast
             fragment = new Discografia();
             transaccion = true;
         } else if (id == R.id.nav_noticias) {
@@ -225,22 +228,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         }
 
-
         return super.onOptionsItemSelected(item);
     }
 
     // Setters
 
     public void setSearchedArtist(String searchedArtist){
-        this.discographyArtist = searchedArtist;
+        this.searchedArtist = searchedArtist;
     }
 
     public void setSearchedTrack(String searchedTrack){
-        this.discographyTrack = searchedTrack;
+        this.searchedTrack = searchedTrack;
     }
 
+    public void setDiscographyStart(String discographyStart) { this.discographyStart = discographyStart; }
 
     // Getters
+
+    public String getDiscographyStart() { return discographyStart; }
 
     public String getPlayingArtist() {
         return playingArtist;
@@ -250,11 +255,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return playingTrack;
     }
 
-    public String getDiscographyArtist() {
-        return discographyArtist;
+    public String getSearchedArtist() {
+        return searchedArtist;
     }
 
-    public String getDiscographyTrack() {
-        return discographyTrack;
+    public String getSearchedTrack() {
+        return searchedArtist;
     }
 }
