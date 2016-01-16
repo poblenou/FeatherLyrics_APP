@@ -157,7 +157,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             transaccion = true;
             tag = "canciones";
         }else if (id == R.id.nav_discografia) {
-            Toast.makeText(this, searchedArtist, Toast.LENGTH_SHORT).show(); // Mostramos un toast
             fragment = new Discografia();
             transaccion = true;
         } else if (id == R.id.nav_noticias) {
