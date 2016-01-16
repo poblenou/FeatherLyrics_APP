@@ -14,6 +14,23 @@ The app uses two API's:
 
 The lyrics, and album arts are taken from Vagalume's API, artist pictures are taken from Spotfy's API.
 
+## Features:
+
+The application concept is fully modular, so the structure is based on a Navigation Drawer formed by fragments. The app has differents menus wich allow the user to search an specific song or artist, reading recent news from music world and the preference menu to let the user personalize the APP to its liking.
+
+- Follows the Material Design philosophy
+- User friendly interface
+- On background BroadcastReceiver
+- Automatic current song search
+- Artist discography searching menu
+- Beautifull Splash Screen with a simple animation
+- Audio playing when starting as the application tone
+- Toast with current song information
+- Cute widget for tracking the current song lyrics
+- Custom PreferenceFragment menu
+- "About" section
+- Battery life friendly :)
+
 ## Which audio players are supported?
 
 Feather Lyrics tracks the next players:
@@ -32,20 +49,3 @@ Feather Lyrics tracks the next players:
 * Spotify
 * PowerAmp
 * Rhapsody Music Player
-
-## Features:
-
-The application concept is fully modular, so the structure is based on a Navigation Drawer formed by fragments. The app has differents menus wich allow the user to search an specific song or artist, reading recent news from music world and the preference menu to let the user personalize the APP to its liking.
-
-- Follows the Material Design philosophy
-- User friendly interface
-- On background BroadcastReceiver
-- Automatic current song search
-- Artist discography searching menu
-- Beautifull Splash Screen with a simple animation
-- Audio playing when starting as the application tone
-- Toast with current song information
-- Cute widget for tracking the current song lyrics
-- Custom PreferenceFragment menu
-- "About" section
-- Battery life friendly :)
