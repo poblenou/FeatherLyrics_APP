@@ -49,3 +49,12 @@ Feather Lyrics tracks the next players:
 * Spotify
 * PowerAmp
 * Rhapsody Music Player
+
+## Screenshots
+
+![alt tag](http://i.imgur.com/ObSxjv0.jpg)
+![alt tag](http://i.imgur.com/1CDRmde.png)
+![alt tag](http://i.imgur.com/LNVG2zo.png)
+![alt tag](http://i.imgur.com/fkU3dhN.png)
+
+
