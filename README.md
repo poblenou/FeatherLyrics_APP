@@ -52,9 +52,9 @@ Feather Lyrics tracks the next players:
 
 ## Screenshots
 
-![alt tag](http://i.imgur.com/ObSxjv0.jpg)
-![alt tag](http://i.imgur.com/1CDRmde.png)
-![alt tag](http://i.imgur.com/LNVG2zo.png)
-![alt tag](http://i.imgur.com/fkU3dhN.png)
+<img src="http://i.imgur.com/ObSxjv0.jpg" width="200">
+<img src="http://i.imgur.com/1CDRmde.png" width="200">
+<img src="http://i.imgur.com/LNVG2zo.png" width="200">
+<img src="http://i.imgur.com/fkU3dhN.png" width="200">
 
 
