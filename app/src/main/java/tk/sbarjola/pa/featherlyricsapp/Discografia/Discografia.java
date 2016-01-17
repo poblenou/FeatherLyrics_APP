@@ -212,11 +212,12 @@ public class Discografia extends Fragment {
 
                 ListDiscografia resultado = response.body();
 
-                if (resultado.getDiscography() != null){
+                myGridAdapter.clear();
+
+                    // Es necesario comprobar si se han encontrado artistas
+                    // ¡Importante!
 
                     Discography discografia = resultado.getDiscography();
-
-                    myGridAdapter.clear();
 
                     artist = resultado.getDiscography().getArtist().getDesc();
                     ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(artist);
@@ -231,7 +232,6 @@ public class Discografia extends Fragment {
                     if(myGridAdapter.getCount() != 0){
                         setGridViewHeightBasedOnChildren(gridDiscos, 2);
                     }
-                }
             }
 
             @Override
