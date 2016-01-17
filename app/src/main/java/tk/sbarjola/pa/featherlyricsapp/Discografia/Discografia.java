@@ -158,7 +158,8 @@ public class Discografia extends Fragment {
 
                 // Extrae el artista y pista del MainActivity
                 ((MainActivity) getActivity()).setSearchedArtist(artist);
-                ((MainActivity) getActivity()).setSearchedTrack(listCanciones.getItemAtPosition(position).toString().split(" -")[1].trim());
+                ((MainActivity) getActivity()).setSearchedTrack(listCanciones.getItemAtPosition(position).toString().split("-")[1]);
+                Toast.makeText(getContext(), listCanciones.getItemAtPosition(position).toString().split("-")[1], Toast.LENGTH_SHORT).show(); // Mostramos un toast
                 ((MainActivity) getActivity()).abrirCanciones();
             }
         });

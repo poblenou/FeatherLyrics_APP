@@ -259,6 +259,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public String getSearchedTrack() {
-        return searchedArtist;
+        return searchedTrack;
     }
 }

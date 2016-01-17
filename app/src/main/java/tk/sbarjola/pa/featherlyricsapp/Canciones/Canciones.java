@@ -76,6 +76,7 @@ public class Canciones extends Fragment{
         CircleButton button = (CircleButton) view.findViewById(R.id.canciones_circleButton);   // Nuestro circle button
 
         extraerInfoMusica();
+
         progress.setVisibility(View.GONE);
 
         if(!searchedArtist.equals("no artist")){
@@ -140,8 +141,14 @@ public class Canciones extends Fragment{
             @Override
             public boolean onQueryTextSubmit(String query) {
 
-                searchedTrack = query.split("-")[0];   // Cojemos la primer aparte de la busqueda que será la canción
-                searchedArtist = query.split("-")[1];  // Y la segunda que será el grupo
+                if (query.contains("-")) {
+                    searchedTrack = query.split("-")[0];   // Cojemos la primer aparte de la busqueda que será la canción
+                    searchedArtist = query.split("-")[1];  // Y la segunda que será el grupo
+                }
+                else{
+                    searchedTrack = query;
+                    searchedArtist = query;
+                }
 
                 // Seteamos las variables
                 track = searchedTrack;
