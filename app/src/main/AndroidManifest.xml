@@ -72,6 +72,12 @@
                 android:resource="@xml/widget_info" />
         </receiver>
 
+        <provider
+            android:name="tk.sbarjola.pa.featherlyricsapp.provider.MusicProvider"
+            android:authorities="tk.sbarjola.pa.featherlyricsapp.provider"
+            android:exported="false" />
+
+
     </application>
 
 </manifest>
