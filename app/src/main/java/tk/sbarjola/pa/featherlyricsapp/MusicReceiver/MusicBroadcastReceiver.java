@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import tk.sbarjola.pa.featherlyricsapp.MainActivity;
+import tk.sbarjola.pa.featherlyricsapp.provider.music.MusicColumns;
+import tk.sbarjola.pa.featherlyricsapp.provider.music.MusicContentValues;
 
 /**
  * Created by 46465442z on 14/01/16.

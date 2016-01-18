@@ -25,6 +25,8 @@ import tk.sbarjola.pa.featherlyricsapp.Canciones.Canciones;
 import tk.sbarjola.pa.featherlyricsapp.Discografia.Discografia;
 import tk.sbarjola.pa.featherlyricsapp.Noticias.Noticias;
 import tk.sbarjola.pa.featherlyricsapp.MusicReceiver.MusicBroadcastReceiver;
+import tk.sbarjola.pa.featherlyricsapp.provider.music.MusicColumns;
+import tk.sbarjola.pa.featherlyricsapp.provider.music.MusicContentValues;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -100,6 +102,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Si hay algo reproduciendose mostramos la snackbar
         if(playingArtist != "no artist"){
             Snackbar.make(findViewById(R.id.content_frame), playingTrack + " - " + playingArtist, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+
+            MusicContentValues values = new MusicContentValues();
+            values.putTitle(playingTrack);
+            values.putBand(playingArtist);
+
+            this.getContentResolver().insert(
+                    MusicColumns.CONTENT_URI, values.values());
         }
     }
 

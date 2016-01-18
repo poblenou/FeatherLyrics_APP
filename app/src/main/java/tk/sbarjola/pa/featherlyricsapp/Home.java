@@ -21,7 +21,6 @@ public class Home extends Fragment{
 
         View view = inflater.inflate(R.layout.fragment_home, contenedor, false);
 
-        TextView textoBienvenida = (TextView) view.findViewById(R.id.home_textoBienvenida);
 
 
         return view;
