@@ -1,7 +1,5 @@
 package tk.sbarjola.pa.featherlyricsapp.Discografia;
 
-import android.content.Context;
-import android.media.Image;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -9,8 +7,6 @@ import android.support.v7.widget.SearchView;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,18 +17,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.github.florent37.picassopalette.PicassoPalette;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.GsonConverterFactory;
@@ -51,11 +42,12 @@ import tk.sbarjola.pa.featherlyricsapp.R;
 public class Discografia extends Fragment {
 
     // Datos de la API
-    private String BaseURL = "http://api.vagalume.com.br/";         //Principio de la URL que usará retrofit
+    private String BaseURL = "http://api.vagalume.com.br/";         // Principio de la URL que usará retrofit
     private final static String endURL = "/discografia/index.js";   // Ultima parte de la url
     private String URLVagalume = "";                                // Parte del medio que será el artista en minusculas y los espacios cambiados por guiones
     private String URLSpotify = "";                                 // Spotify
     private String artist = "";                                     // Nombre del artista
+    private String artistSpotify = "Arista no disponible";          // Nombre del artista de la imagen de Spotify
 
     // Variables y Adapters
     private servicioDiscografiaRetrofit servicioDiscografia;   // Interfaz para descargar la discografia
@@ -98,6 +90,7 @@ public class Discografia extends Fragment {
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_discografia, container, false);
 
         // Asignamos el grid y el list a sus variables
@@ -211,12 +204,11 @@ public class Discografia extends Fragment {
             @Override
             public void onResponse(Response<ListDiscografia> response, Retrofit retrofit) {
 
-                ListDiscografia resultado = response.body();
+                if (response.isSuccess()){
 
-                myGridAdapter.clear();
+                    ListDiscografia resultado = response.body();
 
-                    // Es necesario comprobar si se han encontrado artistas
-                    // ¡Importante!
+                    myGridAdapter.clear();
 
                     Discography discografia = resultado.getDiscography();
 
@@ -233,6 +225,14 @@ public class Discografia extends Fragment {
                     if(myGridAdapter.getCount() != 0){
                         setGridViewHeightBasedOnChildren(gridDiscos, 2);
                     }
+                } else {
+                    myGridAdapter.clear();
+
+                    TextView artista = (TextView) getView().findViewById(R.id.discografia_artistName);
+                    artista.setText(artistSpotify);
+
+                    Toast.makeText(getContext(), "Discografía no disponible", Toast.LENGTH_SHORT).show(); // Mostramos un toast
+                }
             }
 
             @Override
@@ -253,40 +253,49 @@ public class Discografia extends Fragment {
             @Override
             public void onResponse(Response<ArtistSpotify> response, Retrofit retrofit) {
 
-                ArtistSpotify resultado = response.body();
+                if (response.isSuccess()) {
 
-                String datosArtista = "";   // String que contiene la popularidad y generos del artista
+                    ArtistSpotify resultado = response.body();
 
-                if(resultado.getArtists().getItems().size() != 0){
+                    artistSpotify = resultado.getArtists().getItems().get(0).getName(); // Extraemos el nombre del artista del cual descargamos la imagen
 
-                    // Imagen y textView relacionados con el artista
-                    ImageView imagenArtista = (ImageView) getView().findViewById(R.id.discografia_artistImage);
+                    String datosArtista = "";   // String que contiene la popularidad y generos del artista
 
-                    if(resultado.getArtists().getItems().get(0).getPopularity() != null){
-                        datosArtista = "Popularidad: " + resultado.getArtists().getItems().get(0).getPopularity() + "%";
+                    if(resultado.getArtists().getItems().size() != 0){
+
+                        // Imagen y textView relacionados con el artista
+                        ImageView imagenArtista = (ImageView) getView().findViewById(R.id.discografia_artistImage);
+
+                        if(resultado.getArtists().getItems().get(0).getPopularity() != null){
+                            datosArtista = "Popularidad: " + resultado.getArtists().getItems().get(0).getPopularity() + "%";
+                        }
+
+                        if(resultado.getArtists().getItems().get(0).getGenres().size() != 0){
+                            datosArtista = datosArtista + "                 Género: " + resultado.getArtists().getItems().get(0).getGenres().get(0).toString();
+                        }
+
+                        //Comprobamos si el artista tiene imagen
+
+                        if(resultado.getArtists().getItems().get(0).getImages().size() != 0){
+
+                            // Extraemos la URL de nuestra imagen parsendo el JSON
+                            String URLimagen = resultado.getArtists().getItems().get(0).getImages().get(0).toString();
+                            URLimagen = URLimagen.split(",")[1].split(",")[0].replace("url=", "").trim();
+
+                            Picasso.with(getContext()).load(URLimagen).fit().centerCrop().into(imagenArtista);
+
+                            ScrollView scrollLetra = (ScrollView) getView().findViewById(R.id.discografia_scrollViewDiscografia);
+                            scrollLetra.fullScroll(ScrollView.FOCUS_UP);
+                        }
                     }
 
-                    if(resultado.getArtists().getItems().get(0).getGenres().size() != 0){
-                        datosArtista = datosArtista + "                 Género: " + resultado.getArtists().getItems().get(0).getGenres().get(0).toString();
-                    }
+                    TextView infoArtista = (TextView) getView().findViewById(R.id.discografia_artistInfo);
+                    infoArtista.setText(datosArtista);  // Asignamos los datos del artista
 
-                 //Comprobamos si el artista tiene imagen
-
-                    if(resultado.getArtists().getItems().get(0).getImages().size() != 0){
-
-                         // Extraemos la URL de nuestra imagen parsendo el JSON
-                        String URLimagen = resultado.getArtists().getItems().get(0).getImages().get(0).toString();
-                        URLimagen = URLimagen.split(",")[1].split(",")[0].replace("url=", "").trim();
-
-                        Picasso.with(getContext()).load(URLimagen).fit().centerCrop().into(imagenArtista);
-
-                        ScrollView scrollLetra = (ScrollView) getView().findViewById(R.id.discografia_scrollViewDiscografia);
-                        scrollLetra.fullScroll(ScrollView.FOCUS_UP);
-                    }
+                } else {
+                    Toast.makeText(getContext(), "Imagen de artista no disponible", Toast.LENGTH_SHORT).show(); // Mostramos un toast
                 }
 
-                TextView infoArtista = (TextView) getView().findViewById(R.id.discografia_artistInfo);
-                infoArtista.setText(datosArtista);  // Asignamos los datos del artista
 
             }
 

@@ -191,7 +191,9 @@ public class Canciones extends Fragment{
         llamada.enqueue(new Callback<LyricsList>() {
             @Override
             public void onResponse(Response<LyricsList> response, Retrofit retrofit) {
+
                 if (response.isSuccess()) {
+
                     LyricsList resultado = response.body();
 
                     resultadosLetras = resultado.getMus();
@@ -217,11 +219,7 @@ public class Canciones extends Fragment{
                         scrollLetra.fullScroll(ScrollView.FOCUS_UP);    // Cada vez que pone el texto de una canción, mueve el scrollView al principio
                     }
                 } else {
-                    try {
-                        Log.e(null, response.errorBody().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    Toast.makeText(getContext(), "Canción no disponible", Toast.LENGTH_SHORT).show(); // Mostramos un toast
                 }
             }
 

@@ -62,9 +62,11 @@ public class Noticias extends Fragment{
         llamada.enqueue(new Callback<NewsList>() {
             @Override
             public void onResponse(Response<NewsList> response, Retrofit retrofit) {
-                NewsList resultado = response.body();
-                myListAdapter.clear();
-                myListAdapter.addAll(resultado.getNews());
+                if(response.isSuccess()){
+                    NewsList resultado = response.body();
+                    myListAdapter.clear();
+                    myListAdapter.addAll(resultado.getNews());
+                }
             }
 
             @Override
