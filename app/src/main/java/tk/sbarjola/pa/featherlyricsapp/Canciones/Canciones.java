@@ -48,7 +48,6 @@ public class Canciones extends Fragment{
     // Artista y pista que vamos a mostrar
     String artist = "no artist";
     String track = "no track";
-
     String cancionMostrada = "reproduccion";       // Que canción estamos mostrando en este momento
     String letraCancion;                           // String en el que guardaremos la letra de la canción
 
@@ -75,10 +74,11 @@ public class Canciones extends Fragment{
         ProgressBar progress = (ProgressBar) view.findViewById(R.id.progressAnimation);   // Animacion de cargando
         CircleButton button = (CircleButton) view.findViewById(R.id.canciones_circleButton);   // Nuestro circle button
 
+        // Descargamos la musica y ocultamos la animación de carga
         extraerInfoMusica();
-
         progress.setVisibility(View.GONE);
 
+        // Seteamos las variables de la canción a mostrar
         if(!searchedArtist.equals("no artist")){
             artist = searchedArtist;
             track = searchedTrack;
@@ -98,7 +98,7 @@ public class Canciones extends Fragment{
             @Override
             public void onClick(View v) {
 
-                // Extrae el artista y pista del MainActivity
+                // Programamos el botón para que alterne entra la canción en reproducción y la buscada
 
                 if (!playingArtist.equals("no artist") && !searchedArtist.equals("no artist")) {    // Comprueba si hay algún artista en reproducción
 
@@ -117,7 +117,8 @@ public class Canciones extends Fragment{
                     }
 
                     DescargarLetras descargarLetras = new DescargarLetras();  // Instanciams nuestro asyncTask para descargar en segundo plano la letra
-                    descargarLetras.execute();                                // Y lo ejecutamos
+                    descargarLetras.execute();
+                                                 // Y lo ejecutamos
                 } else {
                     Toast.makeText(getContext(), "No se ha detectado ningun artista", Toast.LENGTH_SHORT).show(); // Mostramos un toast
                 }

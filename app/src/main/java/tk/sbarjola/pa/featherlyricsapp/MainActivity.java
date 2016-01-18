@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         playingArtist = MusicBroadcastReceiver.getPlayingArtist();    // Sacamos el artista del intent
         playingTrack = MusicBroadcastReceiver.getPlayingTrack();      // sacamos la pista
 
+        // Si hay algo reproduciendose mostramos la snackbar
         if(playingArtist != "no artist"){
             Snackbar.make(findViewById(R.id.content_frame), playingTrack + " - " + playingArtist, Snackbar.LENGTH_LONG).setAction("Action", null).show();
         }
@@ -104,11 +105,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void actualizarMusica(){
 
+        // Con esta función actualizamos la letra de la cancion en reproduccion el el fragment canciones
+
         Canciones canciones = (Canciones) getSupportFragmentManager().findFragmentByTag("canciones");
 
         if (canciones.isAdded()) {
             canciones.setSong(playingArtist, playingTrack);
         }
+
     }
 
     @Override
@@ -219,12 +223,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case android.R.id.home:
                 drawer.openDrawer(GravityCompat.START);
                 return true;
-        }
-
-        if (item.getItemId() == R.id.action_settings) {
-            // Intent i = new Intent(this, SettingsActivity.class);    // intent para ir a la activity de settings
-            // startActivity(i);                                       // hacemos el intent
-            return true;
         }
 
         return super.onOptionsItemSelected(item);
