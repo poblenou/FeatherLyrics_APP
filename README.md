@@ -4,7 +4,7 @@ This repository contains the source code for the Feather Lyrics Android APP.
 
 ## How does it work?
 
-The APP's puts working on background a BroadcastReceiver that gets track's name and artist's name from the the actual playing song.
+The APP's puts working on background a BroadcastReceiver that gets the song name and artist from the the current playing track.
 When the user interface is opened, the APP takes the data collected by the BroadcastReceiver. When user demands it, lyrics from the actual song are downloaded.
 
 The app uses two API's:
@@ -16,7 +16,7 @@ The lyrics, and album arts are taken from Vagalume's API, artist pictures are ta
 
 ## Features:
 
-The application concept is fully modular, so the structure is based on a Navigation Drawer formed by fragments. The app has differents menus wich allow the user to search an specific song or artist, reading recent news from music world and the preference menu to let the user personalize the APP to its liking.
+The application concept is fully modular, so the structure is based on a Navigation Drawer formed by fragments. The app has differents menus wich allow the user to search an specific song or artist, reading recent news from music world and lets the user personalize the APP to its liking using the Preference menu.
 
 - Follows the Material Design philosophy
 - User friendly interface
@@ -52,7 +52,9 @@ Feather Lyrics tracks the next players:
 
 ## Screenshots
 
+<img src="http://i.imgur.com/5qANarU.jpg" width="250">
 <img src="http://i.imgur.com/ObSxjv0.jpg" width="250">
+<img src="http://i.imgur.com/1ZLuYe5.png" width="250">
 <img src="http://i.imgur.com/1CDRmde.png" width="250">
 <img src="http://i.imgur.com/LNVG2zo.png" width="250">
 <img src="http://i.imgur.com/fkU3dhN.png" width="250">
