@@ -253,15 +253,15 @@ public class Discografia extends Fragment {
             @Override
             public void onResponse(Response<ArtistSpotify> response, Retrofit retrofit) {
 
+                ArtistSpotify resultado = response.body();
+
                 if (response.isSuccess()) {
-
-                    ArtistSpotify resultado = response.body();
-
-                    artistSpotify = resultado.getArtists().getItems().get(0).getName(); // Extraemos el nombre del artista del cual descargamos la imagen
 
                     String datosArtista = "";   // String que contiene la popularidad y generos del artista
 
                     if(resultado.getArtists().getItems().size() != 0){
+
+                        artistSpotify = resultado.getArtists().getItems().get(0).getName(); // Extraemos el nombre del artista del cual descargamos la imagen
 
                         // Imagen y textView relacionados con el artista
                         ImageView imagenArtista = (ImageView) getView().findViewById(R.id.discografia_artistImage);
