@@ -109,10 +109,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Canciones canciones = (Canciones) getSupportFragmentManager().findFragmentByTag("canciones");
 
-        if (canciones.isAdded()) {
+        if (canciones != null) {
             canciones.setSong(playingArtist, playingTrack);
         }
-
     }
 
     @Override
