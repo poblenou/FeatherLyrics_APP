@@ -23,6 +23,7 @@ The application concept is fully modular, so the structure is based on a Navigat
 - On background BroadcastReceiver
 - Automatic current song search
 - Artist discography searching menu
+- Played songs history (using a ContentProvider)
 - Beautifull Splash Screen with a simple animation
 - Audio playing when starting as the application tone
 - Toast with current song information
@@ -56,7 +57,7 @@ Feather Lyrics tracks the next players:
 <img src="http://i.imgur.com/ObSxjv0.jpg" width="250">
 <img src="http://i.imgur.com/1ZLuYe5.png" width="250">
 <img src="http://i.imgur.com/1CDRmde.png" width="250">
-<img src="http://i.imgur.com/LNVG2zo.png" width="250">
+<img src="http://i.imgur.com/2GfK3RI.png" width="250">
 <img src="http://i.imgur.com/fkU3dhN.png" width="250">
 
 
