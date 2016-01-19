@@ -34,7 +34,6 @@ public class MusicBroadcastReceiver extends BroadcastReceiver {
         playingArtist = intent.getStringExtra("artist");    // Sacamos el artista del intent
         playingTrack = intent.getStringExtra("track");      // sacamos la pista
 
-
         MusicContentValues values = new MusicContentValues();
         values.putTitle(playingTrack);
         values.putBand(playingArtist);

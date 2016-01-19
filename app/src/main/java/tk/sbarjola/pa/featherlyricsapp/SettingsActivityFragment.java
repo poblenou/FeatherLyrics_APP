@@ -7,8 +7,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+
+import tk.sbarjola.pa.featherlyricsapp.provider.music.MusicColumns;
 
 /**
  * Created by sergi on 27/12/15.
@@ -16,6 +19,7 @@ import android.widget.Switch;
 public class SettingsActivityFragment extends PreferenceFragment {
 
     SharedPreferences myPreferences;
+    Button button;
     Switch toastSwitch;
     Switch splashSwitch;
     Switch soundSwitch;
@@ -31,6 +35,8 @@ public class SettingsActivityFragment extends PreferenceFragment {
         View settingsActivity = inflater.inflate(R.layout.fragment_settings, container, false);
 
         myPreferences = getActivity().getSharedPreferences("myPreferences", Context.MODE_PRIVATE);
+
+        button = (Button) settingsActivity.findViewById(R.id.settings_buttonBBDD);
 
         toastSwitch = (Switch) settingsActivity.findViewById(R.id.settings_mostrarToast);
         splashSwitch = (Switch) settingsActivity.findViewById(R.id.settings_mostarSplashScreen);
@@ -85,6 +91,16 @@ public class SettingsActivityFragment extends PreferenceFragment {
                     sharedPreferencesEditor.putBoolean("sound", false);
                     sharedPreferencesEditor.commit();
                 }
+            }
+        });
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getBaseContext().getContentResolver().delete(
+                        MusicColumns.CONTENT_URI,
+                        null,
+                        null);
             }
         });
 
