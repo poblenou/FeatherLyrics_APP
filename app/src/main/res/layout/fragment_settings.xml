@@ -104,4 +104,45 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Limpiar BBDD"
+        android:id="@+id/settings_buttonBBDD"
+        android:layout_marginTop="31dp"
+        android:layout_below="@+id/textView6"
+        android:layout_centerHorizontal="true" />
+
+    <View
+        android:layout_height="1dp"
+        android:layout_width="match_parent"
+        android:background="#767b80"
+        android:id="@+id/view"
+        android:layout_marginBottom="15dp"
+        android:layout_above="@+id/textView6"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Limpiar el historial de reproducciones"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:id="@+id/textView6"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textColor="#000000" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Vacíar la base de datos que contiene el historial de reproducciones"
+        android:id="@+id/textView7"
+        android:layout_below="@+id/textView6"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>

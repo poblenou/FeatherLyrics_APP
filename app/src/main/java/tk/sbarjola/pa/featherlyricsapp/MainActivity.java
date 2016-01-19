@@ -19,14 +19,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import tk.sbarjola.pa.featherlyricsapp.Canciones.Canciones;
 import tk.sbarjola.pa.featherlyricsapp.Discografia.Discografia;
+import tk.sbarjola.pa.featherlyricsapp.Home.Home;
 import tk.sbarjola.pa.featherlyricsapp.Noticias.Noticias;
 import tk.sbarjola.pa.featherlyricsapp.MusicReceiver.MusicBroadcastReceiver;
-import tk.sbarjola.pa.featherlyricsapp.provider.music.MusicColumns;
-import tk.sbarjola.pa.featherlyricsapp.provider.music.MusicContentValues;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -39,7 +37,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     String playingTrack = "no track";           // Nombre de la pista en reproducción
     String searchedArtist = "no artist";        // Nombre del artista seleccionado en discografia
     String searchedTrack = "no track";          // Nombre de la pista seleccionada en discografia
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

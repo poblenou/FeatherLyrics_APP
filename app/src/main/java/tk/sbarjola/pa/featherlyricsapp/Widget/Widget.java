@@ -5,7 +5,6 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
-import android.view.View;
 import android.widget.RemoteViews;
 import tk.sbarjola.pa.featherlyricsapp.MainActivity;
 import tk.sbarjola.pa.featherlyricsapp.R;

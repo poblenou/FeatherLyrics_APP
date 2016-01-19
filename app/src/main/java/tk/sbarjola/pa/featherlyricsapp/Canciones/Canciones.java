@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,10 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.IOException;
 import java.util.List;
-
 import at.markushi.ui.CircleButton;
 import retrofit.Call;
 import retrofit.Callback;
