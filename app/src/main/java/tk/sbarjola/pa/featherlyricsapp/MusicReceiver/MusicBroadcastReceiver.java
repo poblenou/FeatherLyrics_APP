@@ -15,46 +15,63 @@ import tk.sbarjola.pa.featherlyricsapp.provider.music.MusicContentValues;
  */
 public class MusicBroadcastReceiver extends BroadcastReceiver {
 
-    public static String playingArtist = "no artist";
-    public static String playingTrack = "no track";
-    static MainActivity mainVar = null;                 // Esta será la clase del MainActivity
+
+    /* Este booleano auxiliar es necesario debido a que ciertos dispositivos reciben dos intents
+    en el mismo BroadcastReceiver, duplicando la informacion.
+    Usando un booleano y un condicional solventamos el problema*/
+
+    private static boolean primerIntent = true;
+
+    public static String playingArtist = "no artist";   // Nombre artista de la pista en reproduccion
+    public static String playingTrack = "no track";     // Titulo de la pista en reproduccion
+    static MainActivity mainVar = null;                 // Esta será la referencia a la clase del MainActivity
 
     public MusicBroadcastReceiver() {
 
 
     }
 
-    public static void setMainActivityHandler(MainActivity main){
-        mainVar = main;
-    }
-
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        playingArtist = intent.getStringExtra("artist");    // Sacamos el artista del intent
-        playingTrack = intent.getStringExtra("track");      // sacamos la pista
+        if(primerIntent){
 
-        MusicContentValues values = new MusicContentValues();
-        values.putTitle(playingTrack);
-        values.putBand(playingArtist);
+            playingArtist = intent.getStringExtra("artist");    // Sacamos el artista del intent
+            playingTrack = intent.getStringExtra("track");      // sacamos la pista
 
-        context.getContentResolver().insert(
-                MusicColumns.CONTENT_URI, values.values());
+            // Guardamos la informacion en nuestra base de datos
 
-        // Preferencias personalizadas
-        SharedPreferences preferencias =  context.getSharedPreferences("myPreferences", Context.MODE_PRIVATE);
+            MusicContentValues values = new MusicContentValues();
+            values.putTitle(playingTrack);
+            values.putBand(playingArtist);
 
-        if (preferencias.getBoolean("toastNotificacion", true)){
-            Toast.makeText(context, playingTrack + " - " + playingArtist, Toast.LENGTH_SHORT).show(); // Y lanzamos la toast
-        }
+            context.getContentResolver().insert(
+                    MusicColumns.CONTENT_URI, values.values());
+
+            // Preferencias personalizadas
+            SharedPreferences preferencias =  context.getSharedPreferences("myPreferences", Context.MODE_PRIVATE);
+
+            if (preferencias.getBoolean("toastNotificacion", true)){
+                Toast.makeText(context, playingTrack + " - " + playingArtist, Toast.LENGTH_SHORT).show(); // Y lanzamos la toast
+            }
 
         /* Si está vinculado al MainActivity, es decir, si la APP se está ejecutando
          le dará un aviso de que ha habido un cambio de canción */
 
-        if(mainVar != null){
-            mainVar.extraerInfoMusica();
-            mainVar.actualizarMusica();
+            if(mainVar != null){
+                mainVar.extraerInfoMusica();
+                mainVar.actualizarMusica();
+            }
+
+            primerIntent = false;
         }
+        else{
+            primerIntent = true;
+        }
+    }
+
+    public static void setMainActivityHandler(MainActivity main){
+        mainVar = main;
     }
 
     public static String getPlayingArtist() {
