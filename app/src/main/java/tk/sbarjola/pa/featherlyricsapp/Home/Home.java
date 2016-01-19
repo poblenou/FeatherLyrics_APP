@@ -14,6 +14,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import tk.sbarjola.pa.featherlyricsapp.MainActivity;
 import tk.sbarjola.pa.featherlyricsapp.R;
@@ -50,18 +52,22 @@ public class Home extends Fragment implements LoaderManager.LoaderCallbacks<Curs
         // Cargamos las peliculas y las mostramos
         showMovies();
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {   //Listener para el list
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() { //Listener para el list
+
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-             /*
+
                 // Extraemos el artista del listView
-                String artist = listView.getItemAtPosition(position).toString().split("-")[1];
-                String track = listView.getItemAtPosition(position).toString().split("-")[0];
+                TextView textViewAuxiliar = (TextView) view.findViewById(R.id.music_list_adapter_songName);
+                String text = textViewAuxiliar.getText().toString();
+
+                // Cortamos el nombre de la pista y el artista
+                String track = text.split("-")[0];
+                String artist = text.split("-")[1];
 
                 // Y lo mandamos al fragment de canciones
                 ((MainActivity) getActivity()).setSearchedArtist(artist);
                 ((MainActivity) getActivity()).setSearchedTrack(track);
                 ((MainActivity) getActivity()).abrirCanciones();
-             */
             }
         });
 
