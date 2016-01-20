@@ -128,6 +128,9 @@ public class Canciones extends Fragment{
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){ //Afegim una opcio "Refresh" al menu del fragment
         super.onCreateOptionsMenu(menu, inflater);
 
+        menu.clear();   // Limpiamos el menú
+
+        // Y creamos el suyo propio con un buscador
         inflater.inflate(R.menu.dashboard, menu);
         MenuItem item = menu.findItem(R.id.action_search);
         SearchView sv = new SearchView(((MainActivity) getActivity()).getSupportActionBar().getThemedContext());
@@ -165,8 +168,6 @@ public class Canciones extends Fragment{
                 return false;
             }
         });
-
-        inflater.inflate(R.menu.noticias_fragment_menu, menu);
     }
 
 

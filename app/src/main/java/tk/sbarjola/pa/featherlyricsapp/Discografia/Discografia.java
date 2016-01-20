@@ -161,11 +161,18 @@ public class Discografia extends Fragment {
 
     @Override
     public void onCreateOptionsMenu (Menu menu, MenuInflater inflater){
+        super.onCreateOptionsMenu(menu, inflater);
+
+        menu.clear();   // Limpiamos el menú
+
+        // Y generamos el propio de este fragment con su buscador
         inflater.inflate(R.menu.dashboard, menu);
         MenuItem item = menu.findItem(R.id.action_search);
+
         SearchView sv = new SearchView(((MainActivity) getActivity()).getSupportActionBar().getThemedContext());
         MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
         MenuItemCompat.setActionView(item, sv);
+
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override

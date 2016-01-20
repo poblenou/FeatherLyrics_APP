@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import retrofit.Call;
 import retrofit.Callback;
@@ -104,7 +106,8 @@ public class Noticias extends Fragment{
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_refresh) {
 
-            items.clear();  // Limpia el arrayList que contiene las noticias
+            myListAdapter.clear();  // Limpia el arrayList que contiene las noticias
+
             DescargarNoticias descargarNoticias = new DescargarNoticias();  // Instanciams nuestro asyncTask para descargar en segundo plano las noticias
             descargarNoticias.execute();    // Y lo ejecutamos
 

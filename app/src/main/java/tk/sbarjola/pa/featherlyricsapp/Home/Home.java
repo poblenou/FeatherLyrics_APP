@@ -93,7 +93,7 @@ public class Home extends Fragment implements LoaderManager.LoaderCallbacks<Curs
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){ //Afegim una opcio "Refresh" al menu del fragment
         super.onCreateOptionsMenu(menu, inflater);
 
-        inflater.inflate(R.menu.noticias_fragment_menu, menu);
+        menu.clear();   // Limpiamos el menú
     }
 
     @Override
