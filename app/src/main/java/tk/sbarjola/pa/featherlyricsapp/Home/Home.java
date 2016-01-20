@@ -103,7 +103,7 @@ public class Home extends Fragment implements LoaderManager.LoaderCallbacks<Curs
                 null,
                 null,
                 null,
-                "_id");
+                "_id DESC");
     }
 
     @Override
