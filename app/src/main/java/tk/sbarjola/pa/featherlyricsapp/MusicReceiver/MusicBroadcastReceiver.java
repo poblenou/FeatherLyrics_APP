@@ -15,13 +15,6 @@ import tk.sbarjola.pa.featherlyricsapp.provider.music.MusicContentValues;
  */
 public class MusicBroadcastReceiver extends BroadcastReceiver {
 
-
-    /* Este booleano auxiliar es necesario debido a que ciertos dispositivos reciben dos intents
-    en el mismo BroadcastReceiver, duplicando la informacion.
-    Usando un booleano y un condicional solventamos el problema*/
-
-    private static boolean primerIntent = true;
-
     public static String playingArtist = "no artist";   // Nombre artista de la pista en reproduccion
     public static String playingTrack = "no track";     // Titulo de la pista en reproduccion
     static MainActivity mainVar = null;                 // Esta será la referencia a la clase del MainActivity
@@ -34,7 +27,11 @@ public class MusicBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        if(primerIntent){
+    /* Este if auxiliar es necesario debido a que ciertos dispositivos reciben dos intents al BroadcastReceiver
+    en el mismo BroadcastReceiver, duplicando la informacion.
+    Usando un condicional solventamos el problema*/
+
+        if(!playingTrack.equals(intent.getStringExtra("track"))) {
 
             playingArtist = intent.getStringExtra("artist");    // Sacamos el artista del intent
             playingTrack = intent.getStringExtra("track");      // sacamos la pista
@@ -49,24 +46,19 @@ public class MusicBroadcastReceiver extends BroadcastReceiver {
                     MusicColumns.CONTENT_URI, values.values());
 
             // Preferencias personalizadas
-            SharedPreferences preferencias =  context.getSharedPreferences("myPreferences", Context.MODE_PRIVATE);
+            SharedPreferences preferencias = context.getSharedPreferences("myPreferences", Context.MODE_PRIVATE);
 
-            if (preferencias.getBoolean("toastNotificacion", true)){
+            if (preferencias.getBoolean("toastNotificacion", true)) {
                 Toast.makeText(context, playingTrack + " - " + playingArtist, Toast.LENGTH_SHORT).show(); // Y lanzamos la toast
             }
 
         /* Si está vinculado al MainActivity, es decir, si la APP se está ejecutando
          le dará un aviso de que ha habido un cambio de canción */
 
-            if(mainVar != null){
+            if (mainVar != null) {
                 mainVar.extraerInfoMusica();
                 mainVar.actualizarMusica();
             }
-
-            primerIntent = false;
-        }
-        else{
-            primerIntent = true;
         }
     }
 

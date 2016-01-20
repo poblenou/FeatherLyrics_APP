@@ -61,8 +61,9 @@ public class Home extends Fragment implements LoaderManager.LoaderCallbacks<Curs
                 String text = textViewAuxiliar.getText().toString();
 
                 // Cortamos el nombre de la pista y el artista
-                String track = text.split("-")[0];
-                String artist = text.split("-")[1];
+
+                String artist = text.split("-")[0];
+                String track = text.split("-")[1];
 
                 // Y lo mandamos al fragment de canciones
                 ((MainActivity) getActivity()).setSearchedArtist(artist);
@@ -83,7 +84,7 @@ public class Home extends Fragment implements LoaderManager.LoaderCallbacks<Curs
                 null,
                 null,
                 null,
-                "_id"
+                "_id DESC"
         );
         myListAdapter.swapCursor(cursor);
     }

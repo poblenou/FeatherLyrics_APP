@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import tk.sbarjola.pa.featherlyricsapp.provider.music.MusicColumns;
 
@@ -101,6 +102,8 @@ public class SettingsActivityFragment extends PreferenceFragment {
                         MusicColumns.CONTENT_URI,
                         null,
                         null);
+
+                Toast.makeText(getActivity().getBaseContext(), "Se ha limpiado la base de datos correctamente", Toast.LENGTH_SHORT).show(); // Mostramos un toast
             }
         });
 

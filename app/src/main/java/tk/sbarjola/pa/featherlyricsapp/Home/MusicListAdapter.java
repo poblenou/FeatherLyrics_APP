@@ -42,7 +42,7 @@ public class MusicListAdapter extends SimpleCursorAdapter {
         // Asociamos cada variable a su elemento del layout
         TextView texto = (TextView) convertView.findViewById(R.id.music_list_adapter_songName);
 
-        texto.setText(musica.getString(musica.getColumnIndex(MusicColumns.TITLE)) + " - " + musica.getString(musica.getColumnIndex(MusicColumns.BAND)));
+        texto.setText(musica.getString(musica.getColumnIndex(MusicColumns.BAND)) + " - " + musica.getString(musica.getColumnIndex(MusicColumns.TITLE)));
 
         return convertView; //Devolvemos la view ya rellena
     }
