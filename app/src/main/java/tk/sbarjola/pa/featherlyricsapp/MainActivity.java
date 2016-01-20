@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .replace(R.id.content_frame, new Home(), "home")
                 .commit();
 
+        navigationView.getMenu().getItem(0).setChecked(true);   // Marcamos el menu del navigation Drawer
+
         preferencias = getSharedPreferences("myPreferences", Context.MODE_PRIVATE);
 
         // Con este BroadcastReceiver escucharemos a nuestro Receiver que controla la Musica
@@ -81,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         IntentFilter callInterceptorIntentFilter = new IntentFilter("android.intent.action.ANY_ACTION");
         registerReceiver(broadcastReceiver, callInterceptorIntentFilter);
 
-        extraerInfoMusica();
+        extraerInfoMusica();    // Extraemos la musica del BroadcastReceiver para saber que hay en reproducción
 
         /* Si se ha ejecutado a través del widget, abrimos la sección de canciones
         para mostar la canción actual en reproducción */
@@ -136,6 +138,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_frame, fragment, tag)
                 .commit();
+
+        navigationView.getMenu().getItem(1).setChecked(true);   // Marcamos el menu del navigation Drawer
 
         getSupportActionBar().setTitle("Canciones");    // Cambiamos el titulo del ActionBar
     }
