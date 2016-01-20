@@ -19,12 +19,13 @@ import tk.sbarjola.pa.featherlyricsapp.provider.music.MusicColumns;
  */
 public class SettingsActivityFragment extends PreferenceFragment {
 
-    SharedPreferences myPreferences;
-    Button button;
-    Switch toastSwitch;
-    Switch splashSwitch;
-    Switch soundSwitch;
-    SharedPreferences.Editor sharedPreferencesEditor;
+    SharedPreferences myPreferences;    // SharedPreference personalizado
+    Button button;                      // Button con el que limpiamos la BBDD
+    Switch toastSwitch;                 // Switch que gestiona el TOAST de las canciones
+    Switch splashSwitch;                // Siwtch que gestiona el splash screen
+    Switch soundSwitch;                 // Switch que gestiona el tono de la aplicación
+
+    SharedPreferences.Editor sharedPreferencesEditor;   // SharedPreferenceEditor que usaremos para modificar las settings
 
     public SettingsActivityFragment() {
 
@@ -37,15 +38,20 @@ public class SettingsActivityFragment extends PreferenceFragment {
 
         myPreferences = getActivity().getSharedPreferences("myPreferences", Context.MODE_PRIVATE);
 
-        button = (Button) settingsActivity.findViewById(R.id.settings_buttonBBDD);
+        // Declaramos el button y los swichs
 
+        button = (Button) settingsActivity.findViewById(R.id.settings_buttonBBDD);
         toastSwitch = (Switch) settingsActivity.findViewById(R.id.settings_mostrarToast);
         splashSwitch = (Switch) settingsActivity.findViewById(R.id.settings_mostarSplashScreen);
         soundSwitch = (Switch) settingsActivity.findViewById(R.id.settings_sound);
 
+        // Establecemos por la opción predefinida
+
         toastSwitch.setChecked(myPreferences.getBoolean("toastNotificacion", true));
         splashSwitch.setChecked(myPreferences.getBoolean("splash", true));
         soundSwitch.setChecked(myPreferences.getBoolean("sound", true));
+
+        // Listeners para los switch y el button
 
         toastSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

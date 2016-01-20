@@ -301,8 +301,6 @@ public class Discografia extends Fragment {
                 } else {
                     Toast.makeText(getContext(), "Imagen de artista no disponible", Toast.LENGTH_SHORT).show(); // Mostramos un toast
                 }
-
-
             }
 
             @Override

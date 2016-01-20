@@ -23,8 +23,8 @@ import tk.sbarjola.pa.featherlyricsapp.provider.music.MusicColumns;
 
 public class Home extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    MusicListAdapter myListAdapter;
-    ListView listView;
+    MusicListAdapter myListAdapter;     // Adaptador para el listView
+    ListView listView;                  // ListView
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,7 +61,6 @@ public class Home extends Fragment implements LoaderManager.LoaderCallbacks<Curs
                 String text = textViewAuxiliar.getText().toString();
 
                 // Cortamos el nombre de la pista y el artista
-
                 String artist = text.split("-")[0];
                 String track = text.split("-")[1];
 

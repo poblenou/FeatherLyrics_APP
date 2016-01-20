@@ -21,7 +21,6 @@ public class MusicBroadcastReceiver extends BroadcastReceiver {
 
     public MusicBroadcastReceiver() {
 
-
     }
 
     @Override
