@@ -144,6 +144,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportActionBar().setTitle("Canciones");    // Cambiamos el titulo del ActionBar
     }
 
+    public void abrirDiscografia() {
+
+        // Función para llamar al fragment de canciones
+
+        fragment = new Discografia();
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.content_frame, fragment)
+                .commit();
+
+        navigationView.getMenu().getItem(2).setChecked(true);   // Marcamos el menu del navigation Drawer
+
+        getSupportActionBar().setTitle("Discografia");    // Cambiamos el titulo del ActionBar
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {

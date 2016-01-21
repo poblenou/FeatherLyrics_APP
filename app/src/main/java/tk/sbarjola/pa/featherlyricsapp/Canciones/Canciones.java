@@ -125,6 +125,23 @@ public class Canciones extends Fragment{
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_discografia) {
+            ((MainActivity) getActivity()).setDiscographyStart(artist);
+            ((MainActivity) getActivity()).abrirDiscografia();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){ //Afegim una opcio "Refresh" al menu del fragment
         super.onCreateOptionsMenu(menu, inflater);
 
@@ -132,6 +149,8 @@ public class Canciones extends Fragment{
 
         // Y creamos el suyo propio con un buscador
         inflater.inflate(R.menu.dashboard, menu);
+        inflater.inflate(R.menu.canciones_fragment_menu, menu);
+
         MenuItem item = menu.findItem(R.id.action_search);
         SearchView sv = new SearchView(((MainActivity) getActivity()).getSupportActionBar().getThemedContext());
         MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
