@@ -77,7 +77,6 @@
             android:authorities="tk.sbarjola.pa.featherlyricsapp.provider"
             android:exported="false" />
 
-
     </application>
 
 </manifest>
