@@ -177,11 +177,18 @@ public class Discografia extends Fragment {
 
             @Override
             public boolean onQueryTextSubmit(String query) {
+
                 artist = query;
                 DescargarDiscografia descargarDiscografia = new DescargarDiscografia();  // Instanciams nuestro asyncTask para descargar en segundo plano la discografia
                 descargarDiscografia.execute();                                          // Y lo ejecutamos
                 DescargarArtista descargarArt = new DescargarArtista();                  // Lo mismo para los datos del artista
                 descargarArt.execute();                                                  // Y ejecutamos tambien
+
+                TextView detalles = (TextView) getView().findViewById(R.id.discografia_artistInfo);
+                detalles.setVisibility(View.VISIBLE);              // Mostramos la información de los artistas
+                gridDiscos.setVisibility(View.VISIBLE);            // Mostramos el grid
+                listCanciones.setVisibility(View.GONE);            // Ocultamos el list
+
                 ((MainActivity) getActivity()).setDiscographyStart(artist);              // Fijamos el artista en el mainrtista
                 return false;
             }
