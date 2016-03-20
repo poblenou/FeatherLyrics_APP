@@ -24,7 +24,7 @@ import tk.sbarjola.pa.featherlyricsapp.R;
 public class Noticias extends Fragment{
 
     // Datos de la API
-    private String BaseURL = "http://api.vagalume.com.br/";         //Principio de la URL que usará retrofit
+    private String BaseURL = "http://api.vagalume.com.br/";    //Principio de la URL que usará retrofit
 
     // Variables y Adapters
     private servicioNoticiasRetrofit servicioNoticias;   // Interfaz para las noticias
