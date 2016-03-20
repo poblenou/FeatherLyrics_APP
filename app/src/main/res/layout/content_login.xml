@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="LOGIN"
-        android:id="@+id/BTlogin"
+        android:id="@+id/login_ButtonLogin"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="66dp" />
@@ -22,7 +22,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/ETpasswordLogin"
+        android:id="@+id/login_TextPassword"
         android:hint="Password"
         android:inputType="textPassword"
         android:maxLines="1"
@@ -35,10 +35,10 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/ETemailLogin"
+        android:id="@+id/login_TextEmail"
         android:hint="Email"
         android:maxLines="1"
-        android:layout_above="@+id/ETpasswordLogin"
+        android:layout_above="@+id/login_TextPassword"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
@@ -47,7 +47,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="100dp"
-        android:id="@+id/IVlogo"
+        android:id="@+id/login_logo"
         android:src="@drawable/feather_icon"
         android:layout_below="@+id/textView8"
         android:layout_alignParentRight="true"
@@ -61,5 +61,19 @@
         android:id="@+id/textView8"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/textView9"
+        android:layout_above="@+id/login_ButtonLogin"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="22dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:visibility="invisible" />
 
 </RelativeLayout>

@@ -180,6 +180,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }else if (id == R.id.nav_discografia) {
             fragment = new Discografia();
             transaccion = true;
+        }else if (id == R.id.nav_descubrir) {
+            fragment = new Discografia();
+            transaccion = true;
         } else if (id == R.id.nav_noticias) {
             fragment = new Noticias();
             transaccion = true;
