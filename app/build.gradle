@@ -1,12 +1,18 @@
 apply plugin: 'com.android.application'
 
 android {
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
+
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
 
     defaultConfig {
         applicationId "tk.sbarjola.pa.featherlyricsapp"
-        minSdkVersion 14
+        minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -36,5 +42,4 @@ dependencies {
     compile 'com.firebaseui:firebase-ui:0.3.0'
     compile 'org.osmdroid:osmdroid-android:5.1@aar'
     compile 'com.github.MKergall.osmbonuspack:OSMBonusPack:v5.7'
-
 }
