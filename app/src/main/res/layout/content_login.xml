@@ -13,7 +13,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="LOGIN"
+        android:text="Entrar"
         android:id="@+id/login_ButtonLogin"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
@@ -67,7 +67,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Small Text"
-        android:id="@+id/textView9"
+        android:id="@+id/login_info"
+        android:gravity="center"
         android:layout_above="@+id/login_ButtonLogin"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
