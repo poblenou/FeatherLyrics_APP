@@ -17,6 +17,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import tk.sbarjola.pa.featherlyricsapp.Identificacion.LoginActivity;
+
 public class SplashScreenActivity extends Activity {
 
     // Duración del SplashScreen
@@ -55,7 +57,7 @@ public class SplashScreenActivity extends Activity {
                 public void run() {
 
                     // Start the next activity
-                    Intent mainIntent = new Intent().setClass(SplashScreenActivity.this, MainActivity.class);
+                    Intent mainIntent = new Intent().setClass(SplashScreenActivity.this, LoginActivity.class);
                     startActivity(mainIntent);
 
                     // Close the activity so the user won't able to go back this
@@ -69,7 +71,7 @@ public class SplashScreenActivity extends Activity {
         }
         else {
             // Start the next activity
-            Intent mainIntent = new Intent().setClass(SplashScreenActivity.this, MainActivity.class);
+            Intent mainIntent = new Intent().setClass(SplashScreenActivity.this, LoginActivity.class);
             startActivity(mainIntent);
         }
     }

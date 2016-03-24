@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="tk.sbarjola.pa.featherlyricsapp">
+    package="tk.sbarjola.pa.featherlyricsapp" >
 
     <uses-sdk tools:overrideLibrary="at.markushi.circlebutton" />
 
@@ -13,12 +13,12 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".SplashScreenActivity"
             android:label="@string/app_name"
             android:noHistory="true"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,11 +28,11 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="tk.sbarjola.pa.featherlyricsapp.MainActivity" />
@@ -40,7 +40,7 @@
 
         <receiver
             android:name=".MusicReceiver.MusicBroadcastReceiver"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="com.android.music.metachanged" />
                 <action android:name="com.htc.music.metachanged" />
@@ -60,7 +60,7 @@
                 <action android:name="com.spotify.music.metadatachanged" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".Widget.Widget">
+        <receiver android:name=".Widget.Widget" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -75,7 +75,16 @@
             android:authorities="tk.sbarjola.pa.featherlyricsapp.provider"
             android:exported="false" />
 
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".Identificacion.LoginActivity" />
+        <activity
+            android:name=".Identificacion.RegisterActivity"
+            android:label="@string/title_activity_register"
+            android:parentActivityName=".Identificacion.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="tk.sbarjola.pa.featherlyricsapp.Identificacion.LoginActivity" />
+        </activity>
     </application>
 
 </manifest>
