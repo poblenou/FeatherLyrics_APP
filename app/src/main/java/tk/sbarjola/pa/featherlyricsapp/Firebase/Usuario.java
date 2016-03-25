@@ -9,10 +9,19 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 public class Usuario {
 
-    private String UID;      // Identificador del usuario
-    private String email;    // Correo del usuario
-    private String password; // Contrasenya
-    private String key;      // key
+    // String
+    private String UID;         // Identificador del usuario
+    private String email;       // Correo del usuario
+    private String password;    // Contrasenya
+    private String key;         // key
+    private String descripcion; // Descripción usuario
+    private String rutaImagen;  // Ruta en la que se alamcenará la ruta del usuario
+
+    // Localización de donde vive el usuario
+    private double latitud;
+    private double longitud;
+
+    // Constructores
 
     public Usuario(){}
 
@@ -34,6 +43,22 @@ public class Usuario {
         return key;
     }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public String getRutaImagen() {
+        return rutaImagen;
+    }
+
+    public double getLatitud() {
+        return latitud;
+    }
+
+    public double getLongitud() {
+        return longitud;
+    }
+
     // Setters
 
     public void setEmail(String email) {
@@ -50,5 +75,21 @@ public class Usuario {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public void setRutaImagen(String rutaImagen) {
+        this.rutaImagen = rutaImagen;
+    }
+
+    public void setLatitud(double latitud) {
+        this.latitud = latitud;
+    }
+
+    public void setLongitud(double longitud) {
+        this.longitud = longitud;
     }
 }
