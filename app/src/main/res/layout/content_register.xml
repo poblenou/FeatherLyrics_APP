@@ -13,4 +13,106 @@
     tools:showIn="@layout/activity_register"
     tools:context="tk.sbarjola.pa.featherlyricsapp.Identificacion.RegisterActivity">
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/register_TextPassword"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:maxLines="1"
+        android:layout_below="@+id/register_TextEmail"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/register_TextEmail"
+        android:hint="Email"
+        android:maxLines="1"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/textView1"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/register_info"
+        android:gravity="center"
+        android:visibility="invisible"
+        android:layout_above="@+id/register_ButtonRegister"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/register_TextPassword"
+        android:layout_alignEnd="@+id/register_TextPassword" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Registrarse"
+        android:id="@+id/register_ButtonRegister"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="74dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Credenciales de tu cuenta"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:id="@+id/textView1"
+        android:textColor="#000000"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Información personal"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:id="@+id/textView9"
+        android:textColor="#000000"
+        android:layout_marginTop="41dp"
+        android:layout_below="@+id/register_TextPassword"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/register_SobreMi"
+        android:hint="Sobre mi"
+        android:layout_below="@+id/editText"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/editText"
+        android:hint="Edad"
+        android:layout_marginTop="11dp"
+        android:layout_below="@+id/textView9"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+
 </RelativeLayout>

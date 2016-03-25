@@ -25,8 +25,8 @@ public class FirebaseConfig extends Application {
 
         // Referncias de firebase
         mainReference = new Firebase("https://feathermusic.firebaseio.com/");
-        referenciaListaUsuarios = new Firebase("https://feathermusic.firebaseio.com/UsersList");
-        referenciaUsuarioLogeado  = new Firebase("https://feathermusic.firebaseio.com/UsersList");
+        referenciaListaUsuarios = new Firebase("https://feathermusic.firebaseio.com/Usuarios");
+        referenciaUsuarioLogeado  = new Firebase("https://feathermusic.firebaseio.com/Usuarios");
 
     }
 
