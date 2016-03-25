@@ -41,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     ArrayList<Usuario> listaUsuarios = new ArrayList<>();
     ArrayList<String> usuariosExistentes = new ArrayList<>();
 
+
     boolean usuarioEncontrado = false;
 
     @Override
@@ -64,6 +65,25 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin = (Button) this.findViewById(R.id.login_ButtonLogin);
         buttonRegister = (Button) this.findViewById(R.id.login_ButtonRegister);
         info = (TextView) this.findViewById(R.id.login_info);
+
+        // Limpiamos el array
+        listaUsuarios.clear();
+
+        // descargamos la lista de usuarios creada que tenemos en firebase
+        referenciaListaUsuarios.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                    Usuario usuario = userSnapshot.getValue(Usuario.class);
+                    usuariosExistentes.add(usuario.getEmail());
+                    listaUsuarios.add(usuario);
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+            }
+        });
 
         // On click para el botón de login
         buttonLogin.setOnClickListener(new View.OnClickListener() {
@@ -110,41 +130,17 @@ public class LoginActivity extends AppCompatActivity {
                 Lo hacemos con dos arrayLists
                  */
 
-                // Parte por terminar, de momento se duplican los usuarios :(
-
-                referenciaListaUsuarios.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-
-                        listaUsuarios.clear();
-
-                        for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                            Usuario usuario = userSnapshot.getValue(Usuario.class);
-                            usuariosExistentes.add(usuario.getEmail());
-                            listaUsuarios.add(usuario);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(FirebaseError firebaseError) {
-                    }
-                });
-
+                // Comprobamos si el usuario existe
                 for (int iterador = 0; iterador < listaUsuarios.size(); iterador++) {
-
-                    // Comprobamos si el usuario existe
                     if (listaUsuarios.get(iterador).getUID().equals(authData.getUid()))  {
                         config.setReferenciaUsuarioLogeado(referenciaListaUsuarios.child(listaUsuarios.get(iterador).getKey()));
                         usuarioEncontrado = true;
                         break;
                     }
-                    else {
-                        usuarioEncontrado = false;
-                    }
                 }
 
+                // Si no encontarmos el usuario en nuestro árbol de firebase, lo creamos.
                 if (!usuarioEncontrado) {
-
                     Firebase userF = referenciaListaUsuarios.push();
                     Usuario usuario = new Usuario();
                     usuario.setKey(userF.getKey());
@@ -166,7 +162,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onAuthenticationError(FirebaseError firebaseError) {
                 info.setVisibility(View.VISIBLE);
-                info.setText("Se ha producido un error. Vuelve a intentarlo más tarde");
+                info.setText("Error " + firebaseError.toString().split(":")[1]);
             }
         });
     }
