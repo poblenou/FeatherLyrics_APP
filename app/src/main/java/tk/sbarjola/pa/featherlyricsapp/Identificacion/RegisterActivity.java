@@ -78,7 +78,7 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onError(FirebaseError firebaseError) {
                         info.setVisibility(View.VISIBLE);
-                        info.setText("Error " + firebaseError.toString().split(":")[1]);
+                        info.setText("Error: " + firebaseError.toString().split(":")[1]);
                     }
                 });
             }

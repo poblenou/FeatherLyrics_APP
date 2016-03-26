@@ -1,13 +1,17 @@
 package tk.sbarjola.pa.featherlyricsapp.Identificacion;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.firebase.client.AuthData;
@@ -40,13 +44,22 @@ public class LoginActivity extends AppCompatActivity {
     // ArrayList con informacion de los usuarios
     ArrayList<Usuario> listaUsuarios = new ArrayList<>();
     ArrayList<String> usuariosExistentes = new ArrayList<>();
-
     boolean usuarioEncontrado = false;
+
+    // Preferencias
+    SharedPreferences preferencias;                     // Preferencias personalizadas
+    Switch recordarCuenta;                              // Switch que determina si guardamos las credenciales de la cuenta o no
+    SharedPreferences.Editor sharedPreferencesEditor;   // SharedPreferenceEditor que usaremos para modificar las settings
+
+    // Extraemos las credenciales almacenadas
+    String emailSp = "-1";
+    String passwordSp = "-1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
 
         // Ajustamos la tooblar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -58,12 +71,26 @@ public class LoginActivity extends AppCompatActivity {
         mainReference = config.getMainReference();
         referenciaListaUsuarios = config.getReferenciaListaUsuarios();
 
+        // Tambien a las preferencias
+        preferencias = getSharedPreferences("myPreferences", Context.MODE_PRIVATE);
+
         // Referncias al layout
         loginEmail = (EditText) this.findViewById(R.id.login_TextEmail);
         loginPassword = (EditText) this.findViewById(R.id.login_TextPassword);
         buttonLogin = (Button) this.findViewById(R.id.login_ButtonLogin);
         buttonRegister = (Button) this.findViewById(R.id.login_ButtonRegister);
         info = (TextView) this.findViewById(R.id.login_info);
+        recordarCuenta = (Switch) this.findViewById(R.id.login_saveAcc);
+
+        // Autologin
+
+        if (preferencias.getBoolean("autologin", true)) {
+            // Hacemos el intent
+            Intent mainClass = new Intent().setClass(LoginActivity.this, MainActivity.class);
+            startActivity(mainClass);
+
+            finish();
+        }
 
         // On click para el botón de login
         buttonLogin.setOnClickListener(new View.OnClickListener() {
@@ -97,6 +124,17 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onAuthenticated(AuthData authData) {
+
+                // Switch
+                if (recordarCuenta.isChecked()) {
+                    sharedPreferencesEditor = preferencias.edit();
+                    sharedPreferencesEditor.putBoolean("autologin", true);
+                    sharedPreferencesEditor.commit();
+                } else {
+                    sharedPreferencesEditor = preferencias.edit();
+                    sharedPreferencesEditor.putBoolean("autologin", false);
+                    sharedPreferencesEditor.commit();
+                }
 
                 // Mostramos información del proceso de login
                 info.setText("Iniciando sesison...");
@@ -166,7 +204,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onAuthenticationError(FirebaseError firebaseError) {
                 info.setVisibility(View.VISIBLE);
-                info.setText("Se ha producido un error. Vuelve a intentarlo más tarde");
+                info.setText("Error: " + firebaseError.toString().split(":")[1]);
+                sharedPreferencesEditor.putBoolean("autoLogin", false);
             }
         });
     }

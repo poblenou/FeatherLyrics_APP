@@ -31,12 +31,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawer;                // Drawer
     private NavigationView navigationView;      // NavigationView
     Fragment fragment = null;                   // fragmento que ocupara el centro de nuestro navigation drawer
-    SharedPreferences preferencias;             // Preferencias personalizadas
+
     String discographyStart = "no artist";      // Nombre del artista que mostraremos en la sección de discografia
     String playingArtist = "no artist";         // Nombre del artista de la canción en reproducción
     String playingTrack = "no track";           // Nombre de la pista en reproducción
     String searchedArtist = "no artist";        // Nombre del artista seleccionado en discografia
     String searchedTrack = "no track";          // Nombre de la pista seleccionada en discografia
+
+    SharedPreferences preferencias;                     // Preferencias personalizadas
+    SharedPreferences.Editor sharedPreferencesEditor;   // SharedPreferenceEditor que usaremos para modificar las settings
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,7 +195,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_bio){
             showAbout();
         } else if (id == R.id.nav_salir) {
-            finish();   // La última opción es para cerrar la APP
+
+            // Borramos la cuenta
+            sharedPreferencesEditor = preferencias.edit();
+            sharedPreferencesEditor.putBoolean("autologin", false);
+            sharedPreferencesEditor.commit();
+
+            finish();   // Volvemos al login
         }
 
         // Si el boleano es true llamamos al nuevo fragment
