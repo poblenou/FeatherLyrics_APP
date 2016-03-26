@@ -14,7 +14,7 @@ public class SettingsActivity extends AppCompatActivity {
         // Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle("Feather Lyrics - Configuración");
+        getSupportActionBar().setTitle("Feather Lyrics - Configuración");
 
         // Mostramos la flecha para retroceder de activity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
