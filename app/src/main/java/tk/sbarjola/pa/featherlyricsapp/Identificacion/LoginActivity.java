@@ -89,6 +89,11 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         }
 
+        // Preferencias para que por defecto no entre sola la APP
+        sharedPreferencesEditor = preferencias.edit();
+        sharedPreferencesEditor.putBoolean("autologin", false);
+        sharedPreferencesEditor.commit();
+
         // On click para el botón de login
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
