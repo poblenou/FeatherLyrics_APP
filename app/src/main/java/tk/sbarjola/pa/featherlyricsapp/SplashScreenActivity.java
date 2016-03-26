@@ -3,6 +3,7 @@ package tk.sbarjola.pa.featherlyricsapp;
 /**
  * Created by sergi on 21/12/15.
  */
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 import android.app.Activity;
@@ -11,7 +12,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -33,8 +36,23 @@ public class SplashScreenActivity extends Activity {
         preferencias = getSharedPreferences("myPreferences", Context.MODE_PRIVATE);
 
         if (preferencias.getBoolean("sound", true)) {
-            MediaPlayer mp = MediaPlayer.create(this, R.raw.intro);
-            mp.start();
+
+            if(preferencias.getBoolean("nuevoTono", true)){
+
+                try {
+                    MediaPlayer mp = new MediaPlayer();
+                    mp.setDataSource(preferencias.getString("rutaTono", null));
+                    mp.prepare();
+                    mp.start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            else{
+                MediaPlayer mp = MediaPlayer.create(this, R.raw.intro);
+                mp.start();
+            }
         }
 
         if (preferencias.getBoolean("splash", true)) {
