@@ -23,6 +23,7 @@ import android.widget.TextView;
 import tk.sbarjola.pa.featherlyricsapp.Canciones.Canciones;
 import tk.sbarjola.pa.featherlyricsapp.Discografia.Discografia;
 import tk.sbarjola.pa.featherlyricsapp.Home.Home;
+import tk.sbarjola.pa.featherlyricsapp.Mapa.OSMap;
 import tk.sbarjola.pa.featherlyricsapp.Noticias.Noticias;
 import tk.sbarjola.pa.featherlyricsapp.MusicReceiver.MusicBroadcastReceiver;
 
@@ -184,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragment = new Discografia();
             transaccion = true;
         }else if (id == R.id.nav_descubrir) {
-            fragment = new Discografia();
+            fragment = new OSMap();
             transaccion = true;
         } else if (id == R.id.nav_noticias) {
             fragment = new Noticias();

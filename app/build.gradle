@@ -6,6 +6,9 @@ android {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/NOTICE'
     }
+    lintOptions {
+        abortOnError false
+    }
 
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
