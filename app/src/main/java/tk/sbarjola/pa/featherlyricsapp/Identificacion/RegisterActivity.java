@@ -77,8 +77,8 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
         imagenUsuario = (ImageView) this.findViewById(R.id.register_profilePic);
 
         // Localizacion
-        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 10, this);
+        // LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        // locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 10, this);
 
         // Le damos un listener, que abrirá la camara al darl encima
         imagenUsuario.setOnClickListener(new View.OnClickListener() {

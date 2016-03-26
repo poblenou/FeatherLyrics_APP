@@ -44,6 +44,8 @@ public class LoginActivity extends AppCompatActivity {
     // ArrayList con informacion de los usuarios
     ArrayList<Usuario> listaUsuarios = new ArrayList<>();
     ArrayList<String> usuariosExistentes = new ArrayList<>();
+
+    // Booleano auxiliar para el login
     boolean usuarioEncontrado = false;
 
     // Preferencias
@@ -51,15 +53,10 @@ public class LoginActivity extends AppCompatActivity {
     Switch recordarCuenta;                              // Switch que determina si guardamos las credenciales de la cuenta o no
     SharedPreferences.Editor sharedPreferencesEditor;   // SharedPreferenceEditor que usaremos para modificar las settings
 
-    // Extraemos las credenciales almacenadas
-    String emailSp = "-1";
-    String passwordSp = "-1";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
 
         // Ajustamos la tooblar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
