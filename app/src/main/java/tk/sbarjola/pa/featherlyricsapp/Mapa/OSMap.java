@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -30,6 +31,10 @@ import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
+import java.util.ArrayList;
+
+import tk.sbarjola.pa.featherlyricsapp.Firebase.Artista;
+import tk.sbarjola.pa.featherlyricsapp.Firebase.FirebaseConfig;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.Usuario;
 import tk.sbarjola.pa.featherlyricsapp.R;
 
@@ -48,9 +53,39 @@ public class OSMap extends Fragment {
     private ScaleBarOverlay escalaOverlay;            // Barra que indica la escala del mapa
     private MyLocationNewOverlay miPosicionOverlay;   // Marcador de donde nos encontramos
     private RadiusMarkerClusterer marcadoresMensajes; // Cluster de los marcadores de los mensajes
+    FirebaseConfig config;                            // Configuración de firebase
+
+    ArrayList<String> grupos = new ArrayList<>();  // Grupos escuchados por el usuario
 
     public OSMap() {
         // es necesario tener un constructor vacio
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        config = (FirebaseConfig) getActivity().getApplication();
+        Toast.makeText(getContext(), config.getReferenciaUsuarioLogeado().toString() + "/Artistas", Toast.LENGTH_SHORT).show(); // Mostramos un toast
+        Firebase referenciaMusicaUser = new Firebase(config.getReferenciaUsuarioLogeado().toString() + "Artistas");
+
+        // Descargamos la lista de usuarios
+        referenciaMusicaUser.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                grupos.clear();
+
+                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                    Artista grupo = userSnapshot.getValue(Artista.class);
+                    grupos.add(grupo.getArtistas().toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+            }
+        });
     }
 
     @Override
@@ -93,12 +128,9 @@ public class OSMap extends Fragment {
         });
 
         // Rutas y nodos firebase
-        Firebase ref =  new Firebase("https://helicidatest.firebaseio.com/");
-        final Firebase mensajes = ref.child("mensaje");
 
-        /*
 
-        // Creamos un cluster (es decir, la acumulación de mensajes en un mismo marcador)
+         // Creamos un cluster (es decir, la acumulación de mensajes en un mismo marcador)
         marcadoresMensajes = new RadiusMarkerClusterer(getContext());
         map.getOverlays().add(marcadoresMensajes);
 
@@ -110,20 +142,50 @@ public class OSMap extends Fragment {
         marcadoresMensajes.setIcon(clusterIcon);
         marcadoresMensajes.setRadius(100);
 
-        mensajes.addValueEventListener(new ValueEventListener() {
+        config.getReferenciaListaUsuarios().addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
 
                     // Mensaje que extraemos de Firebase
-                    Usuario mensaje = postSnapshot.getValue(Usuario.class);
+                    Usuario usuario = postSnapshot.getValue(Usuario.class);
+                    final ArrayList<String> grupoContacto = new ArrayList<>(); // Grupo del otro contacto
+                    String gruposEnComun = "";
+
+                    Firebase referenciaMusicaContacto = new Firebase(config.getReferenciaListaUsuarios().toString() + "/" + usuario.getUID() + "/Artistas");
+
+                    // Descargamos la lista de usuarios
+                    referenciaMusicaContacto.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            grupos.clear();
+
+                            for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                                Artista grupo = userSnapshot.getValue(Artista.class);
+                                grupoContacto.add(grupo.getArtistas().toString());
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(FirebaseError firebaseError) {
+                        }
+                    });
+
+                    for(int iterador = 0; iterador < grupos.size(); iterador++){
+                        for(int iterador2 = 0; iterador2 < grupoContacto.size(); iterador2++){
+                            if(grupos.get(iterador).equals(grupoContacto.get(iterador2))){
+                                gruposEnComun = gruposEnComun + " - " + grupos.get(iterador);
+                            }
+                        }
+                    }
 
                     // Le damos la imagen drawable que queremos que tenga
                     Drawable markerIconD = getResources().getDrawable(R.drawable.marcador_100x100);
 
                     // Definimos el marcador y hacemos que nos marque la localización del mensaje
                     Marker marker = new Marker(map);
-                    GeoPoint point = new GeoPoint(mensaje.getLatitud(), mensaje.getLongitud());
+                    GeoPoint point = new GeoPoint(usuario.getLatitud(), usuario.getLongitud());
                     marker.setIcon(markerIconD);
                     marker.setPosition(point);
 
@@ -131,10 +193,14 @@ public class OSMap extends Fragment {
                     marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
 
                     // Le ponemos el título y la descripción
-                    marker.setTitle(mensaje.getTitulo());
-                    marker.setSubDescription(mensaje.getDescripcion());
+                    marker.setTitle(usuario.getNombre() + " - " + usuario.getEdad());
+                    marker.setSubDescription(usuario.getDescripcion());
 
-                    marcadoresMensajes.add(marker);
+                    // Que marque todos los usuarios menos al usuario logueado
+                    if(!(config.getReferenciaListaUsuarios() + usuario.getUID()).equals(config.getReferenciaUsuarioLogeado()) || !grupos.equals("")){
+                        marcadoresMensajes.add(marker);
+                    }
+
                 }
                 marcadoresMensajes.invalidate();
                 map.invalidate();
@@ -144,7 +210,7 @@ public class OSMap extends Fragment {
             public void onCancelled(FirebaseError firebaseError) {
                 System.out.println("The read failed: " + firebaseError.getMessage());
             }
-        });*/
+        });
     }
 
     private void ajustarMapa() {

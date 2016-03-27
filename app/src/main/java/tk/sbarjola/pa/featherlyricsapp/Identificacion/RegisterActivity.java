@@ -29,6 +29,7 @@ import java.io.File;
 
 import tk.sbarjola.pa.featherlyricsapp.Firebase.FirebaseConfig;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.Usuario;
+import tk.sbarjola.pa.featherlyricsapp.Mapa.OSMap;
 import tk.sbarjola.pa.featherlyricsapp.R;
 
 public class RegisterActivity extends AppCompatActivity implements LocationListener {
@@ -98,9 +99,11 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
         info = (TextView) this.findViewById(R.id.register_info);
         imagenUsuario = (ImageView) this.findViewById(R.id.register_profilePic);
 
+        dialog = ProgressDialog.show(this, "", "Localizando tu posición..."); // Dialog que mostrará localizando
+
         // Localizacion
-        // LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        // locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 10, this);
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 10, this);
 
         // Le damos un listener, que abrirá la camara al darl encima
         imagenUsuario.setOnClickListener(new View.OnClickListener() {
@@ -142,6 +145,8 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
                                 usuario.setDescripcion(about.getText().toString());
                                 usuario.setNombre(nombre.getText().toString());
                                 usuario.setEdad(edad.getText().toString());
+                                usuario.setLatitud(localizacion.getLatitude());
+                                usuario.setLongitud(localizacion.getLongitude());
 
                                 // Si tiene imagen le damos la ruta de la imagen
                                 if (imagen) {
