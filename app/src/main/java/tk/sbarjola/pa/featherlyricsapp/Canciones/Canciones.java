@@ -38,11 +38,11 @@ public class Canciones extends Fragment{
     // Datos de la API
     private String BaseURL = "http://api.vagalume.com.br/";         //Principio de la URL que usará retrofit
     private String apiKey = "754f223018be007a45003e3b87877bac";     // Key de Vagalume. Máximo 100.000 peticiones /dia
-    private List<Mu> resultadosLetras = null;      // List con el resultado de las letras obtenidas
+    private List<Mu> resultadosLetras = null;                       // List con el resultado de las letras obtenidas
 
     // Variables del fragment
-    String playingArtist = "no artist";            // Nombre del artista de la canción en reproducción
-    String playingTrack = "no track";              // Nombre de la pista en reproducción
+    String playingArtist = "no artist";         // Nombre del artista de la canción en reproducción
+    String playingTrack = "no track";           // Nombre de la pista en reproducción
     String searchedArtist = "no artist";        // Nombre del artista seleccionado en discografia
     String searchedTrack = "no track";          // Nombre de la pista seleccionada en discografia
 
@@ -170,8 +170,7 @@ public class Canciones extends Fragment{
                 if (query.contains("-")) {
                     searchedTrack = query.split("-")[0];   // Cojemos la primer aparte de la busqueda que será la canción
                     searchedArtist = query.split("-")[1];  // Y la segunda que será el grupo
-                }
-                else{
+                } else {
                     searchedTrack = query;
                     searchedArtist = query;
                 }
@@ -244,8 +243,19 @@ public class Canciones extends Fragment{
                         // Subimos el artista a Firebase para guardar un registro
                         config = (FirebaseConfig) getActivity().getApplication();
                         Artista artista = new Artista();
-                        artista.setArtistas(playingArtist);
-                        subirArtista(artista);
+
+                        // Cogemos el artista que nos interese
+                        if(cancionMostrada.equals("reproduccion") && !playingArtist.equals("no artist")){
+                            artista.setArtistas(playingArtist);
+                        }
+                        else if (cancionMostrada.equals("busqueda") && !searchedArtist.equals("no artist")){
+                            artista.setArtistas(searchedArtist);
+                        }
+
+                        // If para prevenir subidas erroneas de artista
+                        if(!artista.getArtistas().equals("no artist")){
+                            subirArtista(artista);
+                        }
 
                     }
                 } else {

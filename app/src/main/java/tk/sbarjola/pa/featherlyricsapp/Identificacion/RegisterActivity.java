@@ -23,6 +23,9 @@ import android.widget.TextView;
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
 
 import tk.sbarjola.pa.featherlyricsapp.Firebase.FirebaseConfig;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.Usuario;
@@ -54,6 +57,17 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
     Location localizacion = null;       // Localización
     private ImageView imagenUsuario;    // Foto a enviar
     boolean imagen = false;             // Booleano que determina si el mensaje tiene imagen o no
+
+    public void onStart() {
+
+        super.onStart();
+
+        // Cuando inicia el fragmento comprobamos si se ha sacado una foto en caso positivo, la acoplamos a nuestra imagen
+        if (imagen){
+            File imagePath = new File(getRutaImagen());
+            Picasso.with(this).load(imagePath).centerCrop().resize(240, 300).into(imagenUsuario);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +142,12 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
                                 usuario.setDescripcion(about.getText().toString());
                                 usuario.setNombre(nombre.getText().toString());
                                 usuario.setEdad(edad.getText().toString());
+
+                                // Si tiene imagen le damos la ruta de la imagen
+                                if (imagen) {
+                                    usuario.setRutaImagen(getRutaImagen().toString());
+                                }
+
                                 nuevoUsuario.setValue(usuario);
                                 config.setReferenciaUsuarioLogeado(referenciaListaUsuarios.child(nuevoUsuario.getKey()));
                             }
