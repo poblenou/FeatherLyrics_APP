@@ -22,7 +22,6 @@ public class MusicBroadcastReceiver extends BroadcastReceiver {
     public static String playingArtist = "no artist";   // Nombre artista de la pista en reproduccion
     public static String playingTrack = "no track";     // Titulo de la pista en reproduccion
     static MainActivity mainVar = null;                 // Esta será la referencia a la clase del MainActivity
-    FirebaseConfig config;
 
     public MusicBroadcastReceiver() {
 
@@ -63,12 +62,6 @@ public class MusicBroadcastReceiver extends BroadcastReceiver {
                 mainVar.actualizarMusica();
             }
         }
-
-        // Subimos el artista a Firebase
-        Artista artista = new Artista();
-        artista.setArtistas(playingArtist);
-        addNoteToFireBase(artista);
-
     }
 
     public static void setMainActivityHandler(MainActivity main){
@@ -81,11 +74,5 @@ public class MusicBroadcastReceiver extends BroadcastReceiver {
 
     public static String getPlayingTrack() {
         return playingTrack;
-    }
-
-    public void addNoteToFireBase(Artista artista) {
-        Firebase loggedUserNotesReference = config.getReferenciaUsuarioLogeado().child("Artistas");
-        Firebase artistaAsubir = loggedUserNotesReference.push();
-        artistaAsubir.setValue(artista);
     }
 }

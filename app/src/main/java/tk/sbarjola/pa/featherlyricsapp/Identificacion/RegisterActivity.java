@@ -20,10 +20,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
 import tk.sbarjola.pa.featherlyricsapp.Firebase.FirebaseConfig;
+import tk.sbarjola.pa.featherlyricsapp.Firebase.Usuario;
 import tk.sbarjola.pa.featherlyricsapp.R;
 
 public class RegisterActivity extends AppCompatActivity implements LocationListener {
@@ -41,6 +43,9 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
     //EditText
     EditText registerEmail;     // EditText que contiene el email
     EditText registerPassword;  // EditText que contiene la contrasenya
+    EditText about;             // Descripcion del usuario
+    EditText nombre;            // Nombre del usuario
+    EditText edad;              // Edad del usuario
     Button buttonRegister;      // Boton para registarse en la aplicación
     TextView info;              // Info del intento de register
 
@@ -72,6 +77,9 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
         // Referncias al layout
         registerEmail = (EditText) this.findViewById(R.id.register_TextEmail);
         registerPassword = (EditText) this.findViewById(R.id.register_TextPassword);
+        about = (EditText) this.findViewById(R.id.register_SobreMi);
+        nombre = (EditText) this.findViewById(R.id.register_nombreUser);
+        edad = (EditText) this.findViewById(R.id.register_edadUser);
         buttonRegister = (Button) this.findViewById(R.id.register_ButtonRegister);
         info = (TextView) this.findViewById(R.id.register_info);
         imagenUsuario = (ImageView) this.findViewById(R.id.register_profilePic);
@@ -94,23 +102,51 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
             @Override
             public void onClick(View v) {
 
-            // Extraemos los datos de los editText
-            final String email = registerEmail.getText().toString();
-            final String password = registerPassword.getText().toString();
+                // Extraemos los datos de los editText
+                final String email = registerEmail.getText().toString();
+                final String password = registerPassword.getText().toString();
 
-            // Creamos un nuevo usuario y lo subimos. Mostarmos el resultado en nuestro TextView.
-            mainReference.createUser(email, password, new Firebase.ResultHandler() {
-                @Override
-                public void onSuccess() {
-                     info.setVisibility(View.VISIBLE);
-                     info.setText("Se ha creado el nuevo usuario correctamente");
-                }
-                @Override
-                public void onError(FirebaseError firebaseError) {
-                    info.setVisibility(View.VISIBLE);
-                    info.setText("Error " + firebaseError.toString().split(":")[1]);
-                }
-            });
+                // Creamos un nuevo usuario y lo subimos. Mostarmos el resultado en nuestro TextView.
+                mainReference.createUser(email, password, new Firebase.ResultHandler() {
+                    @Override
+                    public void onSuccess() {
+                         info.setVisibility(View.VISIBLE);
+                         info.setText("Se ha creado el nuevo usuario correctamente");
+
+                        // Comenzamos la identificación de nuestro usuario con el correo y password
+                        mainReference.authWithPassword(email, password, new Firebase.AuthResultHandler() {
+
+                            @Override
+                            public void onAuthenticated(AuthData authData) {
+
+                                Firebase nuevoUsuario = referenciaListaUsuarios.push();
+                                Usuario usuario = new Usuario();
+                                usuario.setKey(nuevoUsuario.getKey());
+                                usuario.setEmail(email);
+                                usuario.setPassword(password);
+                                usuario.setUID(authData.getUid());
+                                usuario.setDescripcion(about.getText().toString());
+                                usuario.setNombre(nombre.getText().toString());
+                                usuario.setEdad(edad.getText().toString());
+                                nuevoUsuario.setValue(usuario);
+                                config.setReferenciaUsuarioLogeado(referenciaListaUsuarios.child(nuevoUsuario.getKey()));
+                            }
+
+                            @Override
+                            public void onAuthenticationError(FirebaseError firebaseError) {
+                                info.setVisibility(View.VISIBLE);
+                                info.setText("Error: Error al guardar algunos datos del usuario :(");
+                            }
+                        });
+
+                    }
+                    @Override
+                    public void onError(FirebaseError firebaseError) {
+                        info.setVisibility(View.VISIBLE);
+                        info.setText("Error " + firebaseError.toString().split(":")[1]);
+                    }
+                });
+
             }
         });
     }

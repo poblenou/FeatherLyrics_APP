@@ -14,6 +14,8 @@ public class Usuario {
     private String email;       // Correo del usuario
     private String password;    // Contrasenya
     private String key;         // key
+    private String nombre;      // nombre del usuario
+    private String edad;        // edad del usuario
     private String descripcion; // Descripción usuario
     private String rutaImagen;  // Ruta en la que se alamcenará la ruta del usuario
 
@@ -41,6 +43,14 @@ public class Usuario {
 
     public String getKey() {
         return key;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getEdad() {
+        return edad;
     }
 
     public String getDescripcion() {
@@ -75,6 +85,14 @@ public class Usuario {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setEdad(String edad) {
+        this.edad = edad;
     }
 
     public void setDescripcion(String descripcion) {

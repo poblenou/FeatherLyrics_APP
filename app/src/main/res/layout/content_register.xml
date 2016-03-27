@@ -41,8 +41,8 @@
             android:layout_below="@+id/textView1"
             android:layout_alignLeft="@+id/register_ButtonRegister"
             android:layout_alignStart="@+id/register_ButtonRegister"
-            android:layout_alignRight="@+id/editText2"
-            android:layout_alignEnd="@+id/editText2" />
+            android:layout_alignRight="@+id/register_nombreUser"
+            android:layout_alignEnd="@+id/register_nombreUser" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -101,7 +101,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/register_SobreMi"
             android:hint="Sobre mi"
-            android:layout_below="@+id/editText"
+            android:layout_below="@+id/register_edadUser"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentLeft="true"
@@ -112,9 +112,9 @@
             android:layout_height="wrap_content"
             android:inputType="number"
             android:ems="10"
-            android:id="@+id/editText"
+            android:id="@+id/register_edadUser"
             android:hint="Edad"
-            android:layout_below="@+id/editText2"
+            android:layout_below="@+id/register_nombreUser"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignRight="@+id/register_SobreMi"
@@ -125,7 +125,7 @@
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="10"
-            android:id="@+id/editText2"
+            android:id="@+id/register_nombreUser"
             android:hint="Nombre"
             android:layout_marginTop="12dp"
             android:layout_below="@+id/textView9"

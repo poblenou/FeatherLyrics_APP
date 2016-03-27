@@ -28,6 +28,7 @@ import retrofit.Response;
 import retrofit.Retrofit;
 import retrofit.http.GET;
 import retrofit.http.Query;
+import tk.sbarjola.pa.featherlyricsapp.Firebase.Artista;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.FirebaseConfig;
 import tk.sbarjola.pa.featherlyricsapp.MainActivity;
 import tk.sbarjola.pa.featherlyricsapp.R;
@@ -50,6 +51,8 @@ public class Canciones extends Fragment{
     String track = "no track";
     String cancionMostrada = "reproduccion";       // Que canción estamos mostrando en este momento
     String letraCancion;                           // String en el que guardaremos la letra de la canción
+
+    FirebaseConfig config;
 
     // Variables y Adapters
     private servicioLetrasRetrofit servicioLetras;  // Interfaz para las peliculas populares
@@ -237,6 +240,13 @@ public class Canciones extends Fragment{
 
                         ScrollView scrollLetra = (ScrollView) getView().findViewById(R.id.canciones_scrollView);
                         scrollLetra.fullScroll(ScrollView.FOCUS_UP);    // Cada vez que pone el texto de una canción, mueve el scrollView al principio
+
+                        // Subimos el artista a Firebase para guardar un registro
+                        config = (FirebaseConfig) getActivity().getApplication();
+                        Artista artista = new Artista();
+                        artista.setArtistas(playingArtist);
+                        subirArtista(artista);
+
                     }
                 } else {
                     Toast.makeText(getContext(), "Canción no disponible", Toast.LENGTH_SHORT).show(); // Mostramos un toast
@@ -249,6 +259,12 @@ public class Canciones extends Fragment{
             }
         });
 
+    }
+
+    public void subirArtista(Artista artista) {
+        Firebase refUsuario = config.getReferenciaUsuarioLogeado().child("Artistas");
+        Firebase artistaAsubir = refUsuario.push();
+        artistaAsubir.setValue(artista);
     }
 
     public interface servicioLetrasRetrofit{ //Interficie para descargar las letras

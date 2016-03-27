@@ -13,6 +13,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.DataSnapshot;
@@ -184,14 +185,14 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (!usuarioEncontrado) {
 
-                    Firebase userF = referenciaListaUsuarios.push();
+                    Firebase nuevoUsuario = referenciaListaUsuarios.push();
                     Usuario usuario = new Usuario();
-                    usuario.setKey(userF.getKey());
+                    usuario.setKey(nuevoUsuario.getKey());
                     usuario.setEmail(email);
                     usuario.setPassword(password);
                     usuario.setUID(authData.getUid());
-                    userF.setValue(usuario);
-                    config.setReferenciaUsuarioLogeado(referenciaListaUsuarios.child(userF.getKey()));
+                    nuevoUsuario.setValue(usuario);
+                    config.setReferenciaUsuarioLogeado(referenciaListaUsuarios.child(nuevoUsuario.getKey()));
                 }
 
                 // Hacemos el intent
