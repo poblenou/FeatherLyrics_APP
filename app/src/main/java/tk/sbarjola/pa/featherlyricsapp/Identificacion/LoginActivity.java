@@ -111,6 +111,25 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(registerIntent);
             }
         });
+
+        // Descargamos la lista de usuarios
+        referenciaListaUsuarios.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                listaUsuarios.clear();
+
+                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                    Usuario usuario = userSnapshot.getValue(Usuario.class);
+                    usuariosExistentes.add(usuario.getEmail());
+                    listaUsuarios.add(usuario);
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+            }
+        });
     }
 
     public void login() {
@@ -149,26 +168,6 @@ public class LoginActivity extends AppCompatActivity {
                 por lo tanto, al logear necesitamos saber si esa referencia existe
                 Lo hacemos con dos arrayLists
                  */
-
-                // Parte por terminar, de momento se duplican los usuarios :(
-
-                referenciaListaUsuarios.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-
-                        listaUsuarios.clear();
-
-                        for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                            Usuario usuario = userSnapshot.getValue(Usuario.class);
-                            usuariosExistentes.add(usuario.getEmail());
-                            listaUsuarios.add(usuario);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(FirebaseError firebaseError) {
-                    }
-                });
 
                 for (int iterador = 0; iterador < listaUsuarios.size(); iterador++) {
 
