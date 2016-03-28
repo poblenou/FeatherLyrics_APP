@@ -35,7 +35,7 @@ public class SplashScreenActivity extends Activity {
 
         preferencias = getSharedPreferences("myPreferences", Context.MODE_PRIVATE);
 
-        if (preferencias.getBoolean("sound", true)) {
+        if (preferencias.getBoolean("sound", true) && preferencias.getString("rutaTono", null).contains("/")) {
 
             if(preferencias.getBoolean("nuevoTono", true)){
 
