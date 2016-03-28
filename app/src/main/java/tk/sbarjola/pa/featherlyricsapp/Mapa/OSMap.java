@@ -31,6 +31,7 @@ import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
+import java.nio.LongBuffer;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -59,7 +60,6 @@ public class OSMap extends Fragment {
     ArrayList<String> grupos = new ArrayList<>();        // Grupos escuchados por el usuario
     ArrayList<String> grupoContacto = new ArrayList<>(); // Grupo del otro contacto
     String gruposEnComun = "";
-    Usuario usuario;
 
     public OSMap() {
         // es necesario tener un constructor vacio
@@ -70,6 +70,7 @@ public class OSMap extends Fragment {
         super.onCreate(savedInstanceState);
 
         config = (FirebaseConfig) getActivity().getApplication();
+
         final Firebase referenciaMusicaUser = new Firebase(config.getReferenciaUsuarioLogeado().toString() + "/Artistas");
 
         // Descargamos la lista de usuarios
@@ -135,7 +136,6 @@ public class OSMap extends Fragment {
 
         // Rutas y nodos firebase
 
-
          // Creamos un cluster (es decir, la acumulación de mensajes en un mismo marcador)
         marcadoresMensajes = new RadiusMarkerClusterer(getContext());
         map.getOverlays().add(marcadoresMensajes);
@@ -154,20 +154,26 @@ public class OSMap extends Fragment {
 
                 for (DataSnapshot postSnapshot : snapshot.getChildren()) {
 
+                    final Usuario usuario;
+
                     // Mensaje que extraemos de Firebase
                     usuario = postSnapshot.getValue(Usuario.class);
 
-                    Firebase referenciaMusicaContacto = new Firebase(config.getReferenciaListaUsuarios().toString() + "/" + usuario.getKey() + "/Artistas");
+                    final Firebase referenciaMusicaContacto = new Firebase(config.getReferenciaListaUsuarios().toString() + "/" + usuario.getKey() + "/Artistas");
+
+                    gruposEnComun = "";
 
                     // Para evitar mostrar al propio usuario
                     if(!referenciaMusicaContacto.toString().equals(config.getReferenciaUsuarioLogeado().toString() + "/Artistas")){
 
-                        gruposEnComun = "";
+                        Log.e("XXX", referenciaMusicaContacto.toString() + " - " + config.getReferenciaUsuarioLogeado().toString() + "/Artistas");
 
                         // Descargamos la lista de usuarios
                         referenciaMusicaContacto.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                gruposEnComun = "";
 
                                 grupoContacto.clear();
 
@@ -176,8 +182,11 @@ public class OSMap extends Fragment {
                                     grupoContacto.add(grupo.getArtistas().toString());
                                 }
 
-                                for(int iterador = 0; iterador < grupos.size(); iterador++){
+                                //Al utilizar un HashSet se eliminan todos los duplicados y luego lo convertimos de nuevo a arrayList
+                                grupoContacto = new ArrayList<String>(new HashSet<String>(grupoContacto));
 
+                                // Comparamos los dos arrayList
+                                for(int iterador = 0; iterador < grupos.size(); iterador++){
                                     for(int iterador2 = 0; iterador2 < grupoContacto.size(); iterador2++){
 
                                         if(grupos.get(iterador).contains(grupoContacto.get(iterador2)) || grupoContacto.get(iterador2).contains(grupos.get(iterador))){
@@ -186,26 +195,30 @@ public class OSMap extends Fragment {
                                     }
                                 }
 
-                                // Le damos la imagen drawable que queremos que tenga
-                                Drawable markerIconD = getResources().getDrawable(R.drawable.marcador_100x100);
-
-                                // Definimos el marcador y hacemos que nos marque la localización del mensaje
-                                Marker marker = new Marker(map);
-                                GeoPoint point = new GeoPoint(usuario.getLatitud(), usuario.getLongitud());
-                                marker.setIcon(markerIconD);
-                                marker.setPosition(point);
-
-                                // Ajustamos el tamaño, la transparencia
-                                marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-
-                                // Le ponemos el título y la descripción
-                                marker.setTitle(usuario.getNombre() + " - " + usuario.getEdad());
-                                marker.setSubDescription(usuario.getDescripcion() + "\n Grupos en común:" + gruposEnComun);
-
                                 // Que marque todos los usuarios menos al usuario logueado
                                 if(!gruposEnComun.equals("") && gruposEnComun != null){
+
+                                    // Le damos la imagen drawable que queremos que tenga
+                                    Drawable markerIconD = getResources().getDrawable(R.drawable.marcador_100x100);
+
+                                    // Definimos el marcador y hacemos que nos marque la localización del mensaje
+                                    Marker marker = new Marker(map);
+                                    GeoPoint point = new GeoPoint(usuario.getLatitud(), usuario.getLongitud());
+                                    marker.setIcon(markerIconD);
+                                    marker.setPosition(point);
+
+                                    // Ajustamos el tamaño, la transparencia
+                                    marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+
+                                    // Le ponemos el título y la descripción
+                                    marker.setTitle(usuario.getNombre() + " - " + usuario.getEdad());
+                                    marker.setSubDescription(usuario.getDescripcion() + "\n Grupos en común:" + gruposEnComun);
+
                                     marcadoresMensajes.add(marker);
                                 }
+
+
+                                Log.e("XXX", usuario.getLatitud() + ", " + usuario.getLongitud() + " - " + usuario.getNombre());
                             }
 
                             @Override

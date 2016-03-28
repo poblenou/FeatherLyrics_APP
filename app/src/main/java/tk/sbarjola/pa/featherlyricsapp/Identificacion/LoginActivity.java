@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -172,6 +173,7 @@ public class LoginActivity extends AppCompatActivity {
                     // Comprobamos si el usuario existe
                     if (listaUsuarios.get(iterador).getUID().equals(authData.getUid()))  {
                         config.setReferenciaUsuarioLogeado(referenciaListaUsuarios.child(listaUsuarios.get(iterador).getKey()));
+                        Log.e("XXX", config.getReferenciaUsuarioLogeado().toString());
                         usuarioEncontrado = true;
                         break;
                     }
@@ -204,7 +206,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onAuthenticationError(FirebaseError firebaseError) {
                 info.setVisibility(View.VISIBLE);
                 info.setText("Error: " + firebaseError.toString().split(":")[1]);
+
+                // Autologin a falso, por si acaso
+                sharedPreferencesEditor = preferencias.edit();
                 sharedPreferencesEditor.putBoolean("autoLogin", false);
+                sharedPreferencesEditor.commit();
             }
         });
     }
