@@ -80,20 +80,17 @@ public class LoginActivity extends AppCompatActivity {
         info = (TextView) this.findViewById(R.id.login_info);
         recordarCuenta = (Switch) this.findViewById(R.id.login_saveAcc);
 
+        boolean autologin = preferencias.getBoolean("autologin", false);
+
         // Autologin
 
-        if (preferencias.getBoolean("autologin", true)) {
+        if (autologin) {
             // Hacemos el intent
             Intent mainClass = new Intent().setClass(LoginActivity.this, MainActivity.class);
             startActivity(mainClass);
 
             finish();
         }
-
-        // Preferencias para que por defecto no entre sola la APP
-        sharedPreferencesEditor = preferencias.edit();
-        sharedPreferencesEditor.putBoolean("autologin", false);
-        sharedPreferencesEditor.commit();
 
         // On click para el botón de login
         buttonLogin.setOnClickListener(new View.OnClickListener() {
