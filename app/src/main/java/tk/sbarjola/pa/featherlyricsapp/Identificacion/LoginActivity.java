@@ -194,6 +194,11 @@ public class LoginActivity extends AppCompatActivity {
                     config.setReferenciaUsuarioLogeado(referenciaListaUsuarios.child(nuevoUsuario.getKey()));
                 }
 
+                // Guardamos la referencia del usuario logeado por si se activa el autologin
+                sharedPreferencesEditor = preferencias.edit();
+                sharedPreferencesEditor.putString("refUsuario", config.getReferenciaUsuarioLogeado().toString());
+                sharedPreferencesEditor.commit();
+
                 // Hacemos el intent
                 Intent registerLogin = new Intent().setClass(LoginActivity.this, MainActivity.class);
                 startActivity(registerLogin);

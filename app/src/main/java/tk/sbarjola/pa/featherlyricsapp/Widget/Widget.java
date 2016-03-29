@@ -17,11 +17,12 @@ public class Widget extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+
         final int count = appWidgetIds.length;
 
-        for (int i = 0; i < count; i++) {
+        for (int iterador = 0; iterador < count; iterador++) {
 
-            int widgetId = appWidgetIds[i];
+            int widgetId = appWidgetIds[iterador];
 
             // En caso de pulsar el widget, este ejecuta el MainActivity avisando de que está siendo ejecutado por el widget
 

@@ -37,8 +37,6 @@ public class SplashScreenActivity extends Activity {
 
         boolean sonido = preferencias.getBoolean("sound", true);
         boolean nuevoTono = preferencias.getBoolean("nuevoTono", false);
-        String rutaTono = preferencias.getString("rutaTono", null);
-
 
         if (sonido == true) {
 

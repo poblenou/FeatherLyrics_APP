@@ -3,38 +3,29 @@ package tk.sbarjola.pa.featherlyricsapp.Mapa;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
-
 import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.clustering.RadiusMarkerClusterer;
 import org.osmdroid.bonuspack.overlays.Marker;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.MinimapOverlay;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
-
-import java.nio.LongBuffer;
 import java.util.ArrayList;
 import java.util.HashSet;
-
 import tk.sbarjola.pa.featherlyricsapp.Firebase.Artista;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.FirebaseConfig;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.Usuario;
@@ -166,8 +157,6 @@ public class OSMap extends Fragment {
                     // Para evitar mostrar al propio usuario
                     if(!referenciaMusicaContacto.toString().equals(config.getReferenciaUsuarioLogeado().toString() + "/Artistas")){
 
-                        Log.e("XXX", referenciaMusicaContacto.toString() + " - " + config.getReferenciaUsuarioLogeado().toString() + "/Artistas");
-
                         // Descargamos la lista de usuarios
                         referenciaMusicaContacto.addValueEventListener(new ValueEventListener() {
                             @Override
@@ -217,9 +206,6 @@ public class OSMap extends Fragment {
 
                                     marcadoresMensajes.add(marker);
                                 }
-
-
-                                Log.e("XXX", usuario.getLatitud() + ", " + usuario.getLongitud() + " - " + usuario.getNombre());
                             }
 
                             @Override
