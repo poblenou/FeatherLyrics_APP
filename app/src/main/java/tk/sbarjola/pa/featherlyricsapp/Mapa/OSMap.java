@@ -173,7 +173,7 @@ public class OSMap extends Fragment {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                gruposEnComun = "";
+                                gruposEnComun = "- ";
 
                                 grupoContacto.clear();
 
@@ -189,8 +189,9 @@ public class OSMap extends Fragment {
                                 for(int iterador = 0; iterador < grupos.size(); iterador++){
                                     for(int iterador2 = 0; iterador2 < grupoContacto.size(); iterador2++){
 
-                                        if(grupos.get(iterador).contains(grupoContacto.get(iterador2)) || grupoContacto.get(iterador2).contains(grupos.get(iterador))){
-                                            gruposEnComun = gruposEnComun + "\n - " + grupos.get(iterador);
+                                        // Evitamos los repetidos y añadimos grupos en comun
+                                        if(grupos.get(iterador).contains(grupoContacto.get(iterador2)) || grupoContacto.get(iterador2).contains(grupos.get(iterador)) && !gruposEnComun.contains(grupos.get(iterador))){
+                                            gruposEnComun = gruposEnComun + "\n | " + grupos.get(iterador);
                                         }
                                     }
                                 }
@@ -212,7 +213,7 @@ public class OSMap extends Fragment {
 
                                     // Le ponemos el título y la descripción
                                     marker.setTitle(usuario.getNombre() + " - " + usuario.getEdad());
-                                    marker.setSubDescription(usuario.getDescripcion() + "\n Grupos en común:" + gruposEnComun);
+                                    marker.setSubDescription("- Descripcion:" + usuario.getDescripcion() + "\n Grupos en común:" + gruposEnComun);
 
                                     marcadoresMensajes.add(marker);
                                 }
