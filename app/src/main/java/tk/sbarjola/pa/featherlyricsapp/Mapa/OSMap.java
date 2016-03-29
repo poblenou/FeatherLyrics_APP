@@ -173,7 +173,7 @@ public class OSMap extends Fragment {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                gruposEnComun = "- ";
+                                gruposEnComun = "";
 
                                 grupoContacto.clear();
 
@@ -190,13 +190,13 @@ public class OSMap extends Fragment {
                                     for(int iterador2 = 0; iterador2 < grupoContacto.size(); iterador2++){
 
                                         // Evitamos los repetidos y añadimos grupos en comun
-                                        if(grupos.get(iterador).contains(grupoContacto.get(iterador2)) || grupoContacto.get(iterador2).contains(grupos.get(iterador)) && !gruposEnComun.contains(grupos.get(iterador))){
+                                        if((grupos.get(iterador).contains(grupoContacto.get(iterador2)) || grupoContacto.get(iterador2).contains(grupos.get(iterador))) && !gruposEnComun.trim().contains(grupos.get(iterador).trim())){
                                             gruposEnComun = gruposEnComun + "\n | " + grupos.get(iterador);
                                         }
                                     }
                                 }
 
-                                // Que marque todos los usuarios menos al usuario logueado
+                                // Marcamos todos los usuarios en común
                                 if(!gruposEnComun.equals("") && gruposEnComun != null){
 
                                     // Le damos la imagen drawable que queremos que tenga
