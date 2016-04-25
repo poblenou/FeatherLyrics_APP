@@ -1,5 +1,6 @@
 package tk.sbarjola.pa.featherlyricsapp.Mapa;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -9,6 +10,10 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -16,6 +21,7 @@ import com.firebase.client.ValueEventListener;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.clustering.RadiusMarkerClusterer;
 import org.osmdroid.bonuspack.overlays.Marker;
+import org.osmdroid.bonuspack.overlays.MarkerInfoWindow;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -46,11 +52,39 @@ public class OSMap extends Fragment {
     private ScaleBarOverlay escalaOverlay;            // Barra que indica la escala del mapa
     private MyLocationNewOverlay miPosicionOverlay;   // Marcador de donde nos encontramos
     private RadiusMarkerClusterer marcadoresMensajes; // Cluster de los marcadores de los mensajes
+    private UserMarkerInfo userMarkerInfo;            // Envoltorio de usuarios
     FirebaseConfig config;                            // Configuración de firebase
 
     ArrayList<String> grupos = new ArrayList<>();        // Grupos escuchados por el usuario
     ArrayList<String> grupoContacto = new ArrayList<>(); // Grupo del otro contacto
     String gruposEnComun = "";
+
+    private class UserMarkerInfo extends MarkerInfoWindow {
+
+        public UserMarkerInfo(int layoutResId, final MapView mapView) {
+            super(layoutResId, mapView);
+        }
+
+        @Override
+        public void onOpen(Object item) {
+            Marker marker = (Marker) item;
+            final Usuario markerUsuario = (Usuario) marker.getRelatedObject();
+
+            super.onOpen(item);
+
+            closeAllInfoWindowsOn(map);
+
+            RelativeLayout layout = (RelativeLayout) getView().findViewById(R.id.map_bubble_layout);
+
+            layout.setClickable(true);
+            layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    /* Haremos un intent a la activity del perfil de usuario */
+                }
+            });
+        }
+    }
 
     public OSMap() {
         // es necesario tener un constructor vacio
@@ -101,6 +135,8 @@ public class OSMap extends Fragment {
         marcadoresMapa();
 
         map.invalidate();
+
+        userMarkerInfo = new UserMarkerInfo(R.layout.user_map_item, map);
 
         return view;
     }
@@ -201,8 +237,9 @@ public class OSMap extends Fragment {
                                     marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
 
                                     // Le ponemos el título y la descripción
-                                    marker.setTitle(usuario.getNombre() + " - " + usuario.getEdad());
-                                    marker.setSubDescription("- Descripcion:" + usuario.getDescripcion() + "\n Grupos en común:" + gruposEnComun);
+                                    marker.setInfoWindow(userMarkerInfo);
+                                    marker.setTitle(usuario.getNombre() + " (" + usuario.getEdad() + ")");
+                                    marker.setSubDescription(usuario.getDescripcion() + "\n Grupos en común:\n ·"+ gruposEnComun);
 
                                     marcadoresMensajes.add(marker);
                                 }
