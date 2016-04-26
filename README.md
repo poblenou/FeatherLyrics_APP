@@ -12,6 +12,10 @@ The app uses two API's:
 - Vagalume API -> http://api.vagalume.com.br/docs/
 - Spotify API -> https://developer.spotify.com/web-api/
 
+Plus one storage service:
+
+- Firebase -> https://www.firebase.com/
+
 The lyrics, and album arts are taken from Vagalume's API, artist pictures are taken from Spotfy's API.
 
 ## Features:
@@ -27,6 +31,9 @@ The application concept is fully modular, so the structure is based on a Navigat
 - Beautifull Splash Screen with a simple animation
 - Audio playing when starting as the application tone
 - Toast with current song information
+- Firebase based login
+- Create your own account and track your friends music!
+- Meet new people in your are with your same music tastes
 - Cute widget for tracking the current song lyrics
 - Custom PreferenceFragment menu
 - "About" section
@@ -53,10 +60,12 @@ Feather Lyrics tracks the next players:
 
 ## Screenshots
 
+<img src="http://i.imgur.com/JwklAHd.png" width="250">
 <img src="http://i.imgur.com/5qANarU.jpg" width="250">
 <img src="http://i.imgur.com/ObSxjv0.jpg" width="250">
 <img src="http://i.imgur.com/Y4do4gK.png" width="250">
 <img src="http://i.imgur.com/1CDRmde.png" width="250">
+<img src="http://i.imgur.com/tnExHHU.jpg" width="250">
 <img src="http://i.imgur.com/2GfK3RI.png" width="250">
 <img src="http://i.imgur.com/fkU3dhN.png" width="250">
 
