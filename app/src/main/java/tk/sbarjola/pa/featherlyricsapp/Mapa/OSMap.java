@@ -1,6 +1,5 @@
 package tk.sbarjola.pa.featherlyricsapp.Mapa;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -8,12 +7,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -57,7 +56,7 @@ public class OSMap extends Fragment {
 
     ArrayList<String> grupos = new ArrayList<>();        // Grupos escuchados por el usuario
     ArrayList<String> grupoContacto = new ArrayList<>(); // Grupo del otro contacto
-    String gruposEnComun = "";
+    String gruposEnComun = "";                           // Grupos en común con otro contacto
 
     private class UserMarkerInfo extends MarkerInfoWindow {
 
@@ -93,6 +92,8 @@ public class OSMap extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        this.setHasOptionsMenu(true);
 
         config = (FirebaseConfig) getActivity().getApplication();
 
@@ -136,6 +137,7 @@ public class OSMap extends Fragment {
 
         map.invalidate();
 
+        // Custom marker
         userMarkerInfo = new UserMarkerInfo(R.layout.user_map_item, map);
 
         return view;
@@ -216,7 +218,7 @@ public class OSMap extends Fragment {
 
                                         // Evitamos los repetidos y añadimos grupos en comun
                                         if((grupos.get(iterador).contains(grupoContacto.get(iterador2)) || grupoContacto.get(iterador2).contains(grupos.get(iterador))) && !gruposEnComun.trim().contains(grupos.get(iterador).trim())){
-                                            gruposEnComun = gruposEnComun + "\n | " + grupos.get(iterador);
+                                            gruposEnComun = gruposEnComun + "," + grupos.get(iterador);
                                         }
                                     }
                                 }
@@ -225,7 +227,7 @@ public class OSMap extends Fragment {
                                 if(!gruposEnComun.equals("") && gruposEnComun != null){
 
                                     // Le damos la imagen drawable que queremos que tenga
-                                    Drawable markerIconD = getResources().getDrawable(R.drawable.marcador_100x100);
+                                    Drawable markerIconD = getResources().getDrawable(R.drawable.marcador_50x50);
 
                                     // Definimos el marcador y hacemos que nos marque la localización del mensaje
                                     Marker marker = new Marker(map);
@@ -239,7 +241,8 @@ public class OSMap extends Fragment {
                                     // Le ponemos el título y la descripción
                                     marker.setInfoWindow(userMarkerInfo);
                                     marker.setTitle(usuario.getNombre() + " (" + usuario.getEdad() + ")");
-                                    marker.setSubDescription(usuario.getDescripcion() + "\n Grupos en común:\n ·"+ gruposEnComun);
+                                    marker.setSnippet(usuario.getDescripcion());
+                                    marker.setSubDescription(gruposEnComun.replaceFirst(",", "· "));
 
                                     marcadoresMensajes.add(marker);
                                 }
@@ -303,5 +306,31 @@ public class OSMap extends Fragment {
     private void setZoom(int zoom) {
         mapController = map.getController();
         mapController.setZoom(zoom);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){ //Afegim una opcio "Refresh" al menu del fragment
+        super.onCreateOptionsMenu(menu, inflater);
+
+        inflater.inflate(R.menu.osmap, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.userPosition) {
+
+            // Lleva a la posición del usuario
+            if(map != null){
+                mapController.animateTo( miPosicionOverlay.getMyLocation());
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
