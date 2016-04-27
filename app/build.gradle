@@ -46,4 +46,5 @@ dependencies {
     compile 'org.osmdroid:osmdroid-android:5.1@aar'
     compile 'com.github.MKergall.osmbonuspack:OSMBonusPack:v5.7'
     compile 'com.squareup.picasso:picasso:+'
+    compile 'com.github.moondroid.coverflow:library:+'
 }

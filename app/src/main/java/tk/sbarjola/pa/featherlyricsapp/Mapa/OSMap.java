@@ -37,6 +37,7 @@ import java.util.HashSet;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.Artista;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.FirebaseConfig;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.Usuario;
+import tk.sbarjola.pa.featherlyricsapp.MainActivity;
 import tk.sbarjola.pa.featherlyricsapp.R;
 
 
@@ -69,7 +70,7 @@ public class OSMap extends Fragment {
 
         @Override
         public void onOpen(Object item) {
-            Marker marker = (Marker) item;
+            final Marker marker = (Marker) item;
             final Usuario markerUsuario = (Usuario) marker.getRelatedObject();
 
             super.onOpen(item);
@@ -82,7 +83,8 @@ public class OSMap extends Fragment {
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    /* Haremos un intent a la activity del perfil de usuario */
+                    ((MainActivity) getActivity()).setOpenedProfile(markerUsuario.getUID());
+                    ((MainActivity) getActivity()).abrirPerfil();
                 }
             });
         }
@@ -253,6 +255,7 @@ public class OSMap extends Fragment {
                                         marker.setTitle(usuario.getNombre() + " (" + usuario.getEdad() + ")");
                                         marker.setSnippet(usuario.getDescripcion());
                                         marker.setSubDescription(gruposEnComun.replaceFirst(",", "· "));
+                                        marker.setRelatedObject(usuario);
 
                                         marcadoresMensajes.add(marker);
                                     }

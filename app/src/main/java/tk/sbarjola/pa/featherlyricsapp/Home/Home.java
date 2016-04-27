@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -15,8 +16,6 @@ import android.widget.ListView;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import tk.sbarjola.pa.featherlyricsapp.MainActivity;
 import tk.sbarjola.pa.featherlyricsapp.R;
 import tk.sbarjola.pa.featherlyricsapp.provider.music.MusicColumns;
@@ -29,7 +28,8 @@ public class Home extends Fragment implements LoaderManager.LoaderCallbacks<Curs
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);    //Aixo fa que mostri el menu. Com n'hi han fragments no grafics cal especificar-ho
+
+        setHasOptionsMenu(true);
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup contenedor, Bundle savedInstanceState) {
@@ -76,6 +76,26 @@ public class Home extends Fragment implements LoaderManager.LoaderCallbacks<Curs
         return view;
     }
 
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.userProfile) {
+
+            ((MainActivity) getActivity()).abrirPersonalProfile();
+
+
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void showMovies(){
         Cursor cursor = getContext().getContentResolver().query(
@@ -92,7 +112,7 @@ public class Home extends Fragment implements LoaderManager.LoaderCallbacks<Curs
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){ //Afegim una opcio "Refresh" al menu del fragment
         super.onCreateOptionsMenu(menu, inflater);
 
-        menu.clear();   // Limpiamos el menú
+        inflater.inflate(R.menu.home, menu);
     }
 
     @Override

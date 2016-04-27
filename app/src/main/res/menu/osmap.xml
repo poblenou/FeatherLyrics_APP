@@ -4,6 +4,6 @@
     <item
         android:id="@+id/userPosition"
         app:showAsAction="ifRoom"
-        android:title="Refresh"
+        android:title="Position"
         android:icon="@drawable/map"></item>
 </menu>
