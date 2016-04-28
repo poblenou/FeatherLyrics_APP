@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         openedProfile = "no profile";
 
         // Función para llamar al fragment de canciones
-        fragment = new Home();
+        fragment = new UserProfile();
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_frame, fragment)

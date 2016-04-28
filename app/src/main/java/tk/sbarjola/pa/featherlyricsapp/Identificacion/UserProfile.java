@@ -1,6 +1,5 @@
 package tk.sbarjola.pa.featherlyricsapp.Identificacion;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,23 +7,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-import org.osmdroid.bonuspack.overlays.Marker;
-import org.osmdroid.util.GeoPoint;
-
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Set;
 
-import it.moondroid.coverflow.components.ui.containers.FeatureCoverFlow;
+
+import tk.sbarjola.pa.featherlyricsapp.Discografia.DiscografiaAdapter;
+import tk.sbarjola.pa.featherlyricsapp.Discografia.Vagalume.Item;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.Artista;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.FirebaseConfig;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.Usuario;
@@ -36,19 +34,22 @@ import tk.sbarjola.pa.featherlyricsapp.R;
  */
 public class UserProfile extends Fragment {
 
-    FirebaseConfig config;                       // Configuración de firebase
-    private Firebase referenciaListaUsuarios;    // Apunta a la lista de usuarios
+    FirebaseConfig config;                                      // Configuración de firebase
+    private Firebase referenciaListaUsuarios;                   // Apunta a la lista de usuarios
+    private String URLSpotify = "";                             // Spotify
+    private String artistSpotify = "";                          // Nombre del artista de la imagen de Spotify
     Usuario userToShow;
     String userUID = "";
     ImageView imageUser;
     TextView userName;
     TextView userDescription;
-    ListView historial;
+    GridView historial;
 
     // Adapter para la lista de artistas
-    ArrayAdapter<String> arrayAdapter;
+    private ArrayAdapter arrayAdapter;                           // ArrayList que llenaremos con los artistas
+    Set<String> collectionArtistas = new HashSet<String>();
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState){
 
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);    //Definimos el fragment
 
@@ -57,11 +58,11 @@ public class UserProfile extends Fragment {
         imageUser = (ImageView) view.findViewById(R.id.userProfile_userPicture);
         userName = (TextView) view.findViewById(R.id.userProfile_userName);
         userDescription = (TextView) view.findViewById(R.id.userProfile_userInfo);
-        historial = (ListView) view.findViewById(R.id.userProfile_listHistory);
+        historial = (GridView) view.findViewById(R.id.userProfile_listHistory);
 
         referenciaListaUsuarios = config.getReferenciaListaUsuarios();
 
-        arrayAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.profile_user_history_adapter,R.id.profileUser_history_adapter_songName);
+        arrayAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.user_artists_adapter,R.id.user_artists_artistName);
 
         // Primero extraemos el del main activity
         userUID = ((MainActivity) getActivity()).getOpenedProfile();
@@ -94,19 +95,18 @@ public class UserProfile extends Fragment {
 
                                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                                     Artista grupo = userSnapshot.getValue(Artista.class);
-                                    arrayAdapter.add(grupo.getArtistas().toString());
+                                    collectionArtistas.add(grupo.getArtistas().toString());
                                 }
 
-                                historial.setAdapter(arrayAdapter); //Acoplem el adaptador
-                                setListViewHeightBasedOnChildren(historial);
+                                arrayAdapter.addAll(collectionArtistas);
+                                historial.setAdapter(arrayAdapter);
+
+                                setGridViewHeightBasedOnChildren(historial, 2);
                             }
 
                             @Override
-                            public void onCancelled(FirebaseError firebaseError) {
-
-                            }
+                            public void onCancelled(FirebaseError firebaseError) {}
                         });
-
                     }
                 }
             }
@@ -122,44 +122,48 @@ public class UserProfile extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 // Extraemos el artista del listView
-                TextView textViewAuxiliar = (TextView) view.findViewById(R.id.profileUser_history_adapter_songName);
+                TextView textViewAuxiliar = (TextView) view.findViewById(R.id.user_artists_artistName);
                 String text = textViewAuxiliar.getText().toString();
 
                 // Cortamos el nombre de la pista y el artista
                 String artist = text.split("-")[0];
 
                 // Y lo mandamos al fragment de canciones
-                ((MainActivity) getActivity()).setSearchedArtist(artist);
+                ((MainActivity) getActivity()).setDiscographyStart(artist);
                 ((MainActivity) getActivity()).abrirArtistas();
 
             }
         });
 
-
         return view;
     }
 
-    public void setListViewHeightBasedOnChildren(ListView listView) {
+    public void setGridViewHeightBasedOnChildren(GridView gridView, int columnas) {
 
         // Calculamos caunto hay que desplegar el GridView para poder mostrarlo todo dentro del ScrollView
 
-        int alturaTotal = 0;
-        int items = arrayAdapter.getCount();
-        int filas = 0;
+        try {
 
-        View listItem = arrayAdapter.getView(0, null, listView);
-        listItem.measure(0, 0);
-        alturaTotal = listItem.getMeasuredHeight();
+            int alturaTotal = 0;
+            int items = arrayAdapter.getCount();
+            int filas = 0;
 
-        float x = 1;
+            View listItem = arrayAdapter.getView(0, null, gridView);
+            listItem.measure(0, 0);
+            alturaTotal = listItem.getMeasuredHeight();
 
-        x = items;
-        filas = (int) (x + 1);
-        alturaTotal *= filas;
+            float x = 1;
 
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = alturaTotal;
-        listView.setLayoutParams(params);
+            if (items > columnas) {
+                x = items / columnas;
+                filas = (int) (x + 1);
+                alturaTotal *= filas;
+            }
 
+            ViewGroup.LayoutParams params = gridView.getLayoutParams();
+            params.height = alturaTotal;
+            gridView.setLayoutParams(params);
+
+        } catch (IndexOutOfBoundsException e){}
     }
 }

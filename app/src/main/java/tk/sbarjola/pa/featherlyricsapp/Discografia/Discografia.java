@@ -109,7 +109,6 @@ public class Discografia extends Fragment {
         myListAdapter = new ArrayAdapter<String>(this.getContext(), android.R.layout.simple_list_item_1);   // Definimos nuestro adaptador
         listCanciones.setAdapter(myListAdapter);                                                            // Y acoplamos el adaptador
 
-
         gridDiscos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {  // En caso de pulsar sobre un album
@@ -189,7 +188,7 @@ public class Discografia extends Fragment {
                 gridDiscos.setVisibility(View.VISIBLE);            // Mostramos el grid
                 listCanciones.setVisibility(View.GONE);            // Ocultamos el list
 
-                ((MainActivity) getActivity()).setDiscographyStart(artist);              // Fijamos el artista en el mainrtista
+                ((MainActivity) getActivity()).setDiscographyStart(artist);              // Fijamos el artista en el mainArtista
                 return false;
             }
 
@@ -354,48 +353,56 @@ public class Discografia extends Fragment {
 
         // Calculamos caunto hay que desplegar el GridView para poder mostrarlo todo dentro del ScrollView
 
-        int alturaTotal = 0;
-        int items = myGridAdapter.getCount();
-        int filas = 0;
+        try {
 
-        View listItem = myGridAdapter.getView(0, null, gridView);
-        listItem.measure(0, 0);
-        alturaTotal = listItem.getMeasuredHeight();
+            int alturaTotal = 0;
+            int items = myGridAdapter.getCount();
+            int filas = 0;
 
-        float x = 1;
+            View listItem = myGridAdapter.getView(0, null, gridView);
+            listItem.measure(0, 0);
+            alturaTotal = listItem.getMeasuredHeight();
 
-        if( items > columnas ){
-            x = items/columnas;
-            filas = (int) (x + 1);
-            alturaTotal *= filas;
-        }
+            float x = 1;
 
-        ViewGroup.LayoutParams params = gridView.getLayoutParams();
-        params.height = alturaTotal;
-        gridView.setLayoutParams(params);
+            if (items > columnas) {
+                x = items / columnas;
+                filas = (int) (x + 1);
+                alturaTotal *= filas;
+            }
+
+            ViewGroup.LayoutParams params = gridView.getLayoutParams();
+            params.height = alturaTotal;
+            gridView.setLayoutParams(params);
+
+        } catch (IndexOutOfBoundsException e){}
     }
 
     public void setListViewHeightBasedOnChildren(ListView listView) {
 
         // Calculamos caunto hay que desplegar el GridView para poder mostrarlo todo dentro del ScrollView
 
-        int alturaTotal = 0;
-        int items = myListAdapter.getCount();
-        int filas = 0;
+        try{
 
-        View listItem = myListAdapter.getView(0, null, listView);
-        listItem.measure(0, 0);
-        alturaTotal = listItem.getMeasuredHeight();
+            int alturaTotal = 0;
+            int items = myListAdapter.getCount();
+            int filas = 0;
 
-        float x = 1;
+            View listItem = myListAdapter.getView(0, null, listView);
+            listItem.measure(0, 0);
+            alturaTotal = listItem.getMeasuredHeight();
 
-        x = items;
-        filas = (int) (x + 1);
-        alturaTotal *= filas;
+            float x = 1;
 
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = alturaTotal;
-        listView.setLayoutParams(params);
+            x = items;
+            filas = (int) (x + 1);
+            alturaTotal *= filas;
 
+            ViewGroup.LayoutParams params = listView.getLayoutParams();
+            params.height = alturaTotal;
+            listView.setLayoutParams(params);
+
+        }
+        catch (IndexOutOfBoundsException e){}
     }
 }

@@ -88,7 +88,6 @@ public class Home extends Fragment implements LoaderManager.LoaderCallbacks<Curs
 
             ((MainActivity) getActivity()).abrirPersonalProfile();
 
-
             return true;
         }
         return super.onOptionsItemSelected(item);
