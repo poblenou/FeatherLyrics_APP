@@ -60,7 +60,7 @@ public class OSMap extends Fragment {
 
     ArrayList<String> grupos = new ArrayList<>();        // Grupos escuchados por el usuario
     ArrayList<String> grupoContacto = new ArrayList<>(); // Grupo del otro contacto
-    String gruposEnComun = "";                           // Grupos en común con otro contacto
+        String gruposEnComun = "";                           // Grupos en común con otro contacto
 
     private class UserMarkerInfo extends MarkerInfoWindow {
 

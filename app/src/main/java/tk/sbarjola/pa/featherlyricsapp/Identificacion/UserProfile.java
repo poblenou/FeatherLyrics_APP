@@ -6,23 +6,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 
-import tk.sbarjola.pa.featherlyricsapp.Discografia.DiscografiaAdapter;
-import tk.sbarjola.pa.featherlyricsapp.Discografia.Vagalume.Item;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.Artista;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.FirebaseConfig;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.Usuario;
@@ -36,8 +33,6 @@ public class UserProfile extends Fragment {
 
     FirebaseConfig config;                                      // Configuración de firebase
     private Firebase referenciaListaUsuarios;                   // Apunta a la lista de usuarios
-    private String URLSpotify = "";                             // Spotify
-    private String artistSpotify = "";                          // Nombre del artista de la imagen de Spotify
     Usuario userToShow;
     String userUID = "";
     ImageView imageUser;
@@ -46,7 +41,8 @@ public class UserProfile extends Fragment {
     GridView historial;
 
     // Adapter para la lista de artistas
-    private ArrayAdapter arrayAdapter;                           // ArrayList que llenaremos con los artistas
+    private userArtistsAdapter myGridAdapter;
+    List<String> items = new ArrayList<String>();
     Set<String> collectionArtistas = new HashSet<String>();
 
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState){
@@ -62,7 +58,8 @@ public class UserProfile extends Fragment {
 
         referenciaListaUsuarios = config.getReferenciaListaUsuarios();
 
-        arrayAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.user_artists_adapter,R.id.user_artists_artistName);
+        // Seccion del grid y los albumes
+        myGridAdapter = new userArtistsAdapter(container.getContext(), 0, items);  // Definimos nuestro adaptador
 
         // Primero extraemos el del main activity
         userUID = ((MainActivity) getActivity()).getOpenedProfile();
@@ -96,11 +93,17 @@ public class UserProfile extends Fragment {
                                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                                     Artista grupo = userSnapshot.getValue(Artista.class);
                                     collectionArtistas.add(grupo.getArtistas().toString());
+                                    items.add(grupo.getArtistas().toString());
                                 }
 
-                                arrayAdapter.addAll(collectionArtistas);
-                                historial.setAdapter(arrayAdapter);
+                                // Limpiamos los duplicados
+                                Set<String> hs = new LinkedHashSet<>(items);
+                                hs.addAll(items);
+                                items.clear();
+                                items.addAll(hs);
 
+                                // Setteamos el adapter
+                                historial.setAdapter(myGridAdapter);
                                 setGridViewHeightBasedOnChildren(historial, 2);
                             }
 
@@ -145,10 +148,10 @@ public class UserProfile extends Fragment {
         try {
 
             int alturaTotal = 0;
-            int items = arrayAdapter.getCount();
+            int items = myGridAdapter.getCount();
             int filas = 0;
 
-            View listItem = arrayAdapter.getView(0, null, gridView);
+            View listItem = myGridAdapter.getView(0, null, gridView);
             listItem.measure(0, 0);
             alturaTotal = listItem.getMeasuredHeight();
 

@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import tk.sbarjola.pa.featherlyricsapp.Canciones.Canciones;
 import tk.sbarjola.pa.featherlyricsapp.Discografia.Discografia;
+import tk.sbarjola.pa.featherlyricsapp.Home.About;
 import tk.sbarjola.pa.featherlyricsapp.Home.Home;
 import tk.sbarjola.pa.featherlyricsapp.Identificacion.UserProfile;
 import tk.sbarjola.pa.featherlyricsapp.Mapa.OSMap;
@@ -238,7 +239,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent i = new Intent(this, SettingsActivity.class);
             startActivity(i);
         } else if (id == R.id.nav_bio){
-            showAbout();
+            fragment = new About();
+            transaccion = true;
         } else if (id == R.id.nav_salir) {
 
             // Borramos la cuenta
@@ -261,24 +263,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         drawer.closeDrawers();
         return true;
-    }
-
-    protected void showAbout() {
-        // Inflate the about message contents
-        View messageView = getLayoutInflater().inflate(R.layout.about, null, false);
-
-        // When linking text, force to always use default color. This works
-        // around a pressed color state bug.
-        TextView textView = (TextView) messageView.findViewById(R.id.about_credits);
-        int defaultColor = textView.getTextColors().getDefaultColor();
-        textView.setTextColor(defaultColor);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setIcon(R.drawable.feather_icon);
-        builder.setTitle(R.string.app_name);
-        builder.setView(messageView);
-        builder.create();
-        builder.show();
     }
 
     @Override

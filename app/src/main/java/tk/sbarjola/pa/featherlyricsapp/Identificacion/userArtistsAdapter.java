@@ -7,26 +7,46 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.squareup.picasso.Picasso;
+
 import java.util.List;
-import tk.sbarjola.pa.featherlyricsapp.Discografia.Vagalume.Item;
+
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.GsonConverterFactory;
+import retrofit.Response;
+import retrofit.Retrofit;
+import retrofit.http.GET;
+import retrofit.http.Url;
+import tk.sbarjola.pa.featherlyricsapp.Discografia.Spotify.ArtistSpotify;
 import tk.sbarjola.pa.featherlyricsapp.R;
 
 /**
  * Created by 46465442z on 28/04/16.
  */
-public class userArtistsAdapter extends ArrayAdapter<Item> {
+public class userArtistsAdapter extends ArrayAdapter<String> {
 
-    public String BASE_URL =  "http://www.vagalume.com.br/";
+    private String BaseURL = "https://api.spotify.com/v1/";    // Principio de la URL que usará retrofit
+    private servicioImagenArtistaRetrofit servicioImagen;      // Interfaz para descargar la imagen
+    String artista = "";
 
-    public userArtistsAdapter(Context context, int resource, List<Item> objects) {
-        super(context, resource, objects);
+    // Declaramos el retrofit como variable global para poder reutilizarlo si es necesario
+    private Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl(BaseURL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
+
+    public userArtistsAdapter(Context context, int resource, List<String> name) {
+        super(context, resource, name);
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
 
         // Creamos el objeto en la posición correspondiente
-        Item item = getItem(position);
+        String item = getItem(position);
+
+        this.artista = item;
 
         // Comprobamos si la view ya se ha usado antes, si no, la inflamos (es una buena practica y ahorramos recursos)
         if (convertView == null) {
@@ -35,16 +55,57 @@ public class userArtistsAdapter extends ArrayAdapter<Item> {
         }
 
         // Asociamos cada variable a su elemento del layout
-        TextView titular = (TextView) convertView.findViewById(R.id.user_artists_artistName);
-        ImageView imagenArtista = (ImageView) convertView.findViewById(R.id.user_artists_artistImage);
+        TextView nombreArtista = (TextView) convertView.findViewById(R.id.user_artists_artistName);
+        nombreArtista.setText(item);
 
-        // Incorporamos los objetos al layout
-        String urlImagen = BASE_URL + item.getCover();
-        titular.setText(item.getDesc());
-        Picasso.with(getContext()).load(urlImagen).fit().centerCrop().into(imagenArtista);
+        descargaArtista(convertView);
 
         return convertView; //Devolvemos la view ya rellena
     }
 
+    public void descargaArtista(final View convertView){
 
+        String URLSpotify = "https://api.spotify.com/v1/search?q=" + artista + "&type=artist";
+
+        servicioImagen = retrofit.create(servicioImagenArtistaRetrofit.class);
+
+        Call<ArtistSpotify> llamadaSpotify = (Call<ArtistSpotify>) servicioImagen.artistsSpotify(URLSpotify);
+
+        llamadaSpotify.enqueue(new Callback<ArtistSpotify>() {
+            @Override
+            public void onResponse(Response<ArtistSpotify> response, Retrofit retrofit) {
+
+                ArtistSpotify resultado = response.body();
+
+                if (response.isSuccess()) {
+
+                    if(resultado.getArtists().getItems().size() != 0){
+
+                        try{
+                            //Comprobamos si el artista tiene imagen
+
+                            if(resultado.getArtists().getItems().get(0).getImages().size() != 0){
+
+                                // Extraemos la URL de nuestra imagen parsendo el JSON
+                                String URLimagen = resultado.getArtists().getItems().get(0).getImages().get(0).toString();
+                                URLimagen = URLimagen.split(",")[1].split(",")[0].replace("url=", "").trim();
+
+                                ImageView imagenArtista = (ImageView) convertView.findViewById(R.id.user_artists_artistImage);;
+                                Picasso.with(getContext()).load(URLimagen).fit().centerCrop().into(imagenArtista);
+                            }
+                        }
+                        catch (NullPointerException ex){}
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {}
+        });
+    }
+
+    public interface servicioImagenArtistaRetrofit{ // Interficie para descargar la imagen del artista
+        @GET
+        Call<ArtistSpotify> artistsSpotify(@Url String url); // Le pasamos la URL entera ya construida
+    }
 }

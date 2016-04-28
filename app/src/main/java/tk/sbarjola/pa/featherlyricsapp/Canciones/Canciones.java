@@ -247,10 +247,10 @@ public class Canciones extends Fragment{
 
                             // Cogemos el artista que nos interese
                             if(cancionMostrada.equals("reproduccion") && !playingArtist.equals("no artist")){
-                                artista.setArtistas(playingArtist);
+                                artista.setArtistas(playingArtist.replaceAll("^\\s+|\\s+$", ""));
                             }
                             else if (cancionMostrada.equals("busqueda") && !searchedArtist.equals("no artist")){
-                                artista.setArtistas(searchedArtist);
+                                artista.setArtistas(searchedArtist.replaceAll("^\\s+|\\s+$", ""));
                             }
 
                             // If para prevenir subidas erroneas de artista
