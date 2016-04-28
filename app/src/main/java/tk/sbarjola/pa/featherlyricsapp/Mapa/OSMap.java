@@ -176,10 +176,11 @@ public class OSMap extends Fragment {
 
             // Creamos un cluster (es decir, la acumulación de mensajes en un mismo marcador)
             marcadoresMensajes = new RadiusMarkerClusterer(getContext());
+            marcadoresMensajes.getTextPaint().setTextSize(60);
             map.getOverlays().add(marcadoresMensajes);
 
             // Le damos la imagen drawable que queremos que tenga
-            Drawable clusterIconD = getResources().getDrawable(R.drawable.marcador_50x50);
+            Drawable clusterIconD = getResources().getDrawable(R.drawable.marcador_100x100);
             Bitmap clusterIcon = ((BitmapDrawable)clusterIconD).getBitmap();
 
             // Y le definimos nuestra imagen y ajustamos el tamaño

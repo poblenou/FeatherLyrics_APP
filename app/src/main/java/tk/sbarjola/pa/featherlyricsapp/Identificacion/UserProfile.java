@@ -2,6 +2,7 @@ package tk.sbarjola.pa.featherlyricsapp.Identificacion;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,16 +32,21 @@ import tk.sbarjola.pa.featherlyricsapp.R;
  */
 public class UserProfile extends Fragment {
 
+    // Firebase
     FirebaseConfig config;                                      // Configuración de firebase
     private Firebase referenciaListaUsuarios;                   // Apunta a la lista de usuarios
+
+    // Instancia del usuario que mostraremos y su UID
     Usuario userToShow;
     String userUID = "";
+
+    // Vistas en las que mostraremo la información
     ImageView imageUser;
     TextView userName;
     TextView userDescription;
     GridView historial;
 
-    // Adapter para la lista de artistas
+    // Adapter y diferentes contenedores para la lista de artistas
     private userArtistsAdapter myGridAdapter;
     List<String> items = new ArrayList<String>();
     Set<String> collectionArtistas = new HashSet<String>();
@@ -49,14 +55,15 @@ public class UserProfile extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);    //Definimos el fragment
 
+        // Instancia de la configuración
         config = (FirebaseConfig) getActivity().getApplication();
+        referenciaListaUsuarios = config.getReferenciaListaUsuarios();
 
+        // Referencia a las vistas
         imageUser = (ImageView) view.findViewById(R.id.userProfile_userPicture);
         userName = (TextView) view.findViewById(R.id.userProfile_userName);
         userDescription = (TextView) view.findViewById(R.id.userProfile_userInfo);
         historial = (GridView) view.findViewById(R.id.userProfile_listHistory);
-
-        referenciaListaUsuarios = config.getReferenciaListaUsuarios();
 
         // Seccion del grid y los albumes
         myGridAdapter = new userArtistsAdapter(container.getContext(), 0, items);  // Definimos nuestro adaptador
@@ -79,9 +86,12 @@ public class UserProfile extends Fragment {
 
                     if (usuario.getUID().equals(userUID)) {
 
+                        // Cuando encotremos el usuario anyadimos la infromación a la vista
                         userToShow = usuario;
                         userName.setText(usuario.getNombre() + " - (" + usuario.getEdad() + ")");
                         userDescription.setText(usuario.getDescripcion());
+
+                        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(usuario.getNombre() + " - (" + usuario.getEdad() + ")");
 
                         final Firebase referenciaMusicaContacto = new Firebase(config.getReferenciaListaUsuarios().toString() + "/" + usuario.getKey() + "/Artistas");
 
@@ -96,7 +106,7 @@ public class UserProfile extends Fragment {
                                     items.add(grupo.getArtistas().toString());
                                 }
 
-                                // Limpiamos los duplicados
+                                // Limpiamos los duplicados. Gracias al LinkedHashSet mantenemos el orden de los elementos
                                 Set<String> hs = new LinkedHashSet<>(items);
                                 hs.addAll(items);
                                 items.clear();
@@ -115,9 +125,7 @@ public class UserProfile extends Fragment {
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
+            public void onCancelled(FirebaseError firebaseError) {}
         });
 
         historial.setOnItemClickListener(new AdapterView.OnItemClickListener() { //Listener para el list
@@ -159,7 +167,7 @@ public class UserProfile extends Fragment {
 
             if (items > columnas) {
                 x = items / columnas;
-                filas = (int) (x + 1);
+                filas = (int) (x + 2);
                 alturaTotal *= filas;
             }
 

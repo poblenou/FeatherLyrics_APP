@@ -1,14 +1,27 @@
 package tk.sbarjola.pa.featherlyricsapp.Home;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.GridView;
+import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.util.List;
+
+import tk.sbarjola.pa.featherlyricsapp.Discografia.DiscografiaAdapter;
+import tk.sbarjola.pa.featherlyricsapp.Discografia.Vagalume.Disc;
 import tk.sbarjola.pa.featherlyricsapp.MainActivity;
 import tk.sbarjola.pa.featherlyricsapp.R;
 
@@ -22,6 +35,14 @@ public class About extends Fragment {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+    }
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_about, container, false);
+
+
+        return view;
     }
 
     @Override
