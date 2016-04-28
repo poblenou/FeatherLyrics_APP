@@ -5,5 +5,5 @@
         android:id="@+id/userProfile"
         app:showAsAction="ifRoom"
         android:title="User Profile"
-        android:icon="@drawable/ic_person_white_18dp"></item>
+        android:icon="@drawable/ic_person_pin_white_36dp"></item>
 </menu>

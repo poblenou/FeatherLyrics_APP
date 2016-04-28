@@ -76,8 +76,6 @@ public class Home extends Fragment implements LoaderManager.LoaderCallbacks<Curs
         return view;
     }
 
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

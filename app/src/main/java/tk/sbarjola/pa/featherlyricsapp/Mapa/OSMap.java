@@ -179,7 +179,7 @@ public class OSMap extends Fragment {
             map.getOverlays().add(marcadoresMensajes);
 
             // Le damos la imagen drawable que queremos que tenga
-            Drawable clusterIconD = getResources().getDrawable(R.drawable.cluster);
+            Drawable clusterIconD = getResources().getDrawable(R.drawable.marcador_50x50);
             Bitmap clusterIcon = ((BitmapDrawable)clusterIconD).getBitmap();
 
             // Y le definimos nuestra imagen y ajustamos el tamaño
@@ -239,7 +239,7 @@ public class OSMap extends Fragment {
                                     if(!gruposEnComun.equals("") && gruposEnComun != null){
 
                                         // Le damos la imagen drawable que queremos que tenga
-                                        Drawable markerIconD = getResources().getDrawable(R.drawable.marcador_50x50);
+                                        Drawable markerIconD = getResources().getDrawable(R.drawable.ic_person_pin_circle_deep_purple_a400_48dp);
 
                                         // Definimos el marcador y hacemos que nos marque la localización del mensaje
                                         Marker marker = new Marker(map);
