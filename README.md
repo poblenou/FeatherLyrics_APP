@@ -64,8 +64,9 @@ Feather Lyrics tracks the next players:
 <img src="http://i.imgur.com/JDCUmOG.png" width="250">
 <img src="http://i.imgur.com/ObSxjv0.jpg" width="250">
 <img src="http://i.imgur.com/Y4do4gK.png" width="250">
-<img src="http://i.imgur.com/1CDRmde.png" width="250">
+<img src="http://i.imgur.com/tNwq1R8.jpg" width="250">
 <img src="http://i.imgur.com/tnExHHU.jpg" width="250">
+<img src="http://i.imgur.com/1CDRmde.png" width="250">
 <img src="http://i.imgur.com/2GfK3RI.png" width="250">
 <img src="http://i.imgur.com/fkU3dhN.png" width="250">
 <img src="http://i.imgur.com/5qANarU.jpg" width="250">
