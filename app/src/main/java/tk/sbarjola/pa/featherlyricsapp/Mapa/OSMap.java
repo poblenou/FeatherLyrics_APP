@@ -20,11 +20,14 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+
+import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.clustering.RadiusMarkerClusterer;
 import org.osmdroid.bonuspack.overlays.Marker;
 import org.osmdroid.bonuspack.overlays.MarkerInfoWindow;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
@@ -133,6 +136,8 @@ public class OSMap extends Fragment {
 
         // Declaramos el mapa
         map = (MapView) view.findViewById(R.id.map);
+        map.setTilesScaledToDpi(true);
+        map.setTileSource(TileSourceFactory.MAPNIK);
 
         try{
             // Ajustamos el mapa con los controles, los elementos a mostrar y el zoom deseado
