@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.casino.uri.firebaseusers.LoginActivity"
+    tools:context="tk.sbarjola.pa.featherlyricsapp.Identificacion.LoginActivity"
     android:background="@color/principal">
 
     <ScrollView
@@ -28,14 +28,15 @@
             android:background="@color/principal">
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/usernameWrapper"
+                android:id="@+id/passwordWrapper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/passwordWrapper"
-                android:layout_alignLeft="@+id/passwordWrapper"
-                android:layout_alignStart="@+id/passwordWrapper"
-                android:layout_alignRight="@+id/passwordWrapper"
-                android:layout_alignEnd="@+id/passwordWrapper">
+                android:textColorHint="#ffffff"
+                android:layout_below="@+id/usernameWrapper"
+                android:layout_alignLeft="@+id/usernameWrapper"
+                android:layout_alignStart="@+id/usernameWrapper"
+                android:layout_alignRight="@+id/usernameWrapper"
+                android:layout_alignEnd="@+id/usernameWrapper">
 
                 <EditText
                     android:layout_width="fill_parent"
@@ -51,9 +52,10 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/passwordWrapper"
+                android:id="@+id/usernameWrapper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColorHint="#ffffff"
                 android:layout_below="@+id/login_logo"
                 android:layout_alignLeft="@+id/login_logo"
                 android:layout_alignStart="@+id/login_logo"
