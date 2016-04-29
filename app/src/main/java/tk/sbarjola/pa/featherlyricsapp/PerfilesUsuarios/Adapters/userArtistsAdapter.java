@@ -1,4 +1,4 @@
-package tk.sbarjola.pa.featherlyricsapp.Identificacion;
+package tk.sbarjola.pa.featherlyricsapp.PerfilesUsuarios.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -46,7 +46,7 @@ public class userArtistsAdapter extends ArrayAdapter<String> {
         // Creamos el objeto en la posición correspondiente
         String item = getItem(position);
 
-        this.artista = item;
+        this.artista = item.split("-")[0];
 
         // Comprobamos si la view ya se ha usado antes, si no, la inflamos (es una buena practica y ahorramos recursos)
         if (convertView == null) {

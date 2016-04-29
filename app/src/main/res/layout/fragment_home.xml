@@ -13,7 +13,7 @@
         android:layout_width="500dp"
         android:layout_height="500dp"
         android:id="@+id/home_featherIcon"
-        android:src="@drawable/feather_icon"
+        android:src="@drawable/background_icon"
         android:layout_below="@+id/textView2"
         android:layout_alignParentLeft="true"
         android:alpha = "0.2"

@@ -1,4 +1,4 @@
-package tk.sbarjola.pa.featherlyricsapp.Identificacion;
+package tk.sbarjola.pa.featherlyricsapp.PerfilesUsuarios.TabLayoutFragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.TextView;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -25,12 +24,13 @@ import tk.sbarjola.pa.featherlyricsapp.Firebase.Artista;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.FirebaseConfig;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.Usuario;
 import tk.sbarjola.pa.featherlyricsapp.MainActivity;
+import tk.sbarjola.pa.featherlyricsapp.PerfilesUsuarios.Adapters.userArtistsAdapter;
 import tk.sbarjola.pa.featherlyricsapp.R;
 
 /**
  * Created by 46465442z on 27/04/16.
  */
-public class UserProfile extends Fragment {
+public class UserArtists extends Fragment {
 
     // Firebase
     FirebaseConfig config;                                      // Configuración de firebase
@@ -39,34 +39,38 @@ public class UserProfile extends Fragment {
     // Instancia del usuario que mostraremos y su UID
     Usuario userToShow;
     String userUID = "";
-
-    // Vistas en las que mostraremo la información
-    ImageView imageUser;
-    TextView userName;
-    TextView userDescription;
     GridView historial;
 
     // Adapter y diferentes contenedores para la lista de artistas
     private userArtistsAdapter myGridAdapter;
-    List<String> items = new ArrayList<String>();
-    Set<String> collectionArtistas = new HashSet<String>();
+    List<String> listCollectionMusic = new ArrayList<String>();
+    List<String> listCollectionArtist = new ArrayList<>();
+    Set<String> collectionMusic = new HashSet<String>();
 
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState){
 
-        View view = inflater.inflate(R.layout.fragment_user_profile, container, false);    //Definimos el fragment
+        View view = inflater.inflate(R.layout.fragment_user_artists, container, false);    //Definimos el fragment
 
         // Instancia de la configuración
         config = (FirebaseConfig) getActivity().getApplication();
         referenciaListaUsuarios = config.getReferenciaListaUsuarios();
 
-        // Referencia a las vistas
-        imageUser = (ImageView) view.findViewById(R.id.userProfile_userPicture);
-        userName = (TextView) view.findViewById(R.id.userProfile_userName);
-        userDescription = (TextView) view.findViewById(R.id.userProfile_userInfo);
-        historial = (GridView) view.findViewById(R.id.userProfile_listHistory);
+        // Instancia de la configuración
+        config = (FirebaseConfig) getActivity().getApplication();
+        referenciaListaUsuarios = config.getReferenciaListaUsuarios();
+
+        // Primero extraemos el del main activity
+        userUID = ((MainActivity) getActivity()).getOpenedProfile();
+
+        // Si no se ha buscado ninguno, el nuestro por defecto
+        if(userUID.equals("no profile") || userUID.equals("") || userUID == null){
+            userUID = config.getUserUID();
+        }
+
+        historial = (GridView) view.findViewById(R.id.user_artists_grid);
 
         // Seccion del grid y los albumes
-        myGridAdapter = new userArtistsAdapter(container.getContext(), 0, items);  // Definimos nuestro adaptador
+        myGridAdapter = new userArtistsAdapter(container.getContext(), 0, listCollectionArtist);  // Definimos nuestro adaptador
 
         // Primero extraemos el del main activity
         userUID = ((MainActivity) getActivity()).getOpenedProfile();
@@ -90,8 +94,6 @@ public class UserProfile extends Fragment {
                         try {
                             // Cuando encotremos el usuario anyadimos la infromación a la vista
                             userToShow = usuario;
-                            userName.setText(usuario.getNombre() + " - (" + usuario.getEdad() + ")");
-                            userDescription.setText(usuario.getDescripcion());
 
                             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(usuario.getNombre() + " - (" + usuario.getEdad() + ")");
 
@@ -104,15 +106,16 @@ public class UserProfile extends Fragment {
 
                                     for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                                         Artista grupo = userSnapshot.getValue(Artista.class);
-                                        collectionArtistas.add(grupo.getArtistas().toString());
-                                        items.add(grupo.getArtistas().toString());
+                                        collectionMusic.add(grupo.getArtistas().toString());
+                                        listCollectionMusic.add(grupo.getArtistas().toString());
+                                        listCollectionArtist.add(grupo.getArtistas().toString().split("-")[0]);
                                     }
 
                                     // Limpiamos los duplicados. Gracias al LinkedHashSet mantenemos el orden de los elementos
-                                    Set<String> hs = new LinkedHashSet<>(items);
-                                    hs.addAll(items);
-                                    items.clear();
-                                    items.addAll(hs);
+                                    Set<String> hs = new LinkedHashSet<>(listCollectionArtist);
+                                    hs.addAll(listCollectionArtist);
+                                    listCollectionArtist.clear();
+                                    listCollectionArtist.addAll(hs);
 
                                     // Setteamos el adapter
                                     historial.setAdapter(myGridAdapter);

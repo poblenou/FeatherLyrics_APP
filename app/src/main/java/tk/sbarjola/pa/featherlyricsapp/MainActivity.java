@@ -12,19 +12,17 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 
 import tk.sbarjola.pa.featherlyricsapp.Canciones.Canciones;
 import tk.sbarjola.pa.featherlyricsapp.Discografia.Discografia;
 import tk.sbarjola.pa.featherlyricsapp.Home.About;
 import tk.sbarjola.pa.featherlyricsapp.Home.Home;
-import tk.sbarjola.pa.featherlyricsapp.Identificacion.UserProfile;
+import tk.sbarjola.pa.featherlyricsapp.PerfilesUsuarios.BaseFragmentUser;
+import tk.sbarjola.pa.featherlyricsapp.PerfilesUsuarios.TabLayoutFragments.UserProfile;
 import tk.sbarjola.pa.featherlyricsapp.Mapa.OSMap;
 import tk.sbarjola.pa.featherlyricsapp.Noticias.Noticias;
 import tk.sbarjola.pa.featherlyricsapp.MusicReceiver.MusicBroadcastReceiver;
@@ -169,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void abrirPerfil() {
 
         // Función para llamar al fragment de canciones
-        fragment = new UserProfile();
+        fragment = new BaseFragmentUser();
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_frame, fragment)
@@ -240,6 +238,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(i);
         } else if (id == R.id.nav_bio){
             fragment = new About();
+            transaccion = true;
+        } else if (id == R.id.nav_prueba){
+            fragment = new BaseFragmentUser();
             transaccion = true;
         } else if (id == R.id.nav_salir) {
 

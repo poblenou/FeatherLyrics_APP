@@ -245,12 +245,8 @@ public class Canciones extends Fragment{
                             config = (FirebaseConfig) getActivity().getApplication();
                             Artista artista = new Artista();
 
-                            // Cogemos el artista que nos interese
-                            if(cancionMostrada.equals("reproduccion") && !playingArtist.equals("no artist")){
-                                artista.setArtistas(artist.replaceAll("^\\s+|\\s+$", ""));
-                            }
-                            else if (cancionMostrada.equals("busqueda") && !searchedArtist.equals("no artist")){
-                                artista.setArtistas(artist.replaceAll("^\\s+|\\s+$", ""));
+                            if(artista != null && artist != null) {
+                                artista.setArtistas(artist.replaceAll("^\\s+|\\s+$", "") + "-" + track.replaceAll("^\\s+|\\s+$", ""));
                             }
 
                             // If para prevenir subidas erroneas de artista

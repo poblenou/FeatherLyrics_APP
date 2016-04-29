@@ -113,7 +113,7 @@ public class OSMap extends Fragment {
 
                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                     Artista grupo = userSnapshot.getValue(Artista.class);
-                    grupos.add(grupo.getArtistas().toString());
+                    grupos.add(grupo.getArtistas().toString().split("-")[0]);
                 }
 
                 //Al utilizar un HashSet se eliminan todos los duplicados y luego lo convertimos de nuevo a arrayList
