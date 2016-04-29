@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import tk.sbarjola.pa.featherlyricsapp.MainActivity;
 import tk.sbarjola.pa.featherlyricsapp.PerfilesUsuarios.TabLayoutFragments.UserArtists;
 import tk.sbarjola.pa.featherlyricsapp.PerfilesUsuarios.TabLayoutFragments.UserProfile;
+import tk.sbarjola.pa.featherlyricsapp.PerfilesUsuarios.TabLayoutFragments.UserSongs;
 import tk.sbarjola.pa.featherlyricsapp.R;
 
 /**
@@ -85,6 +86,7 @@ public class BaseFragmentUser extends Fragment {
         viewPager.setCurrentItem(adapter.getCount() - 1);
         setupTabLayout();
     }
+
     public void addArtist(String pagename) {
         Bundle bundle = new Bundle();
         bundle.putString("data", pagename);
@@ -98,10 +100,11 @@ public class BaseFragmentUser extends Fragment {
         viewPager.setCurrentItem(adapter.getCount() - 1);
         setupTabLayout();
     }
+
     public void addSongs(String pagename) {
         Bundle bundle = new Bundle();
         bundle.putString("data", pagename);
-        FragmentChild fragmentChild = new FragmentChild();
+        UserSongs fragmentChild = new UserSongs();
         fragmentChild.setArguments(bundle);
         adapter.addFrag(fragmentChild, pagename);
         adapter.notifyDataSetChanged();

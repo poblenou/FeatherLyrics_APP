@@ -7,11 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.squareup.picasso.Picasso;
-
 import java.util.List;
-
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.GsonConverterFactory;
@@ -29,7 +26,6 @@ public class userSongsAdapter extends ArrayAdapter<String> {
 
     private String BaseURL = "https://api.spotify.com/v1/";    // Principio de la URL que usará retrofit
     private servicioImagenArtistaRetrofit servicioImagen;      // Interfaz para descargar la imagen
-    String artista = "";
 
     // Declaramos el retrofit como variable global para poder reutilizarlo si es necesario
     private Retrofit retrofit = new Retrofit.Builder()
@@ -46,26 +42,37 @@ public class userSongsAdapter extends ArrayAdapter<String> {
         // Creamos el objeto en la posición correspondiente
         String item = getItem(position);
 
-        this.artista = item.split("-")[0];
-
         // Comprobamos si la view ya se ha usado antes, si no, la inflamos (es una buena practica y ahorramos recursos)
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.user_artists_adapter, parent, false);
+            convertView = inflater.inflate(R.layout.user_songs_adapter, parent, false);
         }
 
         // Asociamos cada variable a su elemento del layout
-        TextView nombreArtista = (TextView) convertView.findViewById(R.id.user_artists_artistName);
-        nombreArtista.setText(item);
+        TextView nombreCancion = (TextView) convertView.findViewById(R.id.user_songs_songName);
+        TextView nombreGrupo = (TextView) convertView.findViewById(R.id.user_songs_band);
 
-        descargaArtista(convertView);
+        if(item.contains("-")){
+            nombreGrupo.setText(item.split("-")[0]);
+            nombreCancion.setText(item.split("-")[1]);
+
+        }
+        else{
+            nombreGrupo.setText(item);
+            nombreCancion.setText("Canción desconocida");
+        }
+
+
+
+
+        // descargaArtista(convertView);
 
         return convertView; //Devolvemos la view ya rellena
     }
 
     public void descargaArtista(final View convertView){
 
-        String URLSpotify = "https://api.spotify.com/v1/search?q=" + artista + "&type=artist";
+        /*String URLSpotify = "https://api.spotify.com/v1/search?q=" + artista + "&type=artist";
 
         servicioImagen = retrofit.create(servicioImagenArtistaRetrofit.class);
 
@@ -101,7 +108,7 @@ public class userSongsAdapter extends ArrayAdapter<String> {
 
             @Override
             public void onFailure(Throwable t) {}
-        });
+        });*/
     }
 
     public interface servicioImagenArtistaRetrofit{ // Interficie para descargar la imagen del artista

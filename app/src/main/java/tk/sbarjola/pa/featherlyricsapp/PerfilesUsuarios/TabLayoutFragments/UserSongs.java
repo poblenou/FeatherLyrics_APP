@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.TextView;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -24,6 +25,7 @@ import tk.sbarjola.pa.featherlyricsapp.Firebase.FirebaseConfig;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.Usuario;
 import tk.sbarjola.pa.featherlyricsapp.MainActivity;
 import tk.sbarjola.pa.featherlyricsapp.PerfilesUsuarios.Adapters.userArtistsAdapter;
+import tk.sbarjola.pa.featherlyricsapp.PerfilesUsuarios.Adapters.userSongsAdapter;
 import tk.sbarjola.pa.featherlyricsapp.R;
 
 /**
@@ -38,10 +40,10 @@ public class UserSongs extends Fragment {
     // Instancia del usuario que mostraremos y su UID
     Usuario userToShow;
     String userUID = "";
-    GridView historial;
+    ListView songList;
 
     // Adapter y diferentes contenedores para la lista de artistas
-    private userArtistsAdapter myGridAdapter;
+    private userSongsAdapter myListAdapter;
     List<String> listCollectionMusic = new ArrayList<String>();
 
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState){
@@ -64,10 +66,10 @@ public class UserSongs extends Fragment {
             userUID = config.getUserUID();
         }
 
-        historial = (GridView) view.findViewById(R.id.user_artists_grid);
+        songList = (ListView) view.findViewById(R.id.user_songs_list);
 
         // Seccion del grid y los albumes
-        myGridAdapter = new userArtistsAdapter(container.getContext(), 0, listCollectionMusic);  // Definimos nuestro adaptador
+        myListAdapter = new userSongsAdapter(container.getContext(), 0, listCollectionMusic);  // Definimos nuestro adaptador
 
         // Primero extraemos el del main activity
         userUID = ((MainActivity) getActivity()).getOpenedProfile();
@@ -113,8 +115,8 @@ public class UserSongs extends Fragment {
                                     listCollectionMusic.addAll(hs);
 
                                     // Setteamos el adapter
-                                    historial.setAdapter(myGridAdapter);
-                                    setGridViewHeightBasedOnChildren(historial, 2);
+                                    songList.setAdapter(myListAdapter);
+                                    setListViewHeightBasedOnChildren(songList);
                                 }
 
                                 @Override
@@ -130,53 +132,53 @@ public class UserSongs extends Fragment {
             public void onCancelled(FirebaseError firebaseError) {}
         });
 
-        historial.setOnItemClickListener(new AdapterView.OnItemClickListener() { //Listener para el list
+        songList.setOnItemClickListener(new AdapterView.OnItemClickListener() { //Listener para el list
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 // Extraemos el artista del listView
-                TextView textViewAuxiliar = (TextView) view.findViewById(R.id.user_artists_artistName);
+                TextView textViewAuxiliar = (TextView) view.findViewById(R.id.music_list_adapter_songName);
                 String text = textViewAuxiliar.getText().toString();
 
                 // Cortamos el nombre de la pista y el artista
                 String artist = text.split("-")[0];
+                String track = text.split("-")[1];
 
                 // Y lo mandamos al fragment de canciones
-                ((MainActivity) getActivity()).setDiscographyStart(artist);
-                ((MainActivity) getActivity()).abrirArtistas();
-
+                ((MainActivity) getActivity()).setSearchedArtist(artist);
+                ((MainActivity) getActivity()).setSearchedTrack(track);
+                ((MainActivity) getActivity()).abrirCanciones();
             }
         });
 
         return view;
     }
 
-    public void setGridViewHeightBasedOnChildren(GridView gridView, int columnas) {
+    public void setListViewHeightBasedOnChildren(ListView listView) {
 
         // Calculamos caunto hay que desplegar el GridView para poder mostrarlo todo dentro del ScrollView
 
-        try {
+        try{
 
             int alturaTotal = 0;
-            int items = myGridAdapter.getCount();
+            int items = myListAdapter.getCount();
             int filas = 0;
 
-            View listItem = myGridAdapter.getView(0, null, gridView);
+            View listItem = myListAdapter.getView(0, null, listView);
             listItem.measure(0, 0);
             alturaTotal = listItem.getMeasuredHeight();
 
             float x = 1;
 
-            if (items > columnas) {
-                x = items / columnas;
-                filas = (int) (x + 2);
-                alturaTotal *= filas;
-            }
+            x = items;
+            filas = (int) (x + 1);
+            alturaTotal *= filas;
 
-            ViewGroup.LayoutParams params = gridView.getLayoutParams();
+            ViewGroup.LayoutParams params = listView.getLayoutParams();
             params.height = alturaTotal;
-            gridView.setLayoutParams(params);
+            listView.setLayoutParams(params);
 
-        } catch (IndexOutOfBoundsException e){}
+        }
+        catch (IndexOutOfBoundsException e){}
     }
 }
