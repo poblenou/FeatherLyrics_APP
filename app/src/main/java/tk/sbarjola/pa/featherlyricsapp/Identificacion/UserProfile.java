@@ -82,44 +82,48 @@ public class UserProfile extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+
                     Usuario usuario = userSnapshot.getValue(Usuario.class);
 
                     if (usuario.getUID().equals(userUID)) {
 
-                        // Cuando encotremos el usuario anyadimos la infromación a la vista
-                        userToShow = usuario;
-                        userName.setText(usuario.getNombre() + " - (" + usuario.getEdad() + ")");
-                        userDescription.setText(usuario.getDescripcion());
+                        try {
+                            // Cuando encotremos el usuario anyadimos la infromación a la vista
+                            userToShow = usuario;
+                            userName.setText(usuario.getNombre() + " - (" + usuario.getEdad() + ")");
+                            userDescription.setText(usuario.getDescripcion());
 
-                        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(usuario.getNombre() + " - (" + usuario.getEdad() + ")");
+                            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(usuario.getNombre() + " - (" + usuario.getEdad() + ")");
 
-                        final Firebase referenciaMusicaContacto = new Firebase(config.getReferenciaListaUsuarios().toString() + "/" + usuario.getKey() + "/Artistas");
+                            final Firebase referenciaMusicaContacto = new Firebase(config.getReferenciaListaUsuarios().toString() + "/" + usuario.getKey() + "/Artistas");
 
-                        // Descargamos la lista de usuarios
-                        referenciaMusicaContacto.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
+                            // Descargamos la lista de usuarios
+                            referenciaMusicaContacto.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                                    Artista grupo = userSnapshot.getValue(Artista.class);
-                                    collectionArtistas.add(grupo.getArtistas().toString());
-                                    items.add(grupo.getArtistas().toString());
+                                    for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                                        Artista grupo = userSnapshot.getValue(Artista.class);
+                                        collectionArtistas.add(grupo.getArtistas().toString());
+                                        items.add(grupo.getArtistas().toString());
+                                    }
+
+                                    // Limpiamos los duplicados. Gracias al LinkedHashSet mantenemos el orden de los elementos
+                                    Set<String> hs = new LinkedHashSet<>(items);
+                                    hs.addAll(items);
+                                    items.clear();
+                                    items.addAll(hs);
+
+                                    // Setteamos el adapter
+                                    historial.setAdapter(myGridAdapter);
+                                    setGridViewHeightBasedOnChildren(historial, 2);
                                 }
 
-                                // Limpiamos los duplicados. Gracias al LinkedHashSet mantenemos el orden de los elementos
-                                Set<String> hs = new LinkedHashSet<>(items);
-                                hs.addAll(items);
-                                items.clear();
-                                items.addAll(hs);
-
-                                // Setteamos el adapter
-                                historial.setAdapter(myGridAdapter);
-                                setGridViewHeightBasedOnChildren(historial, 2);
-                            }
-
-                            @Override
-                            public void onCancelled(FirebaseError firebaseError) {}
-                        });
+                                @Override
+                                public void onCancelled(FirebaseError firebaseError) {
+                                }
+                            });
+                        } catch (NullPointerException e){}
                     }
                 }
             }
