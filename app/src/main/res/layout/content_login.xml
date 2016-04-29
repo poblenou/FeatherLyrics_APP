@@ -27,37 +27,51 @@
             android:layout_marginRight="10dp"
             android:background="@color/principal">
 
-            <EditText
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/usernameWrapper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/login_TextPassword"
-                android:hint="Password"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:layout_below="@+id/login_TextEmail"
-                android:layout_alignLeft="@+id/login_TextEmail"
-                android:layout_alignStart="@+id/login_TextEmail"
-                android:layout_alignRight="@+id/login_TextEmail"
-                android:layout_alignEnd="@+id/login_TextEmail"
-                android:textColor="#ffffff"
-                android:textColorHighlight="#ffffff"
-                android:textColorHint="#ffffff" />
+                android:layout_below="@+id/passwordWrapper"
+                android:layout_alignLeft="@+id/passwordWrapper"
+                android:layout_alignStart="@+id/passwordWrapper"
+                android:layout_alignRight="@+id/passwordWrapper"
+                android:layout_alignEnd="@+id/passwordWrapper">
 
-            <EditText
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/login_TextPassword"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:textColor="#ffffff"
+                    android:textColorHighlight="#ffffff"
+                    android:textColorHint="#ffffff" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/passwordWrapper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/login_TextEmail"
-                android:hint="Email"
-                android:maxLines="1"
-                android:layout_marginTop="49dp"
-                android:textColor="#ffffff"
-                android:textColorHighlight="#ffffff"
-                android:textColorHint="#ffffff"
                 android:layout_below="@+id/login_logo"
                 android:layout_alignLeft="@+id/login_logo"
                 android:layout_alignStart="@+id/login_logo"
                 android:layout_alignRight="@+id/login_logo"
-                android:layout_alignEnd="@+id/login_logo" />
+                android:layout_alignEnd="@+id/login_logo"
+                android:layout_marginTop="49dp">
+
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/login_TextEmail"
+                    android:hint="Email"
+                    android:maxLines="1"
+                    android:textColor="#ffffff"
+                    android:textColorHighlight="#ffffff"
+                    android:textColorHint="#ffffff" />
+
+            </android.support.design.widget.TextInputLayout>
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -87,12 +101,12 @@
                 android:gravity="center"
                 android:visibility="invisible"
                 android:textColor="#ffffff"
-                android:layout_below="@+id/login_TextPassword"
-                android:layout_alignLeft="@+id/login_TextPassword"
-                android:layout_alignStart="@+id/login_TextPassword"
+                android:layout_below="@+id/passwordWrapper"
+                android:layout_alignLeft="@+id/passwordWrapper"
+                android:layout_alignStart="@+id/passwordWrapper"
                 android:layout_marginTop="27dp"
-                android:layout_alignRight="@+id/login_TextPassword"
-                android:layout_alignEnd="@+id/login_TextPassword"
+                android:layout_alignRight="@+id/passwordWrapper"
+                android:layout_alignEnd="@+id/passwordWrapper"
                 android:textSize="14dp" />
 
             <Switch
