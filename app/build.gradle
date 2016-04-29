@@ -48,4 +48,5 @@ dependencies {
     compile 'com.squareup.picasso:picasso:+'
     compile 'com.github.moondroid.coverflow:library:+'
     compile 'com.googlecode.json-simple:json-simple:1.1'
+    compile 'com.makeramen:roundedimageview:2.2.1'
 }

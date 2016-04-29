@@ -1,13 +1,18 @@
 package tk.sbarjola.pa.featherlyricsapp.PerfilesUsuarios.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
+
 import java.util.List;
 import retrofit.Call;
 import retrofit.Callback;
@@ -26,6 +31,7 @@ public class userSongsAdapter extends ArrayAdapter<String> {
 
     private String BaseURL = "https://api.spotify.com/v1/";    // Principio de la URL que usará retrofit
     private servicioImagenArtistaRetrofit servicioImagen;      // Interfaz para descargar la imagen
+    String artista = "";
 
     // Declaramos el retrofit como variable global para poder reutilizarlo si es necesario
     private Retrofit retrofit = new Retrofit.Builder()
@@ -41,6 +47,7 @@ public class userSongsAdapter extends ArrayAdapter<String> {
 
         // Creamos el objeto en la posición correspondiente
         String item = getItem(position);
+        this.artista = item.split("-")[0];
 
         // Comprobamos si la view ya se ha usado antes, si no, la inflamos (es una buena practica y ahorramos recursos)
         if (convertView == null) {
@@ -62,17 +69,14 @@ public class userSongsAdapter extends ArrayAdapter<String> {
             nombreCancion.setText("Canción desconocida");
         }
 
-
-
-
-        // descargaArtista(convertView);
+        descargaArtista(convertView);
 
         return convertView; //Devolvemos la view ya rellena
     }
 
     public void descargaArtista(final View convertView){
 
-        /*String URLSpotify = "https://api.spotify.com/v1/search?q=" + artista + "&type=artist";
+        String URLSpotify = "https://api.spotify.com/v1/search?q=" + artista + "&type=artist";
 
         servicioImagen = retrofit.create(servicioImagenArtistaRetrofit.class);
 
@@ -97,8 +101,14 @@ public class userSongsAdapter extends ArrayAdapter<String> {
                                 String URLimagen = resultado.getArtists().getItems().get(0).getImages().get(0).toString();
                                 URLimagen = URLimagen.split(",")[1].split(",")[0].replace("url=", "").trim();
 
-                                ImageView imagenArtista = (ImageView) convertView.findViewById(R.id.user_artists_artistImage);;
-                                Picasso.with(getContext()).load(URLimagen).fit().centerCrop().into(imagenArtista);
+                                ImageView imagenArtista = (ImageView) convertView.findViewById(R.id.user_artists_artistImage);
+
+                                Transformation transformation = new RoundedTransformationBuilder()
+                                        .cornerRadiusDp(360)
+                                        .oval(false)
+                                        .build();
+
+                                Picasso.with(getContext()).load(URLimagen).fit().centerCrop().transform(transformation).into(imagenArtista);
                             }
                         }
                         catch (NullPointerException ex){}
@@ -108,7 +118,7 @@ public class userSongsAdapter extends ArrayAdapter<String> {
 
             @Override
             public void onFailure(Throwable t) {}
-        });*/
+        });
     }
 
     public interface servicioImagenArtistaRetrofit{ // Interficie para descargar la imagen del artista

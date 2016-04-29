@@ -58,8 +58,8 @@
                 android:layout_alignStart="@+id/user_songs_songName" />
 
             <ImageView
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="105dp"
+                android:layout_height="105dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="5dp"

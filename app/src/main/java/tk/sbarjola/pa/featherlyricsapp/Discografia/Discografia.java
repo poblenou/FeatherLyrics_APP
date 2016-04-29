@@ -304,8 +304,11 @@ public class Discografia extends Fragment {
                         catch (NullPointerException ex){}
                     }
 
-                    TextView infoArtista = (TextView) getView().findViewById(R.id.discografia_artistInfo);
-                    infoArtista.setText(datosArtista);  // Asignamos los datos del artista
+                    try{
+                        TextView infoArtista = (TextView) getView().findViewById(R.id.discografia_artistInfo);
+                        infoArtista.setText(datosArtista);  // Asignamos los datos del artista
+                    }
+                    catch (NullPointerException e){}
 
                 } else {
                     Toast.makeText(getContext(), "Imagen de artista no disponible", Toast.LENGTH_SHORT).show(); // Mostramos un toast
