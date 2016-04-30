@@ -10,6 +10,8 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -147,8 +149,8 @@ public class UserSongs extends Fragment {
                 TextView textGrupo = (TextView) view.findViewById(R.id.user_songs_band);
 
                 // Y lo mandamos al fragment de canciones
-                ((MainActivity) getActivity()).setSearchedArtist(textGrupo.toString());
-                ((MainActivity) getActivity()).setSearchedTrack(textSong.toString());
+                ((MainActivity) getActivity()).setSearchedArtist(textGrupo.getText().toString());
+                ((MainActivity) getActivity()).setSearchedTrack(textSong.getText().toString());
                 ((MainActivity) getActivity()).abrirCanciones();
             }
         });
