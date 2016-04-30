@@ -67,10 +67,13 @@ public class UserArtists extends Fragment {
             userUID = config.getUserUID();
         }
 
-        historial = (GridView) view.findViewById(R.id.user_artists_grid);
+        try{
+            historial = (GridView) view.findViewById(R.id.user_artists_grid);
 
-        // Seccion del grid y los albumes
-        myGridAdapter = new userArtistsAdapter(container.getContext(), 0, listCollectionArtist);  // Definimos nuestro adaptador
+            // Seccion del grid y los albumes
+            myGridAdapter = new userArtistsAdapter(container.getContext(), 0, listCollectionArtist);  // Definimos nuestro adaptador
+
+        }catch(RuntimeException e){}
 
         // Primero extraemos el del main activity
         userUID = ((MainActivity) getActivity()).getOpenedProfile();
@@ -119,7 +122,11 @@ public class UserArtists extends Fragment {
 
                                     // Setteamos el adapter
                                     historial.setAdapter(myGridAdapter);
-                                    setGridViewHeightBasedOnChildren(historial, 2);
+
+                                    try{
+                                        setGridViewHeightBasedOnChildren(historial, 2);
+                                    }
+                                    catch (NullPointerException e){}
                                 }
 
                                 @Override

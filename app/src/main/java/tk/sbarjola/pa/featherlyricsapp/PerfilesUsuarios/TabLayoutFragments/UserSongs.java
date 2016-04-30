@@ -66,10 +66,12 @@ public class UserSongs extends Fragment {
             userUID = config.getUserUID();
         }
 
-        songList = (ListView) view.findViewById(R.id.user_songs_list);
+        try{
+            songList = (ListView) view.findViewById(R.id.user_songs_list);
 
-        // Seccion del grid y los albumes
-        myListAdapter = new userSongsAdapter(container.getContext(), 0, listCollectionMusic);  // Definimos nuestro adaptador
+            // Seccion del grid y los albumes
+            myListAdapter = new userSongsAdapter(container.getContext(), 0, listCollectionMusic);  // Definimos nuestro adaptador
+        }catch(RuntimeException e){}
 
         // Primero extraemos el del main activity
         userUID = ((MainActivity) getActivity()).getOpenedProfile();
@@ -116,7 +118,11 @@ public class UserSongs extends Fragment {
 
                                     // Setteamos el adapter
                                     songList.setAdapter(myListAdapter);
-                                    setListViewHeightBasedOnChildren(songList);
+
+                                    try {
+                                        setListViewHeightBasedOnChildren(songList);
+                                    }
+                                    catch (NullPointerException e){}
                                 }
 
                                 @Override
@@ -137,16 +143,12 @@ public class UserSongs extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 // Extraemos el artista del listView
-                TextView textViewAuxiliar = (TextView) view.findViewById(R.id.music_list_adapter_songName);
-                String text = textViewAuxiliar.getText().toString();
-
-                // Cortamos el nombre de la pista y el artista
-                String artist = text.split("-")[0];
-                String track = text.split("-")[1];
+                TextView textSong = (TextView) view.findViewById(R.id.user_songs_songName);
+                TextView textGrupo = (TextView) view.findViewById(R.id.user_songs_band);
 
                 // Y lo mandamos al fragment de canciones
-                ((MainActivity) getActivity()).setSearchedArtist(artist);
-                ((MainActivity) getActivity()).setSearchedTrack(track);
+                ((MainActivity) getActivity()).setSearchedArtist(textGrupo.toString());
+                ((MainActivity) getActivity()).setSearchedTrack(textSong.toString());
                 ((MainActivity) getActivity()).abrirCanciones();
             }
         });

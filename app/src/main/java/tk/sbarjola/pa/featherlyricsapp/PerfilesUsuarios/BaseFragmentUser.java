@@ -28,8 +28,9 @@ public class BaseFragmentUser extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ((MainActivity) getActivity()).getSupportActionBar().setElevation(0);
-
+        try{
+            ((MainActivity) getActivity()).getSupportActionBar().setElevation(0);
+        }catch(RuntimeException e){}
     }
 
     @Nullable

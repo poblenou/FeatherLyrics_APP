@@ -235,7 +235,7 @@ public class OSMap extends Fragment {
 
                                         // Evitamos los repetidos y añadimos grupos en comun
                                         if((grupos.get(iterador).contains(grupoContacto.get(iterador2)) || grupoContacto.get(iterador2).contains(grupos.get(iterador))) && !gruposEnComun.trim().contains(grupos.get(iterador).trim())){
-                                            gruposEnComun = gruposEnComun + "," + grupos.get(iterador);
+                                            gruposEnComun = gruposEnComun + ", " + grupos.get(iterador);
                                         }
                                     }
                                 }
