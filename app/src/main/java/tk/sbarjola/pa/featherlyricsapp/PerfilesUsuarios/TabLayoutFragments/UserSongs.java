@@ -109,7 +109,7 @@ public class UserSongs extends Fragment {
 
                                     for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                                         Artista grupo = userSnapshot.getValue(Artista.class);
-                                        listCollectionMusic.add(grupo.getArtistas().toString());
+                                        listCollectionMusic.add(0, grupo.getArtistas().toString());
                                     }
 
                                     // Limpiamos los duplicados. Gracias al LinkedHashSet mantenemos el orden de los elementos
