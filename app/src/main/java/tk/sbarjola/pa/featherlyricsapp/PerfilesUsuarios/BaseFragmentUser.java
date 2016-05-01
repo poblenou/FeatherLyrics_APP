@@ -24,15 +24,6 @@ public class BaseFragmentUser extends Fragment {
     private ViewPager viewPager;
     private ViewPagerAdapter adapter;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        try{
-            ((MainActivity) getActivity()).getSupportActionBar().setElevation(0);
-        }catch(RuntimeException e){}
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
