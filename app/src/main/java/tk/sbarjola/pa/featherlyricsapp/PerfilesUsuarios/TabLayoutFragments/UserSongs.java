@@ -73,7 +73,8 @@ public class UserSongs extends Fragment {
 
             // Seccion del grid y los albumes
             myListAdapter = new userSongsAdapter(container.getContext(), 0, listCollectionMusic);  // Definimos nuestro adaptador
-        }catch(RuntimeException e){}
+        }
+        catch(RuntimeException e){}
 
         // Primero extraemos el del main activity
         userUID = ((MainActivity) getActivity()).getOpenedProfile();
@@ -115,8 +116,8 @@ public class UserSongs extends Fragment {
                                     // Limpiamos los duplicados. Gracias al LinkedHashSet mantenemos el orden de los elementos
                                     Set<String> hs = new LinkedHashSet<>(listCollectionMusic);
                                     hs.addAll(listCollectionMusic);
-                                    listCollectionMusic.clear();
-                                    listCollectionMusic.addAll(hs);
+                                    myListAdapter.clear();
+                                    myListAdapter.addAll(hs);
 
                                     // Setteamos el adapter
                                     songList.setAdapter(myListAdapter);

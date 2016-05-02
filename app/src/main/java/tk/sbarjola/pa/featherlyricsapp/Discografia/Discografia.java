@@ -225,7 +225,11 @@ public class Discografia extends Fragment {
                     Discography discografia = resultado.getDiscography();
 
                     artist = resultado.getDiscography().getArtist().getDesc();
-                    ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(artist);
+
+                    try{
+                        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(artist);
+                    }
+                    catch(NullPointerException e){}
 
                     TextView artista = (TextView) getView().findViewById(R.id.discografia_artistName);
                     artista.setText(artist);

@@ -6,9 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -24,13 +21,6 @@ public class Home extends Fragment implements LoaderManager.LoaderCallbacks<Curs
 
     MusicListAdapter myListAdapter;     // Adaptador para el listView
     ListView listView;                  // ListView
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setHasOptionsMenu(true);
-    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup contenedor, Bundle savedInstanceState) {
 
@@ -76,23 +66,6 @@ public class Home extends Fragment implements LoaderManager.LoaderCallbacks<Curs
         return view;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.userProfile) {
-
-            ((MainActivity) getActivity()).abrirPersonalProfile();
-
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void showMovies(){
         Cursor cursor = getContext().getContentResolver().query(
@@ -103,13 +76,6 @@ public class Home extends Fragment implements LoaderManager.LoaderCallbacks<Curs
                 "_id DESC"
         );
         myListAdapter.swapCursor(cursor);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){ //Afegim una opcio "Refresh" al menu del fragment
-        super.onCreateOptionsMenu(menu, inflater);
-
-        inflater.inflate(R.menu.home, menu);
     }
 
     @Override

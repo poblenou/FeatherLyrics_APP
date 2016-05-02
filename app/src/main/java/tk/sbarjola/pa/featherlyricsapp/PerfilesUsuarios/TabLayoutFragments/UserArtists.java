@@ -117,8 +117,8 @@ public class UserArtists extends Fragment {
                                     // Limpiamos los duplicados. Gracias al LinkedHashSet mantenemos el orden de los elementos
                                     Set<String> hs = new LinkedHashSet<>(listCollectionArtist);
                                     hs.addAll(listCollectionArtist);
-                                    listCollectionArtist.clear();
-                                    listCollectionArtist.addAll(hs);
+                                    myGridAdapter.clear();
+                                    myGridAdapter.addAll(hs);
 
                                     // Setteamos el adapter
                                     historial.setAdapter(myGridAdapter);
@@ -126,14 +126,17 @@ public class UserArtists extends Fragment {
                                     try{
                                         setGridViewHeightBasedOnChildren(historial, 2);
                                     }
-                                    catch (NullPointerException e){}
+                                    catch (NullPointerException e){
+                                        e.printStackTrace();
+                                    }
                                 }
 
                                 @Override
-                                public void onCancelled(FirebaseError firebaseError) {
-                                }
+                                public void onCancelled(FirebaseError firebaseError) {}
                             });
-                        } catch (NullPointerException e){}
+                        } catch (NullPointerException e){
+                            e.printStackTrace();
+                        }
                     }
                 }
             }

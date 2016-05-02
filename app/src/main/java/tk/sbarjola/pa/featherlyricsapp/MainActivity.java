@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
 
         this.getSupportActionBar().setElevation(0);
+        getSupportActionBar().setTitle("Feather Lyrics");
 
         // Ajustamos el drawer de nuestro activity
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -75,7 +76,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Hacemos que autmaticamente arranque en el fragmento "Home"
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.content_frame, new Home(), "home")
+                .addToBackStack(null)
+                .replace(R.id.content_frame, new BaseFragmentUser(), "local")
                 .commit();
 
         navigationView.getMenu().getItem(0).setChecked(true);   // Marcamos el menu del navigation Drawer
@@ -144,6 +146,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content_frame, fragment, tag)
+                .addToBackStack(null)
                 .commit();
 
         navigationView.getMenu().getItem(1).setChecked(true);   // Marcamos el menu del navigation Drawer
@@ -158,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragment = new Discografia();
 
         getSupportFragmentManager().beginTransaction()
+                .addToBackStack(null)
                 .replace(R.id.content_frame, fragment)
                 .commit();
 
@@ -172,6 +176,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragment = new BaseFragmentUser();
 
         getSupportFragmentManager().beginTransaction()
+                .addToBackStack(null)
                 .replace(R.id.content_frame, fragment)
                 .commit();
 
@@ -185,12 +190,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragment = new Discografia();
 
         getSupportFragmentManager().beginTransaction()
+                .addToBackStack(null)
                 .replace(R.id.content_frame, fragment)
                 .commit();
 
         navigationView.getMenu().getItem(2).setChecked(true);   // Marcamos el menu del navigation Drawer
 
     }
+
+    public void abrirReproduccionesLocales(){
+
+        // Función para llamar al fragment de canciones
+        fragment = new Home();
+
+        getSupportFragmentManager().beginTransaction()
+                .addToBackStack(null)
+                .replace(R.id.content_frame, fragment)
+                .commit();
+
+    }
+
 
     public void abrirPersonalProfile() {
 
@@ -201,6 +220,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragment = new UserProfile();
 
         getSupportFragmentManager().beginTransaction()
+                .addToBackStack(null)
                 .replace(R.id.content_frame, fragment)
                 .commit();
 
@@ -220,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Asignamos las acciones a cada menuItem del drawer
         if (id == R.id.nav_home) {
-            fragment = new Home();
+            fragment = new BaseFragmentUser();
             transaccion = true;
         }else if (id == R.id.nav_canciones) {
             fragment = new Canciones();
@@ -241,9 +261,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_bio){
             fragment = new About();
             transaccion = true;
-        } else if (id == R.id.nav_prueba){
-            fragment = new BaseFragmentUser();
-            transaccion = true;
         } else if (id == R.id.nav_salir) {
 
             // Borramos la cuenta
@@ -257,6 +274,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Si el boleano es true llamamos al nuevo fragment
         if(transaccion){
             getSupportFragmentManager().beginTransaction()
+                    .addToBackStack(null)
                     .replace(R.id.content_frame, fragment, tag)
                     .commit();
 
