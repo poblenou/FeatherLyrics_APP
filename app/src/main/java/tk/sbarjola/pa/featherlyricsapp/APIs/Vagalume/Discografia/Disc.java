@@ -1,4 +1,4 @@
-package tk.sbarjola.pa.featherlyricsapp.Discografia.Vagalume;
+package tk.sbarjola.pa.featherlyricsapp.APIs.Vagalume.Discografia;
 
 /**
  * Created by sergi on 22/12/15.

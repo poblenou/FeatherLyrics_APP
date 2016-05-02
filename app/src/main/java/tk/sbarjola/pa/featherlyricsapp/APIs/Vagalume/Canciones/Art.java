@@ -1,20 +1,19 @@
-package tk.sbarjola.pa.featherlyricsapp.Discografia.Vagalume;
+package tk.sbarjola.pa.featherlyricsapp.APIs.Vagalume.Canciones;
 
 /**
- * Created by sergi on 22/12/15.
+ * Created by 46465442z on 21/12/15.
  */
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Artist {
+public class Art {
 
     @SerializedName("id")
     @Expose
     private String id;
-    @SerializedName("desc")
+    @SerializedName("name")
     @Expose
-    private String desc;
+    private String name;
     @SerializedName("url")
     @Expose
     private String url;
@@ -40,19 +39,19 @@ public class Artist {
     /**
      *
      * @return
-     * The desc
+     * The name
      */
-    public String getDesc() {
-        return desc;
+    public String getName() {
+        return name;
     }
 
     /**
      *
-     * @param desc
-     * The desc
+     * @param name
+     * The name
      */
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**

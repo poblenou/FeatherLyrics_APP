@@ -1,7 +1,6 @@
 package tk.sbarjola.pa.featherlyricsapp.PerfilesUsuarios.Adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,7 @@ import retrofit.Response;
 import retrofit.Retrofit;
 import retrofit.http.GET;
 import retrofit.http.Url;
-import tk.sbarjola.pa.featherlyricsapp.Discografia.Spotify.ArtistSpotify;
+import tk.sbarjola.pa.featherlyricsapp.APIs.Spotify.ArtistSpotify;
 import tk.sbarjola.pa.featherlyricsapp.R;
 
 /**

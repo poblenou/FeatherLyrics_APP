@@ -1,4 +1,4 @@
-package tk.sbarjola.pa.featherlyricsapp.Discografia.Spotify;
+package tk.sbarjola.pa.featherlyricsapp.APIs.Spotify;
 
 /**
  * Created by sergi on 13/01/16.

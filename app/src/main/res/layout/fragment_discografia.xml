@@ -75,24 +75,33 @@
                 android:id="@+id/discografia_listCanciones"
                 android:visibility="visible"
                 android:textColor="#FFFF"
-                android:layout_alignTop="@+id/discografia_gridDiscos"
-                android:layout_below="@+id/discografia_artistInfo"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="15dp" />
+                android:layout_alignParentBottom="true"
+                android:layout_alignTop="@+id/discografia_gridDiscos" />
 
 
             <GridView
                 android:layout_width="wrap_content"
-                android:layout_height="500dp"
+                android:layout_height="200dp"
                 android:id="@+id/discografia_gridDiscos"
                 android:columnWidth="170dp"
                 android:numColumns="auto_fit"
                 android:background="#F5F5F5"
+                android:layout_marginTop="71dp"
                 android:layout_below="@+id/discografia_artistInfo"
                 android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="85dp"
+                android:id="@+id/discografia_bio"
+                android:layout_alignTop="@+id/discografia_artistInfo"
+                android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="15dp" />
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
 
         </RelativeLayout>
 

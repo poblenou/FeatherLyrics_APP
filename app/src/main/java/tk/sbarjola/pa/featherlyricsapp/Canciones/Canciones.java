@@ -28,6 +28,8 @@ import retrofit.Response;
 import retrofit.Retrofit;
 import retrofit.http.GET;
 import retrofit.http.Query;
+import tk.sbarjola.pa.featherlyricsapp.APIs.Vagalume.Canciones.LyricsList;
+import tk.sbarjola.pa.featherlyricsapp.APIs.Vagalume.Canciones.Mu;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.Artista;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.FirebaseConfig;
 import tk.sbarjola.pa.featherlyricsapp.MainActivity;
@@ -256,6 +258,21 @@ public class Canciones extends Fragment{
                         }
                     }
                     catch (NullPointerException ex){}
+
+                    //ID USUARIO a ArrayList artistas
+                    //ID USUARIO a ArrayList canciones
+
+                    //ID ARTISTA a Arraylist usuario
+                    //ID ARTISTA a Arraylist canciones
+
+                    //ID CANCION a ArrayList artistas
+                    //ID CANCION A Arraylist usuario
+
+                    // Añadir id de usuario al List artista que escucha
+                    // Añadir el id del artista del usuario
+
+                    // Añade la cancion al List de canciones del usuario
+                    // Añadir el artista a la cancion
 
 
                 } else {

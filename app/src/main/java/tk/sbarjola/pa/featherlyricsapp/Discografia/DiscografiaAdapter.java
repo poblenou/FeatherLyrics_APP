@@ -12,7 +12,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import tk.sbarjola.pa.featherlyricsapp.Discografia.Vagalume.Item;
+import tk.sbarjola.pa.featherlyricsapp.APIs.Vagalume.Discografia.Item;
 import tk.sbarjola.pa.featherlyricsapp.R;
 
 /**

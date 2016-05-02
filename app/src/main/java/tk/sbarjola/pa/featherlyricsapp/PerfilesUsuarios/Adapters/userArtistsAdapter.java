@@ -19,7 +19,7 @@ import retrofit.Response;
 import retrofit.Retrofit;
 import retrofit.http.GET;
 import retrofit.http.Url;
-import tk.sbarjola.pa.featherlyricsapp.Discografia.Spotify.ArtistSpotify;
+import tk.sbarjola.pa.featherlyricsapp.APIs.Spotify.ArtistSpotify;
 import tk.sbarjola.pa.featherlyricsapp.R;
 
 /**

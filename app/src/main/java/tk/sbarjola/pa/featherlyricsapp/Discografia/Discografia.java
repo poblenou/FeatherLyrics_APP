@@ -7,6 +7,7 @@ import android.support.v7.widget.SearchView;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,11 +32,14 @@ import retrofit.Response;
 import retrofit.Retrofit;
 import retrofit.http.GET;
 import retrofit.http.Url;
-import tk.sbarjola.pa.featherlyricsapp.Discografia.Spotify.ArtistSpotify;
-import tk.sbarjola.pa.featherlyricsapp.Discografia.Vagalume.Disc;
-import tk.sbarjola.pa.featherlyricsapp.Discografia.Vagalume.Discography;
-import tk.sbarjola.pa.featherlyricsapp.Discografia.Vagalume.Item;
-import tk.sbarjola.pa.featherlyricsapp.Discografia.Vagalume.ListDiscografia;
+import tk.sbarjola.pa.featherlyricsapp.APIs.Lastfm.Artist;
+import tk.sbarjola.pa.featherlyricsapp.APIs.Lastfm.ArtistInfo;
+import tk.sbarjola.pa.featherlyricsapp.APIs.Lastfm.Artist_;
+import tk.sbarjola.pa.featherlyricsapp.APIs.Spotify.ArtistSpotify;
+import tk.sbarjola.pa.featherlyricsapp.APIs.Vagalume.Discografia.Disc;
+import tk.sbarjola.pa.featherlyricsapp.APIs.Vagalume.Discografia.Discography;
+import tk.sbarjola.pa.featherlyricsapp.APIs.Vagalume.Discografia.Item;
+import tk.sbarjola.pa.featherlyricsapp.APIs.Vagalume.Discografia.ListDiscografia;
 import tk.sbarjola.pa.featherlyricsapp.MainActivity;
 import tk.sbarjola.pa.featherlyricsapp.R;
 
@@ -46,11 +50,13 @@ public class Discografia extends Fragment {
     private final static String endURL = "/discografia/index.js";   // Ultima parte de la url
     private String URLVagalume = "";                                // Parte del medio que será el artista en minusculas y los espacios cambiados por guiones
     private String URLSpotify = "";                                 // Spotify
+    private String URLLastFm = "";                                  // LastFM
     private String artist = "";                                     // Nombre del artista
     private String artistSpotify = "Arista no disponible";          // Nombre del artista de la imagen de Spotify
 
     // Variables y Adapters
     private servicioDiscografiaRetrofit servicioDiscografia;   // Interfaz para descargar la discografia
+    private servicioLetraRetrofit servicioLetra;               // Interfaz para descargar la imagen
     private servicioImagenArtistaRetrofit servicioImagen;      // Interfaz para descargar la imagen
     private ArrayList<Item> items = new ArrayList<>();;        // ArrayList que llenaremos con los albumes
     private GridView gridDiscos;                               // Grid View donde mostraremos los discos
@@ -81,10 +87,18 @@ public class Discografia extends Fragment {
             artist = "Iron Maiden";
         }
 
+        // Descargar discografía e imagen
         DescargarDiscografia descargarDiscografia = new DescargarDiscografia();  // Instanciams nuestro asyncTask para descargar en segundo plano las noticias
         DescargarArtista descargarArt = new DescargarArtista();                  // Lo mismo para los datos del artista
         descargarDiscografia.execute();                                          // Y lo ejecutamos
         descargarArt.execute();
+
+        // Descargar info artista
+
+        URLLastFm = "http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + artist.replace("-", "") + "&api_key=29d77eab70a48896e7b80f7d5977a5be&format=json";
+
+        DescargarInfo info = new DescargarInfo();                                // Lo mismo para la biografia del artista
+        info.execute();                                                          // Y ejecutamos tambien
 
         ((MainActivity) getActivity()).setDiscographyStart(artist);
     }
@@ -178,10 +192,16 @@ public class Discografia extends Fragment {
             public boolean onQueryTextSubmit(String query) {
 
                 artist = query;
+
+                // La url de lastfm necesita un artista con espacios y sin caracteres especiales
+                URLLastFm = "http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + artist.replace("-", "") + "&api_key=29d77eab70a48896e7b80f7d5977a5be&format=json";
+
                 DescargarDiscografia descargarDiscografia = new DescargarDiscografia();  // Instanciams nuestro asyncTask para descargar en segundo plano la discografia
                 descargarDiscografia.execute();                                          // Y lo ejecutamos
                 DescargarArtista descargarArt = new DescargarArtista();                  // Lo mismo para los datos del artista
                 descargarArt.execute();                                                  // Y ejecutamos tambien
+                DescargarInfo info = new DescargarInfo();                                // Lo mismo para la biografia del artista
+                info.execute();                                                          // Y ejecutamos tambien
 
                 TextView detalles = (TextView) getView().findViewById(R.id.discografia_artistInfo);
                 detalles.setVisibility(View.VISIBLE);              // Mostramos la información de los artistas
@@ -205,7 +225,8 @@ public class Discografia extends Fragment {
         artist = artist.toLowerCase();      // la busqueda del usuario la pasamos a minusculas
         artist = artist.replace(" ", "-");  // y cambiamos los espacios por guiones
 
-        URLVagalume = BaseURL + artist + endURL;    // Y construimos la URL
+        // Y construimos las URL's
+        URLVagalume = BaseURL + artist + endURL;
         URLSpotify = "https://api.spotify.com/v1/search?q=" + artist + "&type=artist";
 
         servicioDiscografia = retrofit.create(servicioDiscografiaRetrofit.class);
@@ -216,7 +237,7 @@ public class Discografia extends Fragment {
             @Override
             public void onResponse(Response<ListDiscografia> response, Retrofit retrofit) {
 
-                if (response.isSuccess()){
+                if (response.isSuccess()) {
 
                     ListDiscografia resultado = response.body();
 
@@ -226,22 +247,25 @@ public class Discografia extends Fragment {
 
                     artist = resultado.getDiscography().getArtist().getDesc();
 
-                    try{
+                    try {
+
                         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(artist);
-                    }
-                    catch(NullPointerException e){}
 
-                    TextView artista = (TextView) getView().findViewById(R.id.discografia_artistName);
-                    artista.setText(artist);
+                        TextView artista = (TextView) getView().findViewById(R.id.discografia_artistName);
+                        artista.setText(artist);
 
-                    for (int iterador = 0; iterador < discografia.getItem().size(); iterador++) {
-                        myGridAdapter.add(discografia.getItem().get(iterador));
-                    }
+                        for (int iterador = 0; iterador < discografia.getItem().size(); iterador++) {
+                            myGridAdapter.add(discografia.getItem().get(iterador));
+                        }
 
-                    if(myGridAdapter.getCount() != 0){
-                        setGridViewHeightBasedOnChildren(gridDiscos, 2);
-                    }
+                        if (myGridAdapter.getCount() != 0) {
+                            setGridViewHeightBasedOnChildren(gridDiscos, 2);
+                        }
+
+                    } catch (NullPointerException e) {}
+
                 } else {
+
                     myGridAdapter.clear();
 
                     TextView artista = (TextView) getView().findViewById(R.id.discografia_artistName);
@@ -326,6 +350,43 @@ public class Discografia extends Fragment {
         });
     }
 
+    public void descargarInfo(){
+
+        servicioLetra = retrofit.create(servicioLetraRetrofit.class);
+
+        Call<ArtistInfo> llamadaLastFm = (Call<ArtistInfo>) servicioLetra.artistsLastfm(URLLastFm);
+
+        llamadaLastFm.enqueue(new Callback<ArtistInfo>() {
+            @Override
+            public void onResponse(Response<ArtistInfo> response, Retrofit retrofit) {
+
+                ArtistInfo resultado = response.body();
+
+                if (response.isSuccess()) {
+
+                    String datosArtista = "";   // String que contiene la popularidad y generos del artista
+
+                    if(resultado.getArtist() != null){
+
+                            datosArtista = resultado.getArtist().getBio().getSummary();
+
+                            TextView bioArtista = (TextView) getView().findViewById(R.id.discografia_bio);
+                            bioArtista.setText(datosArtista);  // Asignamos los datos del artista
+
+                        }
+
+                } else {
+                    Toast.makeText(getContext(), "Imagen de artista no disponible", Toast.LENGTH_SHORT).show(); // Mostramos un toast
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Toast.makeText(getContext(), "Se ha producido un error", Toast.LENGTH_SHORT).show(); // Mostramos un toast
+            }
+        });
+    }
+
     public interface servicioDiscografiaRetrofit{ //Interficie para descargar las discografia de un artista
         @GET
         Call<ListDiscografia> discografia(@Url String url); // Le pasamos la URL entera ya construida
@@ -334,6 +395,11 @@ public class Discografia extends Fragment {
     public interface servicioImagenArtistaRetrofit{ // Interficie para descargar la imagen del artista
         @GET
         Call<ArtistSpotify> artistsSpotify(@Url String url); // Le pasamos la URL entera ya construida
+    }
+
+    public interface servicioLetraRetrofit{ // Interficie para descargar información sobre el artista
+        @GET
+        Call<ArtistInfo> artistsLastfm(@Url String url); // Le pasamos la URL entera ya construida
     }
 
     // AsyncTasks en los que ejecutaremos nuestras descargas en segundo plano
@@ -350,6 +416,14 @@ public class Discografia extends Fragment {
         @Override
         protected Object doInBackground(Object[] params) {
             descargaArtista();
+            return null;
+        }
+    }
+
+    class DescargarInfo extends AsyncTask {
+        @Override
+        protected Object doInBackground(Object[] params) {
+            descargarInfo();
             return null;
         }
     }

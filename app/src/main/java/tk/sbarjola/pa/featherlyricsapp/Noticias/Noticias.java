@@ -19,6 +19,8 @@ import retrofit.GsonConverterFactory;
 import retrofit.Response;
 import retrofit.Retrofit;
 import retrofit.http.GET;
+import tk.sbarjola.pa.featherlyricsapp.APIs.Vagalume.Noticias.News;
+import tk.sbarjola.pa.featherlyricsapp.APIs.Vagalume.Noticias.NewsList;
 import tk.sbarjola.pa.featherlyricsapp.R;
 
 public class Noticias extends Fragment{

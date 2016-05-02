@@ -1,4 +1,4 @@
-package tk.sbarjola.pa.featherlyricsapp.Noticias;
+package tk.sbarjola.pa.featherlyricsapp.APIs.Vagalume.Noticias;
 
 /**
  * Created by sergi on 20/12/15.
