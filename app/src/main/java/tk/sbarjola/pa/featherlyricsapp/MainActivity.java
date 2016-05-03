@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     String searchedTrack = "no track";          // Nombre de la pista seleccionada en discografia
     String openedProfile = "no profile";        // UID del perfil a buscar
 
+
     SharedPreferences preferencias;                    // Preferencias personalizadas
     SharedPreferences.Editor sharedPreferencesEditor;  // SharedPreferenceEditor que usaremos para modificar las settings
 
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Hacemos que autmaticamente arranque en el fragmento "Home"
         getSupportFragmentManager().beginTransaction()
                 .addToBackStack(null)
-                .replace(R.id.content_frame, new BaseFragmentUser(), "local")
+                .replace(R.id.content_frame, new Noticias(), "home")
                 .commit();
 
         navigationView.getMenu().getItem(0).setChecked(true);   // Marcamos el menu del navigation Drawer

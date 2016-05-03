@@ -73,11 +73,12 @@ public class UserProfile extends Fragment {
 
                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
 
-                    Usuario usuario = userSnapshot.getValue(Usuario.class);
+                    try {
 
-                    if (usuario.getUID().equals(userUID)) {
+                        Usuario usuario = userSnapshot.getValue(Usuario.class);
 
-                        try {
+                        if (usuario.getUID().equals(userUID)) {
+
                             // Cuando encotremos el usuario anyadimos la infromación a la vista
                             userToShow = usuario;
                             userName.setText(usuario.getNombre() + " - (" + usuario.getEdad() + ")");
@@ -85,9 +86,8 @@ public class UserProfile extends Fragment {
 
                             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(usuario.getNombre() + " - (" + usuario.getEdad() + ")");
 
-
-                        } catch (NullPointerException e){}
-                    }
+                        }
+                    }catch (NullPointerException e){}
                 }
             }
 

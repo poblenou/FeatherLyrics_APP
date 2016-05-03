@@ -251,6 +251,17 @@ public class Canciones extends Fragment{
                                 artista.setArtistas(artist.replaceAll("^\\s+|\\s+$", "") + "-" + track.replaceAll("^\\s+|\\s+$", ""));
                             }
 
+                            /*
+                            if(artista != null && artist != null) {
+                                artista.setArtistas(artist.replaceAll("^\\s+|\\s+$", ""));
+                            }
+
+
+                            if(cancion != null && cancion != null) {
+                                cancion.setUrl("urlspotify");
+                            } */
+
+
                             // If para prevenir subidas erroneas de artista
                             if(!artista.getArtistas().equals("no artist")){
                                 subirArtista(artista);
@@ -288,10 +299,15 @@ public class Canciones extends Fragment{
 
     }
 
-    public void subirArtista(Artista artista) {
-        Firebase refUsuario = config.getReferenciaUsuarioLogeado().child("Artistas");
+    public void subirArtista(Artista artista)
+    {
+
+        Firebase refArtistasUsuarioLoggeado = config.getReferenciaUsuarioLogeado().child("Artistas").child(artista.getArtistas());
+        refArtistasUsuarioLoggeado.setValue("url_imagen");
+
+       /*Firebase refUsuario = config.getReferenciaUsuarioLogeado().child("Artistas");
         Firebase artistaAsubir = refUsuario.push();
-        artistaAsubir.setValue(artista);
+        artistaAsubir.setValue(artista);*/
     }
 
     public interface servicioLetrasRetrofit{ //Interficie para descargar las letras

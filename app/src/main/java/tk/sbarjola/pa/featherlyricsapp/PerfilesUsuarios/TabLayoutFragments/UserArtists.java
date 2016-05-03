@@ -43,9 +43,7 @@ public class UserArtists extends Fragment {
 
     // Adapter y diferentes contenedores para la lista de artistas
     private userArtistsAdapter myGridAdapter;
-    List<String> listCollectionMusic = new ArrayList<String>();
     List<String> listCollectionArtist = new ArrayList<>();
-    Set<String> collectionMusic = new HashSet<String>();
 
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState){
 
@@ -90,11 +88,11 @@ public class UserArtists extends Fragment {
 
                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
 
-                    Usuario usuario = userSnapshot.getValue(Usuario.class);
+                    try {
+                        Usuario usuario = userSnapshot.getValue(Usuario.class);
 
-                    if (usuario.getUID().equals(userUID)) {
+                        if (usuario.getUID().equals(userUID)) {
 
-                        try {
                             // Cuando encotremos el usuario anyadimos la infromación a la vista
                             userToShow = usuario;
 
@@ -109,21 +107,20 @@ public class UserArtists extends Fragment {
 
                                     for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                                         Artista grupo = userSnapshot.getValue(Artista.class);
-                                        collectionMusic.add(grupo.getArtistas().toString());
-                                        listCollectionMusic.add(grupo.getArtistas().toString());
                                         listCollectionArtist.add(grupo.getArtistas().toString().split("-")[0]);
                                     }
 
-                                    // Limpiamos los duplicados. Gracias al LinkedHashSet mantenemos el orden de los elementos
-                                    Set<String> hs = new LinkedHashSet<>(listCollectionArtist);
-                                    hs.addAll(listCollectionArtist);
-                                    myGridAdapter.clear();
-                                    myGridAdapter.addAll(hs);
-
-                                    // Setteamos el adapter
-                                    historial.setAdapter(myGridAdapter);
-
                                     try{
+
+                                        // Limpiamos los duplicados. Gracias al LinkedHashSet mantenemos el orden de los elementos
+                                        Set<String> hs = new LinkedHashSet<>(listCollectionArtist);
+                                        hs.addAll(listCollectionArtist);
+                                        myGridAdapter.clear();
+                                        myGridAdapter.addAll(hs);
+
+                                        // Setteamos el adapter
+                                        historial.setAdapter(myGridAdapter);
+
                                         setGridViewHeightBasedOnChildren(historial, 2);
                                     }
                                     catch (NullPointerException e){
@@ -134,10 +131,8 @@ public class UserArtists extends Fragment {
                                 @Override
                                 public void onCancelled(FirebaseError firebaseError) {}
                             });
-                        } catch (NullPointerException e){
-                            e.printStackTrace();
                         }
-                    }
+                    } catch (NullPointerException e){}
                 }
             }
 

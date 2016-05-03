@@ -370,13 +370,18 @@ public class Discografia extends Fragment {
 
                             datosArtista = resultado.getArtist().getBio().getSummary();
 
+                        String toDelete = "There are multiple artists with this name:";
+                        if (datosArtista.contains(toDelete)){
+                            datosArtista = datosArtista.substring(toDelete.length() + 5, datosArtista.length());
+                        }
+
                             TextView bioArtista = (TextView) getView().findViewById(R.id.discografia_bio);
                             bioArtista.setText(datosArtista);  // Asignamos los datos del artista
 
                         }
 
                 } else {
-                    Toast.makeText(getContext(), "Imagen de artista no disponible", Toast.LENGTH_SHORT).show(); // Mostramos un toast
+                    Toast.makeText(getContext(), "Biografía del artista no disponible", Toast.LENGTH_SHORT).show(); // Mostramos un toast
                 }
             }
 

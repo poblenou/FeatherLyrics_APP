@@ -91,11 +91,12 @@ public class UserSongs extends Fragment {
 
                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
 
-                    Usuario usuario = userSnapshot.getValue(Usuario.class);
+                    try {
 
-                    if (usuario.getUID().equals(userUID)) {
+                        Usuario usuario = userSnapshot.getValue(Usuario.class);
 
-                        try {
+                        if (usuario.getUID().equals(userUID)) {
+
                             // Cuando encotremos el usuario anyadimos la infromación a la vista
                             userToShow = usuario;
 
@@ -113,27 +114,24 @@ public class UserSongs extends Fragment {
                                         listCollectionMusic.add(0, grupo.getArtistas().toString());
                                     }
 
-                                    // Limpiamos los duplicados. Gracias al LinkedHashSet mantenemos el orden de los elementos
-                                    Set<String> hs = new LinkedHashSet<>(listCollectionMusic);
-                                    hs.addAll(listCollectionMusic);
-                                    myListAdapter.clear();
-                                    myListAdapter.addAll(hs);
+                                        // Limpiamos los duplicados. Gracias al LinkedHashSet mantenemos el orden de los elementos
+                                        Set<String> hs = new LinkedHashSet<>(listCollectionMusic);
+                                        hs.addAll(listCollectionMusic);
+                                        myListAdapter.clear();
+                                        myListAdapter.addAll(hs);
 
-                                    // Setteamos el adapter
-                                    songList.setAdapter(myListAdapter);
+                                        // Setteamos el adapter
+                                        songList.setAdapter(myListAdapter);
 
-                                    try {
                                         setListViewHeightBasedOnChildren(songList);
-                                    }
-                                    catch (NullPointerException e){}
                                 }
 
                                 @Override
-                                public void onCancelled(FirebaseError firebaseError) {
-                                }
+                                public void onCancelled(FirebaseError firebaseError) {}
                             });
-                        } catch (NullPointerException e){}
+                        }
                     }
+                    catch (NullPointerException e){}
                 }
             }
 
