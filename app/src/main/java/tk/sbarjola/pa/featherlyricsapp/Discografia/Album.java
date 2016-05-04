@@ -7,8 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.makeramen.roundedimageview.RoundedTransformationBuilder;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,23 +33,39 @@ public class Album extends Fragment {
     List<String> listCollectionMusic = new ArrayList<String>();
 
     // Disco
-    Item disco;                                         // Disco
-    private ListView listCanciones;                     // List View donde mostraremos las canciones
+    Item disco;                         // Disco
+    private ListView listCanciones;     // List View donde mostraremos las canciones
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_disco, container, false);
 
-        listCanciones = (ListView) view.findViewById(R.id.disc_listAlbum);
-        disco = ((MainActivity) getActivity()).getSearchedAlbum();
-
-        // Los hacemos no focusable para que el scrollView inicie al principio
-        listCanciones.setFocusable(false);
-
         try{
+            listCanciones = (ListView) view.findViewById(R.id.disc_listAlbum);
+            disco = ((MainActivity) getActivity()).getSearchedAlbum();
+
+            TextView tituloAlbum = (TextView) view.findViewById(R.id.disc_albumTitle);
+            TextView infoAlbum = (TextView) view.findViewById(R.id.disc_anyo);
+            TextView discLabel = (TextView) view.findViewById(R.id.disc_label);
+            ImageView imagenAlbum = (ImageView) view.findViewById(R.id.disc_albumImage);
+
+            Transformation transformation = new RoundedTransformationBuilder()
+                    .cornerRadiusDp(360)
+                    .oval(false)
+                    .build();
+
+            Picasso.with(getContext()).load("http://www.vagalume.com.br/" + disco.getCover()).fit().centerCrop().transform(transformation).into(imagenAlbum);
+
+            discLabel.setText(disco.getLabel());
+            infoAlbum.setText(disco.getPublished());
+            tituloAlbum.setText(disco.getDesc());
+
+            // Los hacemos no focusable para que el scrollView inicie al principio
+            listCanciones.setFocusable(false);
+
             // Sección del list y las canciones
-            myListAdapter = new AlbumAdapter(container.getContext(), 0, listCollectionMusic, disco.getDesc(), disco.getCover());  // Definimos nuestro adaptador
+            myListAdapter = new AlbumAdapter(container.getContext(), 0, listCollectionMusic, disco.getDesc());  // Definimos nuestro adaptador
 
             // Cambioamos el titulo de la toolbar
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(disco.getDesc() + " - " + disco.getPublished());
@@ -67,13 +89,14 @@ public class Album extends Fragment {
 
             try{
 
-            // Acoplamos el adaptador y fijamos el album buscado
-            listCanciones.setAdapter(myListAdapter);
-            setListViewHeightBasedOnChildren(listCanciones);
+                // Acoplamos el adaptador y fijamos el album buscado
+                listCanciones.setAdapter(myListAdapter);
+                setListViewHeightBasedOnChildren(listCanciones);
 
-            ((MainActivity) getActivity()).setSearchedAlbum(disco);
+                ((MainActivity) getActivity()).setSearchedAlbum(disco);
 
             }catch (NullPointerException e){}
+
         }catch (RuntimeException e){}
 
         // onClick del listView
@@ -108,7 +131,7 @@ public class Album extends Fragment {
             float x = 1;
 
             x = items;
-            filas = (int) (x + 1);
+            filas = (int) (x + 2);
             alturaTotal *= filas;
 
             ViewGroup.LayoutParams params = listView.getLayoutParams();

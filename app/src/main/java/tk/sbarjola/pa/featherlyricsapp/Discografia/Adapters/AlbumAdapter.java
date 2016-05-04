@@ -14,7 +14,6 @@ import com.squareup.picasso.Transformation;
 
 import java.util.List;
 
-import tk.sbarjola.pa.featherlyricsapp.APIs.Lastfm.Image;
 import tk.sbarjola.pa.featherlyricsapp.R;
 
 /**
@@ -22,15 +21,12 @@ import tk.sbarjola.pa.featherlyricsapp.R;
  */
 public class AlbumAdapter extends ArrayAdapter<String> {
 
-    public String BASE_URL =  "http://www.vagalume.com.br/";
     String nombreArtista = "Desconocido";
-    String restoUrl = "";
 
-    public AlbumAdapter(Context context, int resource, List<String> objects, String nombreArtista, String restoUrl) {
+    public AlbumAdapter(Context context, int resource, List<String> objects, String nombreArtista) {
         super(context, resource, objects);
 
         this.nombreArtista = nombreArtista;
-        this.restoUrl = restoUrl;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -47,22 +43,10 @@ public class AlbumAdapter extends ArrayAdapter<String> {
         // Asociamos cada variable a su elemento del layout
         TextView nombreCancion = (TextView) convertView.findViewById(R.id.album_adapter_tituloAlbum);
         TextView nombreGrupo = (TextView) convertView.findViewById(R.id.album_adapter_band);
-        ImageView imagenAlbum = (ImageView) convertView.findViewById(R.id.album_adapter_image);
-
-        // Incorporamos los objetos al layout
-        String urlImagen = BASE_URL + restoUrl;
-        urlImagen.replace("W125", "W512");
 
         // Incorporamos los objetos al layout
         nombreGrupo.setText(nombreArtista);
         nombreCancion.setText(tituloCancion);
-
-        Transformation transformation = new RoundedTransformationBuilder()
-                .cornerRadiusDp(360)
-                .oval(false)
-                .build();
-
-        Picasso.with(getContext()).load(urlImagen).fit().centerCrop().transform(transformation).into(imagenAlbum);
 
         return convertView; //Devolvemos la view ya rellena
     }
