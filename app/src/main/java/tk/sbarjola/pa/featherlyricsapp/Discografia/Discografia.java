@@ -21,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
-
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.GsonConverterFactory;
@@ -29,6 +28,7 @@ import retrofit.Response;
 import retrofit.Retrofit;
 import retrofit.http.GET;
 import retrofit.http.Url;
+
 import tk.sbarjola.pa.featherlyricsapp.APIs.Lastfm.ArtistInfo;
 import tk.sbarjola.pa.featherlyricsapp.APIs.Spotify.ArtistSpotify;
 import tk.sbarjola.pa.featherlyricsapp.APIs.Vagalume.Discografia.Discography;

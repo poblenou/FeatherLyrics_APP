@@ -16,9 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.firebase.client.Firebase;
-
 import java.util.List;
 import at.markushi.ui.CircleButton;
 import retrofit.Call;
@@ -28,6 +26,7 @@ import retrofit.Response;
 import retrofit.Retrofit;
 import retrofit.http.GET;
 import retrofit.http.Query;
+
 import tk.sbarjola.pa.featherlyricsapp.APIs.Vagalume.Canciones.LyricsList;
 import tk.sbarjola.pa.featherlyricsapp.APIs.Vagalume.Canciones.Mu;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.Artista;

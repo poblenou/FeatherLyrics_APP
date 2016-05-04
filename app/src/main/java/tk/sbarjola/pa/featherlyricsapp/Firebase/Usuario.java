@@ -2,8 +2,6 @@ package tk.sbarjola.pa.featherlyricsapp.Firebase;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.util.ArrayList;
-
 /**
  * Created by sergi on 20/03/16.
  */
@@ -11,8 +9,6 @@ import java.util.ArrayList;
 
 public class Usuario {
 
-    private ArrayList<String> idsCanciones = new ArrayList<>();
-    private ArrayList<String> idsArtistas = new ArrayList<>();
     // String
     private String UID;         // Identificador del usuario
     private String email;       // Correo del usuario

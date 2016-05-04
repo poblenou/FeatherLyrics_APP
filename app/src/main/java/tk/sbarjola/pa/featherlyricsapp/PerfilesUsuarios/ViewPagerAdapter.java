@@ -1,9 +1,5 @@
 package tk.sbarjola.pa.featherlyricsapp.PerfilesUsuarios;
 
-/**
- * Created by 46465442z on 29/04/16.
- */
-
 import tk.sbarjola.pa.featherlyricsapp.R;
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -15,7 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Created by DAT on 8/16/2015.
+ * Created by 46465442z on 29/04/16.
  */
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 

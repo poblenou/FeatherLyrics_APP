@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.widget.TextView;
+
 import tk.sbarjola.pa.featherlyricsapp.MainActivity;
 import tk.sbarjola.pa.featherlyricsapp.R;
 import tk.sbarjola.pa.featherlyricsapp.provider.music.MusicColumns;
