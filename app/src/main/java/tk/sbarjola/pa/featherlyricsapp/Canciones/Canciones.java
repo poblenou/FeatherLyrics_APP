@@ -268,7 +268,7 @@ public class Canciones extends Fragment{
 
                             // If para prevenir subidas erroneas de artista
                             if(!artista.getArtistas().equals("no artist")){
-                                subirArtista(artista);
+                                subirCancion(artista);
                             }
                         }
                     }
@@ -303,10 +303,9 @@ public class Canciones extends Fragment{
 
     }
 
-    public void subirArtista(Artista artista)
-    {
+    public void subirCancion(Artista artista) {
 
-        Firebase refArtistasUsuarioLoggeado = config.getReferenciaUsuarioLogeado().child("Artistas").child(artista.getArtistas());
+        Firebase refArtistasUsuarioLoggeado = config.getReferenciaUsuarioLogeado().child("Canciones").child(artista.getArtistas());
         refArtistasUsuarioLoggeado.setValue("url_imagen");
 
        /*Firebase refUsuario = config.getReferenciaUsuarioLogeado().child("Artistas");

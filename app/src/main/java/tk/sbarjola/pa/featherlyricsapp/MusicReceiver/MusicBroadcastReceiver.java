@@ -19,9 +19,7 @@ public class MusicBroadcastReceiver extends BroadcastReceiver {
     public static String playingTrack = "no track";     // Titulo de la pista en reproduccion
     static MainActivity mainVar = null;                 // Esta será la referencia a la clase del MainActivity
 
-    public MusicBroadcastReceiver() {
-
-    }
+    public MusicBroadcastReceiver() {}
 
     @Override
     public void onReceive(Context context, Intent intent) {

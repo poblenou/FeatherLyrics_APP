@@ -313,29 +313,31 @@ public class Discografia extends Fragment {
             @Override
             public void onResponse(Response<ArtistInfo> response, Retrofit retrofit) {
 
-                ArtistInfo resultado = response.body();
+                try{
+                    ArtistInfo resultado = response.body();
 
-                if (response.isSuccess()) {
+                    if (response.isSuccess()) {
 
-                    String datosArtista = "";   // String que contiene la popularidad y generos del artista
+                        String datosArtista = "";   // String que contiene la popularidad y generos del artista
 
-                    if(resultado.getArtist() != null){
+                        if(resultado.getArtist() != null){
 
                             datosArtista = resultado.getArtist().getBio().getSummary();
 
-                        String toDelete = "There are multiple artists with this name:";
-                        if (datosArtista.contains(toDelete)){
-                            datosArtista = datosArtista.substring(toDelete.length() + 5, datosArtista.length());
-                        }
+                            String toDelete = "There are multiple artists with this name:";
+                            if (datosArtista.contains(toDelete)){
+                                datosArtista = datosArtista.substring(toDelete.length() + 5, datosArtista.length());
+                            }
 
                             TextView bioArtista = (TextView) getView().findViewById(R.id.discografia_bio);
                             bioArtista.setText(datosArtista);  // Asignamos los datos del artista
 
                         }
 
-                } else {
-                    Toast.makeText(getContext(), "Biografía del artista no disponible", Toast.LENGTH_SHORT).show(); // Mostramos un toast
-                }
+                    } else {
+                        Toast.makeText(getContext(), "Biografía del artista no disponible", Toast.LENGTH_SHORT).show(); // Mostramos un toast
+                    }
+                }catch (NullPointerException e){}
             }
 
             @Override

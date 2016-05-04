@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     String searchedTrack = "no track";          // Nombre de la pista seleccionada en discografia
     String openedProfile = "no profile";        // UID del perfil a buscar
 
-    // Preferencias
+
     SharedPreferences preferencias;                    // Preferencias personalizadas
     SharedPreferences.Editor sharedPreferencesEditor;  // SharedPreferenceEditor que usaremos para modificar las settings
 
@@ -142,6 +143,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void abrirCanciones() {
 
+        checkBackStackOverhead();
+
         // Función para llamar al fragment de canciones
 
         fragment = new Canciones();
@@ -159,6 +162,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void abrirDiscografia() {
 
+        checkBackStackOverhead();
+
         // Función para llamar al fragment de canciones
 
         fragment = new Discografia();
@@ -175,6 +180,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void abrirPerfil() {
 
+        checkBackStackOverhead();
+
         // Función para llamar al fragment de canciones
         fragment = new BaseFragmentUser();
 
@@ -189,6 +196,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void abrirArtistas() {
 
+        checkBackStackOverhead();
+
         // Función para llamar al fragment de canciones
         fragment = new Discografia();
 
@@ -202,6 +211,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void abrirReproduccionesLocales(){
+
+        checkBackStackOverhead();
 
         // Función para llamar al fragment de canciones
         fragment = new Home();
@@ -219,6 +230,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Que se abra el nuestro
         openedProfile = "no profile";
 
+        checkBackStackOverhead();
+
         // Función para llamar al fragment de canciones
         fragment = new UserProfile();
 
@@ -235,6 +248,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Función para llamar al fragment de canciones
         fragment = new Album();
+
+        checkBackStackOverhead();
 
         getSupportFragmentManager().beginTransaction()
                 .addToBackStack(null)
@@ -290,6 +305,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Si el boleano es true llamamos al nuevo fragment
         if(transaccion){
+
+            checkBackStackOverhead();
+
             getSupportFragmentManager().beginTransaction()
                     .addToBackStack(null)
                     .replace(R.id.content_frame, fragment, tag)
@@ -301,6 +319,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         drawer.closeDrawers();
         return true;
+    }
+
+    public void checkBackStackOverhead(){
+
+        FragmentManager fm = this.getSupportFragmentManager();
+
+        int numeroFragments = fm.getBackStackEntryCount();
+
+        // Cuando nos pasemos de 5 fragments cargados en la memoria, nos peta uno
+        if(numeroFragments > 5) {
+            fm.popBackStack();
+        }
     }
 
     @Override
