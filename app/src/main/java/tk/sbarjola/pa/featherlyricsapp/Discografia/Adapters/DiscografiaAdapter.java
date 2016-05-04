@@ -1,4 +1,4 @@
-package tk.sbarjola.pa.featherlyricsapp.Discografia;
+package tk.sbarjola.pa.featherlyricsapp.Discografia.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -40,7 +40,7 @@ public class DiscografiaAdapter extends ArrayAdapter<Item> {
         // Asociamos cada variable a su elemento del layout
         TextView titular = (TextView) convertView.findViewById(R.id.user_artists_artistName);
         TextView anyo = (TextView) convertView.findViewById(R.id.discografia_anyoAlbum);
-        ImageView imagenAlbum = (ImageView) convertView.findViewById(R.id.user_artists_artistImage);
+        ImageView imagenAlbum = (ImageView) convertView.findViewById(R.id.album_adapter);
 
         // Incorporamos los objetos al layout
         String urlImagen = BASE_URL + item.getCover();

@@ -66,19 +66,6 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />
 
-            <ListView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:columnWidth="170dp"
-                android:numColumns="auto_fit"
-                android:paddingTop="12dp"
-                android:id="@+id/discografia_listCanciones"
-                android:visibility="visible"
-                android:textColor="#FFFF"
-                android:layout_alignTop="@+id/discografia_gridDiscos"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
 
             <GridView
                 android:layout_width="wrap_content"

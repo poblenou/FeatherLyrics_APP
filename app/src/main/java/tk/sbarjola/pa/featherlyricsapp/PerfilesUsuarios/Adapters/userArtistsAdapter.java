@@ -90,7 +90,7 @@ public class userArtistsAdapter extends ArrayAdapter<String> {
                                 String URLimagen = resultado.getArtists().getItems().get(0).getImages().get(0).toString();
                                 URLimagen = URLimagen.split(",")[1].split(",")[0].replace("url=", "").trim();
 
-                                ImageView imagenArtista = (ImageView) convertView.findViewById(R.id.user_artists_artistImage);;
+                                ImageView imagenArtista = (ImageView) convertView.findViewById(R.id.album_adapter);;
                                 Picasso.with(getContext()).load(URLimagen).fit().centerCrop().into(imagenArtista);
                             }
                         }

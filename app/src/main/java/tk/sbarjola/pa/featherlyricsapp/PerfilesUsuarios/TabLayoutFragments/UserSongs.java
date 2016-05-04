@@ -7,10 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -26,7 +24,6 @@ import tk.sbarjola.pa.featherlyricsapp.Firebase.Artista;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.FirebaseConfig;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.Usuario;
 import tk.sbarjola.pa.featherlyricsapp.MainActivity;
-import tk.sbarjola.pa.featherlyricsapp.PerfilesUsuarios.Adapters.userArtistsAdapter;
 import tk.sbarjola.pa.featherlyricsapp.PerfilesUsuarios.Adapters.userSongsAdapter;
 import tk.sbarjola.pa.featherlyricsapp.R;
 
@@ -122,7 +119,6 @@ public class UserSongs extends Fragment {
 
                                         // Setteamos el adapter
                                         songList.setAdapter(myListAdapter);
-
                                         setListViewHeightBasedOnChildren(songList);
                                 }
 
@@ -144,7 +140,7 @@ public class UserSongs extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 // Extraemos el artista del listView
-                TextView textSong = (TextView) view.findViewById(R.id.user_songs_songName);
+                TextView textSong = (TextView) view.findViewById(R.id.album_adapter_tituloAlbum);
                 TextView textGrupo = (TextView) view.findViewById(R.id.user_songs_band);
 
                 // Y lo mandamos al fragment de canciones

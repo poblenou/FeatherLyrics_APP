@@ -16,8 +16,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import tk.sbarjola.pa.featherlyricsapp.APIs.Vagalume.Discografia.Item;
 import tk.sbarjola.pa.featherlyricsapp.Canciones.Canciones;
+import tk.sbarjola.pa.featherlyricsapp.Discografia.Album;
 import tk.sbarjola.pa.featherlyricsapp.Discografia.Discografia;
 import tk.sbarjola.pa.featherlyricsapp.Home.About;
 import tk.sbarjola.pa.featherlyricsapp.Home.Home;
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawer;                // Drawer
     private NavigationView navigationView;      // NavigationView
     Fragment fragment = null;                   // fragmento que ocupara el centro de nuestro navigation drawer
-
+    Item searchedAlbum;                         // List que le pasamos al fragment de album
     String discographyStart = "no artist";      // Nombre del artista que mostraremos en la sección de discografia
     String playingArtist = "no artist";         // Nombre del artista de la canción en reproducción
     String playingTrack = "no track";           // Nombre de la pista en reproducción
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     String searchedTrack = "no track";          // Nombre de la pista seleccionada en discografia
     String openedProfile = "no profile";        // UID del perfil a buscar
 
-
+    // Preferencias
     SharedPreferences preferencias;                    // Preferencias personalizadas
     SharedPreferences.Editor sharedPreferencesEditor;  // SharedPreferenceEditor que usaremos para modificar las settings
 
@@ -229,6 +230,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    public void abrirDisco() {
+
+        // Función para llamar al fragment de canciones
+        fragment = new Album();
+
+        getSupportFragmentManager().beginTransaction()
+                .addToBackStack(null)
+                .replace(R.id.content_frame, fragment)
+                .commit();
+
+        navigationView.getMenu().getItem(2).setChecked(true);   // Marcamos el menu del navigation Drawer
+
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -324,6 +339,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.openedProfile = openedProfile;
     }
 
+    public void setSearchedAlbum(Item searchedAlbum) {
+        this.searchedAlbum = searchedAlbum;
+    }
+
     // Getters
 
     public String getDiscographyStart() { return discographyStart; }
@@ -346,5 +365,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public String getOpenedProfile() {
         return openedProfile;
+    }
+
+    public Item getSearchedAlbum() {
+        return searchedAlbum;
     }
 }

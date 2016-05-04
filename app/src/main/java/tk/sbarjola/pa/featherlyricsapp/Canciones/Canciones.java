@@ -248,7 +248,12 @@ public class Canciones extends Fragment{
                             Artista artista = new Artista();
 
                             if(artista != null && artist != null) {
-                                artista.setArtistas(artist.replaceAll("^\\s+|\\s+$", "") + "-" + track.replaceAll("^\\s+|\\s+$", ""));
+
+                                // Limpiamos caracteres que Firebase no quiere
+                                String artistaSubir = artist.replace(".", "").replace("$", "").replace("#", "").replace("[", "").replace("]", "");
+                                String pistaSubir =  track.replace(".", "").replace("$", "").replace("#", "").replace("[", "").replace("]", "");
+
+                                artista.setArtistas(artistaSubir.replaceAll("^\\s+|\\s+$", "") + "-" + pistaSubir.replaceAll("^\\s+|\\s+$", ""));
                             }
 
                             /*
