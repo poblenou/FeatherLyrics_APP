@@ -43,7 +43,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     String searchedTrack = "no track";          // Nombre de la pista seleccionada en discografia
     String openedProfile = "no profile";        // UID del perfil a buscar
 
+    // Para monitorizar la musica en reproducción
+    BroadcastReceiver broadcastReceiver = null;
 
+    // Preferncias
     SharedPreferences preferencias;                    // Preferencias personalizadas
     SharedPreferences.Editor sharedPreferencesEditor;  // SharedPreferenceEditor que usaremos para modificar las settings
 
@@ -90,7 +93,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Con este BroadcastReceiver escucharemos a nuestro Receiver que controla la Musica
 
-        BroadcastReceiver broadcastReceiver = null;
         broadcastReceiver = new MusicBroadcastReceiver();
         MusicBroadcastReceiver.setMainActivityHandler(this);    // Le pasamos este activity para vincularlos
         IntentFilter callInterceptorIntentFilter = new IntentFilter("android.intent.action.ANY_ACTION");
@@ -207,7 +209,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .commit();
 
         navigationView.getMenu().getItem(2).setChecked(true);   // Marcamos el menu del navigation Drawer
-
     }
 
     public void abrirReproduccionesLocales(){
@@ -223,7 +224,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .commit();
 
     }
-
 
     public void abrirPersonalProfile() {
 
@@ -241,7 +241,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .commit();
 
         navigationView.getMenu().getItem(0).setChecked(true);   // Marcamos el menu del navigation Drawer
-
     }
 
     public void abrirDisco() {
@@ -257,7 +256,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .commit();
 
         navigationView.getMenu().getItem(2).setChecked(true);   // Marcamos el menu del navigation Drawer
-
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -294,6 +292,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragment = new About();
             transaccion = true;
         } else if (id == R.id.nav_salir) {
+
+            unregisterReceiver(broadcastReceiver);
 
             // Borramos la cuenta
             sharedPreferencesEditor = preferencias.edit();
