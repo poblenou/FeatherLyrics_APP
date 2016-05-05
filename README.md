@@ -1,4 +1,4 @@
-# Feather Lyrics
+# Feather Lyrics - Experimental Fork
 
 This repository contains the source code for the Feather Lyrics (Android APP).
 
@@ -64,9 +64,14 @@ Feather Lyrics tracks the next players:
 
 ## Screenshots
 
-<img src="http://i.imgur.com/JDCUmOG.png" width="250">
+<img src="http://i.imgur.com/DvU2PgC.png" width="250">
+<img src="http://i.imgur.com/N3FMvXL.png" width="250">
 <img src="https://i.imgur.com/3xFZWlF.png" width="250">
 <img src="http://i.imgur.com/Y4do4gK.png" width="250">
+<img src="http://i.imgur.com/aDUEhtE.png" width="250">
+<img src="http://i.imgur.com/tIGirYt.png" width="250">
+<img src="http://i.imgur.com/Iib4Plu.jpg" width="250">
+<img src="http://i.imgur.com/k27CaCs.png" width="250">
 <img src="http://i.imgur.com/tNwq1R8.jpg" width="250">
 <img src="http://i.imgur.com/tnExHHU.jpg" width="250">
 <img src="http://i.imgur.com/1CDRmde.png" width="250">
