@@ -37,22 +37,29 @@ public class BaseFragmentUser extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.user_profile_base, container, false);
+
         getIDs(view);
         setEvents();
 
         this.addUser("USUARIO");
         this.addArtist("ARTISTAS");
-        //this.addSongs("CANCIONES");
+        this.addSongs("CANCIONES");
 
         return view;
     }
 
     private void getIDs(View view) {
+
         viewPager = (ViewPager) view.findViewById(R.id.my_viewpager);
+        tabLayout = (TabLayout) view.findViewById(R.id.my_tab_layout);
+
         adapter = new ViewPagerAdapter(getFragmentManager(), getActivity());
         viewPager.setAdapter(adapter);
-        tabLayout = (TabLayout) view.findViewById(R.id.my_tab_layout);
+
+        viewPager.setCurrentItem(1);
+
     }
 
     int selectedTabPosition;
@@ -92,8 +99,7 @@ public class BaseFragmentUser extends Fragment {
         //noinspection SimplifiableIfStatement
         if (id == R.id.localMusic) {
 
-            ((MainActivity) getActivity()).abrirReproduccionesLocales();
-
+            ((MainActivity) getActivity()).abrirPersonalProfile();
             return true;
         }
 

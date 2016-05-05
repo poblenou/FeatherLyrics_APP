@@ -48,6 +48,8 @@ public class Album extends Fragment {
             TextView discLabel = (TextView) view.findViewById(R.id.disc_label);
             ImageView imagenAlbum = (ImageView) view.findViewById(R.id.disc_albumImage);
 
+            // Le damos la imagen de album transformada en redonda
+
             Transformation transformation = new RoundedTransformationBuilder()
                     .cornerRadiusDp(360)
                     .oval(false)

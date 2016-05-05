@@ -26,6 +26,7 @@
                 android:id="@+id/user_songs_list"
                 android:visibility="visible"
                 android:textColor="#FFFF"
+                android:divider="@android:color/transparent"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/view3"

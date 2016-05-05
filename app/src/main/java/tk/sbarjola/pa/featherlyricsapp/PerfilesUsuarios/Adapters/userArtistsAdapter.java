@@ -33,7 +33,6 @@ public class userArtistsAdapter extends ArrayAdapter<String> {
 
         // Creamos el objeto en la posición correspondiente
         final String item = getItem(position);
-
         final String artista = item.split("-")[0];
         final String URLimagen = item.split("-")[1];
 
@@ -47,9 +46,10 @@ public class userArtistsAdapter extends ArrayAdapter<String> {
         TextView nombreArtista = (TextView) convertView.findViewById(R.id.user_artists_artistName);
         nombreArtista.setText(artista);
 
-        ImageView imagenArtista = (ImageView) convertView.findViewById(R.id.album_adapter);;
+        // Le damos la iamgen
+        ImageView imagenArtista = (ImageView) convertView.findViewById(R.id.album_adapter);
         Picasso.with(getContext()).load(URLimagen).fit().centerCrop().into(imagenArtista);
 
-        return convertView; //Devolvemos la view ya rellena
+        return convertView;
     }
 }

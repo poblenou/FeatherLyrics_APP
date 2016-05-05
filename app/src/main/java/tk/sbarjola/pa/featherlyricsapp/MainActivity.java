@@ -234,7 +234,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         checkBackStackOverhead();
 
         // Función para llamar al fragment de canciones
-        fragment = new UserProfile();
+        fragment = new BaseFragmentUser();
 
         getSupportFragmentManager().beginTransaction()
                 .addToBackStack(null)
@@ -289,8 +289,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_preferencias) {
             Intent i = new Intent(this, SettingsActivity.class);
             startActivity(i);
-        } else if (id == R.id.nav_bio){
+        } else if (id == R.id.nav_bio) {
             fragment = new About();
+            transaccion = true;
+        } else if(id == R.id.nav_local){
+            fragment = new Home();
             transaccion = true;
         } else if (id == R.id.nav_salir) {
 

@@ -96,11 +96,12 @@ public class UserArtists extends Fragment {
                             // Cuando encotremos el usuario anyadimos la infromación a la vista
                             userToShow = usuario;
 
-                            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(usuario.getNombre() + " - (" + usuario.getEdad() + ")");
+                            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(usuario.getNombre());
 
                             final Firebase referenciaMusicaContacto = new Firebase(config.getReferenciaListaUsuarios().toString() + "/" + usuario.getKey() + "/Artistas");
 
                             // Descargamos la lista de usuarios
+
                             referenciaMusicaContacto.addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {

@@ -26,9 +26,9 @@
             android:title="Noticias" />
 
         <item
-            android:id="@+id/nav_prueba"
+            android:id="@+id/nav_local"
             android:icon="@android:drawable/ic_menu_agenda"
-            android:title="Perfil" />
+            android:title="Reproducciones locales" />
     </group>
 
     <item android:title="Ajustes">

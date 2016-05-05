@@ -76,7 +76,7 @@ public class UserProfile extends Fragment {
                             userName.setText(usuario.getNombre() + " - (" + usuario.getEdad() + ")");
                             userDescription.setText(usuario.getDescripcion());
 
-                            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(usuario.getNombre() + " - (" + usuario.getEdad() + ")");
+                            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(usuario.getNombre());
 
                         }
                     }catch (NullPointerException e){}

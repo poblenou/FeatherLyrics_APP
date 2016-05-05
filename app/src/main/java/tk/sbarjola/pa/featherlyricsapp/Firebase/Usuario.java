@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 
-public class    Usuario {
+public class Usuario {
 
     // String
     private String UID;         // Identificador del usuario

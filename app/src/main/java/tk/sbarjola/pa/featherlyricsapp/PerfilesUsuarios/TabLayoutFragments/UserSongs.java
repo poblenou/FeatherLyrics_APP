@@ -97,9 +97,9 @@ public class UserSongs extends Fragment {
                             // Cuando encotremos el usuario anyadimos la infromación a la vista
                             userToShow = usuario;
 
-                            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(usuario.getNombre() + " - (" + usuario.getEdad() + ")");
+                            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(usuario.getNombre());
 
-                            final Firebase referenciaMusicaContacto = new Firebase(config.getReferenciaListaUsuarios().toString() + "/" + usuario.getKey() + "/Artistas");
+                            final Firebase referenciaMusicaContacto = new Firebase(config.getReferenciaListaUsuarios().toString() + "/" + usuario.getKey() + "/Canciones");
 
                             // Descargamos la lista de usuarios
                             referenciaMusicaContacto.addValueEventListener(new ValueEventListener() {
@@ -108,7 +108,7 @@ public class UserSongs extends Fragment {
 
                                     for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                                         FirebaseItem grupo = userSnapshot.getValue(FirebaseItem.class);
-                                        listCollectionMusic.add(0, grupo.getItemUrl().toString());
+                                        listCollectionMusic.add(0, userSnapshot.getKey() + "-" + grupo.getItemUrl());
                                     }
 
                                         // Limpiamos los duplicados. Gracias al LinkedHashSet mantenemos el orden de los elementos
