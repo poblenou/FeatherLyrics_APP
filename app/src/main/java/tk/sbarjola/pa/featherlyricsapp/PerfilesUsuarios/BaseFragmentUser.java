@@ -43,7 +43,7 @@ public class BaseFragmentUser extends Fragment {
 
         this.addUser("USUARIO");
         this.addArtist("ARTISTAS");
-        this.addSongs("CANCIONES");
+        //this.addSongs("CANCIONES");
 
         return view;
     }

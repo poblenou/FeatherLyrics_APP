@@ -34,7 +34,7 @@ import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 import java.util.ArrayList;
 import java.util.HashSet;
-import tk.sbarjola.pa.featherlyricsapp.Firebase.Artista;
+import tk.sbarjola.pa.featherlyricsapp.Firebase.FirebaseItem;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.FirebaseConfig;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.Usuario;
 import tk.sbarjola.pa.featherlyricsapp.MainActivity;
@@ -112,8 +112,8 @@ public class OSMap extends Fragment {
                 grupos.clear();
 
                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                    Artista grupo = userSnapshot.getValue(Artista.class);
-                    grupos.add(grupo.getArtistas().toString().split("-")[0]);
+                    FirebaseItem grupo = userSnapshot.getValue(FirebaseItem.class);
+                    grupos.add(grupo.getItemUrl().toString().split("-")[0]);
                 }
 
                 //Al utilizar un HashSet se eliminan todos los duplicados y luego lo convertimos de nuevo a arrayList
@@ -219,8 +219,8 @@ public class OSMap extends Fragment {
                                 grupoContacto.clear();
 
                                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                                    Artista grupo = userSnapshot.getValue(Artista.class);
-                                    grupoContacto.add(grupo.getArtistas().toString());
+                                    FirebaseItem grupo = userSnapshot.getValue(FirebaseItem.class);
+                                    grupoContacto.add(grupo.getItemUrl().toString());
                                 }
 
                                 //Al utilizar un HashSet se eliminan todos los duplicados y luego lo convertimos de nuevo a arrayList

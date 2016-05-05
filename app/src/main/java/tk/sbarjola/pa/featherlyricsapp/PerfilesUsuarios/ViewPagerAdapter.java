@@ -4,7 +4,7 @@ import tk.sbarjola.pa.featherlyricsapp.R;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 /**
  * Created by 46465442z on 29/04/16.
  */
-public class ViewPagerAdapter extends FragmentPagerAdapter {
+public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private final ArrayList<Fragment> mFragmentList = new ArrayList<>();
     private final ArrayList<String> mFragmentTitleList = new ArrayList<>();
@@ -37,7 +37,6 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public void addFrag(Fragment fragment, String title) {
         mFragmentList.add(fragment);
         mFragmentTitleList.add(title);
-
     }
 
     public View getTabView(int position) {
@@ -50,7 +49,6 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
         return view;
     }
-
 
     @Override
     public CharSequence getPageTitle(int position) {

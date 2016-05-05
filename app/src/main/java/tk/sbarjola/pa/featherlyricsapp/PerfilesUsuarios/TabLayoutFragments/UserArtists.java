@@ -14,13 +14,12 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
 
-import tk.sbarjola.pa.featherlyricsapp.Firebase.Artista;
+import tk.sbarjola.pa.featherlyricsapp.Firebase.FirebaseItem;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.FirebaseConfig;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.Usuario;
 import tk.sbarjola.pa.featherlyricsapp.MainActivity;
@@ -71,10 +70,11 @@ public class UserArtists extends Fragment {
             // Seccion del grid y los albumes
             myGridAdapter = new userArtistsAdapter(container.getContext(), 0, listCollectionArtist);  // Definimos nuestro adaptador
 
+            // Primero extraemos el del main activity
+            userUID = ((MainActivity) getActivity()).getOpenedProfile();
+
         }catch(RuntimeException e){}
 
-        // Primero extraemos el del main activity
-        userUID = ((MainActivity) getActivity()).getOpenedProfile();
 
         // Si no se ha buscado ninguno, el nuestro por defecto
         if(userUID.equals("no profile") || userUID.equals("") || userUID == null){
@@ -106,12 +106,11 @@ public class UserArtists extends Fragment {
                                 public void onDataChange(DataSnapshot dataSnapshot) {
 
                                     for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                                        Artista grupo = userSnapshot.getValue(Artista.class);
-                                        listCollectionArtist.add(grupo.getArtistas().toString().split("-")[0]);
+                                        FirebaseItem grupo = userSnapshot.getValue(FirebaseItem.class);
+                                        listCollectionArtist.add(userSnapshot.getKey() + "-" + grupo.getItemUrl());
                                     }
 
                                     try{
-
                                         // Limpiamos los duplicados. Gracias al LinkedHashSet mantenemos el orden de los elementos
                                         Set<String> hs = new LinkedHashSet<>(listCollectionArtist);
                                         hs.addAll(listCollectionArtist);

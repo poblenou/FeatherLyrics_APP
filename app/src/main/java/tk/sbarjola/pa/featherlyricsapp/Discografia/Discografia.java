@@ -40,7 +40,7 @@ import tk.sbarjola.pa.featherlyricsapp.R;
 
 public class Discografia extends Fragment {
 
-    // Datos de la API
+    // Datos de la APIf
     private String BaseURL = "http://api.vagalume.com.br/";         // Principio de la URL que usará retrofit
     private final static String endURL = "/discografia/index.js";   // Ultima parte de la url
     private String URLVagalume = "";                                // Parte del medio que será el artista en minusculas y los espacios cambiados por guiones

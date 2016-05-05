@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 
-import tk.sbarjola.pa.featherlyricsapp.Firebase.Artista;
+import tk.sbarjola.pa.featherlyricsapp.Firebase.FirebaseItem;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.FirebaseConfig;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.Usuario;
 import tk.sbarjola.pa.featherlyricsapp.MainActivity;
@@ -107,8 +107,8 @@ public class UserSongs extends Fragment {
                                 public void onDataChange(DataSnapshot dataSnapshot) {
 
                                     for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                                        Artista grupo = userSnapshot.getValue(Artista.class);
-                                        listCollectionMusic.add(0, grupo.getArtistas().toString());
+                                        FirebaseItem grupo = userSnapshot.getValue(FirebaseItem.class);
+                                        listCollectionMusic.add(0, grupo.getItemUrl().toString());
                                     }
 
                                         // Limpiamos los duplicados. Gracias al LinkedHashSet mantenemos el orden de los elementos

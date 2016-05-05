@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView navigationView;      // NavigationView
     Fragment fragment = null;                   // fragmento que ocupara el centro de nuestro navigation drawer
     Item searchedAlbum;                         // List que le pasamos al fragment de album
+    String searchedAlbumURL;                    // URL que contiene la imagen de la caratula del album
     String discographyStart = "no artist";      // Nombre del artista que mostraremos en la sección de discografia
     String playingArtist = "no artist";         // Nombre del artista de la canción en reproducción
     String playingTrack = "no track";           // Nombre de la pista en reproducción
@@ -374,6 +375,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.searchedAlbum = searchedAlbum;
     }
 
+    public void setSearchedAlbumURL(String searchedAlbumURL) {
+        this.searchedAlbumURL = searchedAlbumURL;
+    }
+
     // Getters
 
     public String getDiscographyStart() { return discographyStart; }
@@ -400,5 +405,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public Item getSearchedAlbum() {
         return searchedAlbum;
+    }
+
+    public String getSearchedAlbumURL() {
+        return searchedAlbumURL;
     }
 }
