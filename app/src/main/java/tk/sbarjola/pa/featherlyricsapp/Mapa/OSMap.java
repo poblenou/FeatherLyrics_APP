@@ -60,7 +60,7 @@ public class OSMap extends Fragment {
 
     ArrayList<String> grupos = new ArrayList<>();        // Grupos escuchados por el usuario
     ArrayList<String> grupoContacto = new ArrayList<>(); // Grupo del otro contacto
-        String gruposEnComun = "";                           // Grupos en común con otro contacto
+    String gruposEnComun = "";                           // Grupos en común con otro contacto
 
     private class UserMarkerInfo extends MarkerInfoWindow {
 
@@ -113,7 +113,7 @@ public class OSMap extends Fragment {
 
                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                     FirebaseItem grupo = userSnapshot.getValue(FirebaseItem.class);
-                    grupos.add(grupo.getItemUrl().toString().split("-")[0]);
+                    grupos.add(userSnapshot.getKey());
                 }
 
                 //Al utilizar un HashSet se eliminan todos los duplicados y luego lo convertimos de nuevo a arrayList
@@ -121,8 +121,7 @@ public class OSMap extends Fragment {
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
-            }
+            public void onCancelled(FirebaseError firebaseError) {}
         });
     }
 
@@ -220,7 +219,7 @@ public class OSMap extends Fragment {
 
                                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                                     FirebaseItem grupo = userSnapshot.getValue(FirebaseItem.class);
-                                    grupoContacto.add(grupo.getItemUrl().toString());
+                                    grupoContacto.add(userSnapshot.getKey());
                                 }
 
                                 //Al utilizar un HashSet se eliminan todos los duplicados y luego lo convertimos de nuevo a arrayList
@@ -267,9 +266,7 @@ public class OSMap extends Fragment {
                             }
 
                             @Override
-                            public void onCancelled(FirebaseError firebaseError) {
-
-                            }
+                            public void onCancelled(FirebaseError firebaseError) {}
                         });
                     }
                 }
