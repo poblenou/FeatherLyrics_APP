@@ -174,6 +174,7 @@ public class Canciones extends Fragment{
 
         MenuItem item = menu.findItem(R.id.action_search);
         SearchView sv = new SearchView(((MainActivity) getActivity()).getSupportActionBar().getThemedContext());
+        sv.setQueryHint("Example: Wonderwall - Oasis");
         MenuItemCompat.setShowAsAction(item, MenuItemCompat.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItemCompat.SHOW_AS_ACTION_IF_ROOM);
         MenuItemCompat.setActionView(item, sv);
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

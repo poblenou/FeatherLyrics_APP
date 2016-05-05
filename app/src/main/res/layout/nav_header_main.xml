@@ -29,7 +29,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="#FFF"
         android:id="@+id/featherLyrics"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/textView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -43,8 +43,9 @@
         android:text="Tú música, nuestra música"
         android:id="@+id/textView"
         android:textColor="#819fb0"
-        android:layout_below="@+id/featherLyrics"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="18dp" />
 
 </RelativeLayout>

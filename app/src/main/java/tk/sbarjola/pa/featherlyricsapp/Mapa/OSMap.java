@@ -206,7 +206,7 @@ public class OSMap extends Fragment {
                     gruposEnComun = "";
 
                     // Para evitar mostrar al propio usuario
-                    if(!referenciaMusicaContacto.toString().equals(config.getReferenciaUsuarioLogeado().toString() + "/Artistas")){
+                    if(!referenciaMusicaContacto.toString().equals(config.getReferenciaUsuarioLogeado().toString() + "/Artistas") && (usuario.getLatitud() != -1 && usuario.getLongitud() != -1)){
 
                         // Descargamos la lista de usuarios
                         referenciaMusicaContacto.addValueEventListener(new ValueEventListener() {

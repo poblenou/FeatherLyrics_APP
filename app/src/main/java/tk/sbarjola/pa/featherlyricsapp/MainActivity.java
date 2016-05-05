@@ -303,8 +303,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             sharedPreferencesEditor = preferencias.edit();
             sharedPreferencesEditor.putBoolean("autologin", false);
             sharedPreferencesEditor.commit();
-
-            finish();   // Volvemos al login
         }
 
         // Si el boleano es true llamamos al nuevo fragment
