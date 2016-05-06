@@ -17,6 +17,9 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.firebase.client.Firebase;
+
+import org.apache.commons.lang3.ObjectUtils;
+
 import java.util.List;
 import at.markushi.ui.CircleButton;
 import retrofit.Call;
@@ -222,7 +225,7 @@ public class Canciones extends Fragment{
 
                 if (response.isSuccess()) {
 
-                    LyricsList resultado = response.body();
+                    final LyricsList resultado = response.body();
 
                     try{
                         resultadosLetras = resultado.getMus();
@@ -290,7 +293,7 @@ public class Canciones extends Fragment{
             @Override
             public void onResponse(Response<ArtistSpotify> response, Retrofit retrofit) {
 
-                ArtistSpotify resultado = response.body();
+               final ArtistSpotify resultado = response.body();
 
                 if (response.isSuccess()) {
 
@@ -388,14 +391,18 @@ public class Canciones extends Fragment{
 
         if(cancionMostrada.equals("reproduccion")) {
 
-            TextView textCancion = (TextView) getView().findViewById(R.id.canciones_letraCancion);
-            textCancion.setText("");
-            ProgressBar progress = (ProgressBar) getView().findViewById(R.id.progressAnimation);   // Animacion de cargando
-            progress.setVisibility(View.VISIBLE);
+            try{
 
-            // Descargamos la información de las canciones
-            DescargarLetras descargarLetras = new DescargarLetras();  // Instanciams nuestro asyncTask para descargar en segundo plano la letra
-            descargarLetras.execute();                                // Y lo ejecutamos
+                TextView textCancion = (TextView) getView().findViewById(R.id.canciones_letraCancion);
+                textCancion.setText("");
+                ProgressBar progress = (ProgressBar) getView().findViewById(R.id.progressAnimation);   // Animacion de cargando
+                progress.setVisibility(View.VISIBLE);
+
+                // Descargamos la información de las canciones
+                DescargarLetras descargarLetras = new DescargarLetras();  // Instanciams nuestro asyncTask para descargar en segundo plano la letra
+                descargarLetras.execute();                                // Y lo ejecutamos
+
+            }catch (NullPointerException e){}
         }
     }
 
