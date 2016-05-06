@@ -1,5 +1,6 @@
 package tk.sbarjola.pa.featherlyricsapp.Discografia;
 
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import android.support.v7.widget.SearchView;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -48,6 +50,9 @@ public class Discografia extends Fragment {
     private String URLLastFm = "";                                  // LastFM
     private String artist = "";                                     // Nombre del artista
     private String artistSpotify = "Arista no disponible";          // Nombre del artista de la imagen de Spotify
+
+    //  Booleano que determina si vagalume ha encontrado
+    private boolean vagalumeFound = true;
 
     // Variables y Adapters
     private servicioDiscografiaRetrofit servicioDiscografia;   // Interfaz para descargar la discografia
@@ -152,7 +157,7 @@ public class Discografia extends Fragment {
                 artist = query;
 
                 // La url de lastfm necesita un artista con espacios y sin caracteres especiales
-                URLLastFm = "http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + artist.replace("-", "") + "&api_key=29d77eab70a48896e7b80f7d5977a5be&format=json";
+                URLLastFm = "http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + artist.replace("-", "").replace("'", "") + "&api_key=29d77eab70a48896e7b80f7d5977a5be&format=json";
 
                 DescargarDiscografia descargarDiscografia = new DescargarDiscografia();  // Instanciams nuestro asyncTask para descargar en segundo plano la discografia
                 descargarDiscografia.execute();                                          // Y lo ejecutamos
@@ -177,6 +182,7 @@ public class Discografia extends Fragment {
 
         artist = artist.toLowerCase();      // la busqueda del usuario la pasamos a minusculas
         artist = artist.replace(" ", "-");  // y cambiamos los espacios por guiones
+        artist = artist.replace("'", "");  // y cambiamos las comillas
 
         // Y construimos las URL's
         URLVagalume = BaseURL + artist + endURL;
@@ -192,13 +198,12 @@ public class Discografia extends Fragment {
 
                 if (response.isSuccess()) {
 
-                    ListDiscografia resultado = response.body();
-
-                    myGridAdapter.clear();
-
-                    Discography discografia = resultado.getDiscography();
-
+                    final ListDiscografia resultado = response.body();
+                    final Discography discografia = resultado.getDiscography();
                     artist = resultado.getDiscography().getArtist().getDesc();
+
+                    vagalumeFound = true;
+                    myGridAdapter.clear();
 
                     try {
 
@@ -215,23 +220,33 @@ public class Discografia extends Fragment {
                             setGridViewHeightBasedOnChildren(gridDiscos, 2);
                         }
 
+
+
                     } catch (NullPointerException e) {}
 
                 } else {
 
-                    myGridAdapter.clear();
-
                     TextView artista = (TextView) getView().findViewById(R.id.discografia_artistName);
                     artista.setText(artistSpotify);
 
-                    Toast.makeText(getContext(), "Discografía no disponible", Toast.LENGTH_SHORT).show(); // Mostramos un toast
+                    if (vagalumeFound == false){
+                        Toast.makeText(getContext(), "Discografía no disponible", Toast.LENGTH_SHORT).show(); // Mostramos un toast
+                    }
+
+                    myGridAdapter.clear();
+                    vagalumeFound = false;
                 }
             }
 
             @Override
             public void onFailure(Throwable t) {
+
+                if(vagalumeFound == false){
+                    Toast.makeText(getContext(), "Se ha producido un error", Toast.LENGTH_SHORT).show(); // Mostramos un toast
+                }
+
                 myGridAdapter.clear();
-                Toast.makeText(getContext(), "Se ha producido un error", Toast.LENGTH_SHORT).show(); // Mostramos un toast
+                vagalumeFound = false;
             }
         });
     }
@@ -246,7 +261,7 @@ public class Discografia extends Fragment {
             @Override
             public void onResponse(Response<ArtistSpotify> response, Retrofit retrofit) {
 
-                ArtistSpotify resultado = response.body();
+                final ArtistSpotify resultado = response.body();
 
                 if (response.isSuccess()) {
 
@@ -281,6 +296,27 @@ public class Discografia extends Fragment {
                                 ScrollView scrollLetra = (ScrollView) getView().findViewById(R.id.discografia_scrollViewDiscografia);
                                 scrollLetra.fullScroll(ScrollView.FOCUS_UP);
                             }
+
+                            // Si spotify ha encontrado el artista pero vagalume no, cambiamos el artista buscado por el nombre del encontrado en spotify
+                            // y volvemos a hacer peticiones Vagalume y LastFm
+                            if(vagalumeFound == false && resultado != null){
+
+                                // Dormirmos un tiempo hasta que acaben
+                                final Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+
+                                        artist = resultado.getArtists().getItems().get(0).getName();
+                                        URLLastFm = "http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=" + artist.replace("-", "") + "&api_key=29d77eab70a48896e7b80f7d5977a5be&format=json";
+
+                                        DescargarDiscografia descargarDiscografia = new DescargarDiscografia();  // Instanciams nuestro asyncTask para descargar en segundo plano las noticias
+                                        descargarDiscografia.execute();                                          // Ejecutamos el async task de discograía
+                                        DescargarInfo info = new DescargarInfo();                                // Lo mismo para la biografia del artista
+                                        info.execute();                                                          // Y ejecutamos tambien
+                                    }
+                                }, 2000);
+                            }
                         }
                         catch (NullPointerException ex){}
                     }
@@ -298,7 +334,7 @@ public class Discografia extends Fragment {
 
             @Override
             public void onFailure(Throwable t) {
-                Toast.makeText(getContext(), "Se ha producido un error", Toast.LENGTH_SHORT).show(); // Mostramos un toast
+                Toast.makeText(getContext(), "Se ha producido un error al buscar la imagen de artista", Toast.LENGTH_SHORT).show(); // Mostramos un toast
             }
         });
     }
@@ -314,35 +350,44 @@ public class Discografia extends Fragment {
             public void onResponse(Response<ArtistInfo> response, Retrofit retrofit) {
 
                 try{
-                    ArtistInfo resultado = response.body();
 
-                    if (response.isSuccess()) {
+                    final ArtistInfo resultado = response.body();
 
-                        String datosArtista = "";   // String que contiene la popularidad y generos del artista
+                        if (response.isSuccess()) {
 
-                        if(resultado.getArtist() != null){
+                            String datosArtista = "";   // String que contiene la popularidad y generos del artista
 
-                            datosArtista = resultado.getArtist().getBio().getSummary();
+                            if(resultado.getArtist() != null){
 
-                            String toDelete = "There are multiple artists with this name:";
-                            if (datosArtista.contains(toDelete)){
-                                datosArtista = datosArtista.substring(toDelete.length() + 5, datosArtista.length());
-                            }
+                                datosArtista = resultado.getArtist().getBio().getSummary();
 
-                            TextView bioArtista = (TextView) getView().findViewById(R.id.discografia_bio);
-                            bioArtista.setText(datosArtista);  // Asignamos los datos del artista
+                                String toDelete = "There are multiple artists with this name:";
 
+                                if (datosArtista.contains(toDelete)){
+                                    datosArtista = datosArtista.substring(toDelete.length() + 5, datosArtista.length());
+                                }
+
+                                TextView bioArtista = (TextView) getView().findViewById(R.id.discografia_bio);
+
+                                if(!datosArtista.substring(0,9).contains("<a href=") && !datosArtista.substring(0,9).contains("Fix your tags to")){
+                                    bioArtista.setText(datosArtista);  // Asignamos los datos del artista
+                                }
+                                else {
+                                    bioArtista.setText("Biografía no encontrada");
+                                }
+                          }
+                        } else {
+                            Toast.makeText(getContext(), "Biografía del artista no disponible", Toast.LENGTH_SHORT).show(); // Mostramos un toast
                         }
-
-                    } else {
-                        Toast.makeText(getContext(), "Biografía del artista no disponible", Toast.LENGTH_SHORT).show(); // Mostramos un toast
-                    }
                 }catch (NullPointerException e){}
             }
 
             @Override
             public void onFailure(Throwable t) {
-                Toast.makeText(getContext(), "Se ha producido un error", Toast.LENGTH_SHORT).show(); // Mostramos un toast
+                if(vagalumeFound == false){
+                    Toast.makeText(getContext(), "No se ha encontrado la discografía del artista", Toast.LENGTH_SHORT).show(); // Mostramos un toast
+
+                }
             }
         });
     }
@@ -363,7 +408,6 @@ public class Discografia extends Fragment {
     }
 
     // AsyncTasks en los que ejecutaremos nuestras descargas en segundo plano
-
     class DescargarDiscografia extends AsyncTask {
         @Override
         protected Object doInBackground(Object[] params) {
