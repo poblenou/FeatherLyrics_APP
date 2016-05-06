@@ -56,15 +56,15 @@ public class Canciones extends Fragment{
     String searchedArtist = "no artist";        // Nombre del firebaseItem seleccionado en discografia
     String searchedTrack = "no track";          // Nombre de la pista seleccionada en discografia
 
-    // FirebaseItem y pista que vamos a mostrar
-    String artist = "no artist";
-    String track = "no track";
-    String url_cancion = "URL desconocida";
-    String url_artista = "URL desconocida";
-    String cancionMostrada = "reproduccion";       // Que canción estamos mostrando en este momento
-    String letraCancion;                           // String en el que guardaremos la letra de la canción
+    // Artista y pista que vamos a mostrar
+    String artist = "no artist";                  // Arista que buscaremos
+    String track = "no track";                    // Pista que buscaremos
+    String url_cancion = "URL desconocida";       // Url de la cancion (imagen)
+    String url_artista = "URL desconocida";       // Url del artista (imagen)
+    String cancionMostrada = "reproduccion";      // Que canción estamos mostrando en este momento
+    String letraCancion;                          // String en el que guardaremos la letra de la canción
 
-    FirebaseConfig config;
+    FirebaseConfig config;  // Config firebase
 
     // Variables y Adapters
     private servicioLetrasRetrofit servicioLetras;  // Interfaz para las peliculas populares
@@ -98,12 +98,12 @@ public class Canciones extends Fragment{
         // Seteamos las variables de la canción a mostrar
         if(!searchedArtist.equals("no artist")){
             artist = searchedArtist;
-            track = searchedTrack;
+            track = filtrarTitulo(searchedTrack);
             cancionMostrada = "busqueda";
         }
         else{
             artist = playingArtist;
-            track = playingTrack;
+            track = filtrarTitulo(playingTrack);
             cancionMostrada = "reproduccion";
         }
 
@@ -123,21 +123,21 @@ public class Canciones extends Fragment{
 
                     if (cancionMostrada.equals("reproduccion") && !searchedArtist.equals("no artist") && !searchedTrack.equals("no track")) {
                         artist = searchedArtist;
-                        track = searchedTrack;
+                        track = filtrarTitulo(searchedTrack);
                         cancionMostrada = "busqueda";
                         progress.setVisibility(View.VISIBLE);
                     } else if (cancionMostrada.equals("busqueda") && !playingTrack.equals("no track")) {
                         artist = playingArtist;
-                        track = playingTrack;
+                        track = filtrarTitulo(playingTrack);
                         cancionMostrada = "reproduccion";
                         progress.setVisibility(View.VISIBLE);
                     }
 
                     DescargarLetras descargarLetras = new DescargarLetras();  // Instanciams nuestro asyncTask para descargar en segundo plano la letra
-                    descargarLetras.execute();
-                                                 // Y lo ejecutamos
+                    descargarLetras.execute();                                // Y lo ejecutamos
+
                 } else {
-                    Toast.makeText(getContext(), "No se ha detectado ningun firebaseItem", Toast.LENGTH_SHORT).show(); // Mostramos un toast
+                    Toast.makeText(getActivity(), "No se ha detectado ninguna canción en reproducción o buscada", Toast.LENGTH_SHORT).show(); // Mostramos un toast
                 }
             }
         });
@@ -191,7 +191,7 @@ public class Canciones extends Fragment{
                 }
 
                 // Seteamos las variables
-                track = searchedTrack;
+                track = filtrarTitulo(searchedTrack);
                 artist = searchedArtist;
                 cancionMostrada = "busqueda";
 
@@ -382,9 +382,9 @@ public class Canciones extends Fragment{
 
         // Les damos a las variables globales el valor de la que hemos recibido para pasarsela a retrofit
         this.playingArtist = artist;
-        this.playingTrack = track;
+        this.playingTrack = filtrarTitulo(track);
         this.artist = artist;
-        this.track = track;
+        this.track = filtrarTitulo(track);
 
         if(cancionMostrada.equals("reproduccion")) {
 
@@ -412,5 +412,23 @@ public class Canciones extends Fragment{
         ((MainActivity)getActivity()).setSearchedArtist("no artist");
         ((MainActivity)getActivity()).setSearchedTrack("no track");
 
+    }
+
+    public String filtrarTitulo(String titulo){
+
+        // Metodo que elimina palabras clavesde los titulos
+
+        String tituloFiltrado = titulo;
+        tituloFiltrado = tituloFiltrado.replace(" - ", "");
+        tituloFiltrado = tituloFiltrado.replace("[Live]", "");
+        tituloFiltrado = tituloFiltrado.replace("[Directo]", "");
+        tituloFiltrado = tituloFiltrado.replace("[Bonus]", "");
+        tituloFiltrado = tituloFiltrado.replace("[*]", "");
+        tituloFiltrado = tituloFiltrado.replace("Directo", "");
+        tituloFiltrado = tituloFiltrado.replace("Live", "");
+        tituloFiltrado = tituloFiltrado.replace("Bonus", "");
+        tituloFiltrado = tituloFiltrado.replace("*", "");
+
+        return tituloFiltrado;
     }
 }
