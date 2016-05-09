@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Hacemos que autmaticamente arranque en el fragmento "Home"
         getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.fragment_enter_animation, R.anim.fragment_exit_animation, R.anim.fragment_enter_animation, R.anim.fragment_exit_animation)
                 .addToBackStack(null)
                 .replace(R.id.content_frame, new Noticias(), "home")
                 .commit();
@@ -153,6 +154,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         String tag = "canciones";
 
         getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.fragment_enter_animation, R.anim.fragment_exit_animation, R.anim.fragment_enter_animation, R.anim.fragment_exit_animation)
                 .replace(R.id.content_frame, fragment, tag)
                 .addToBackStack(null)
                 .commit();
@@ -171,6 +173,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragment = new Discografia();
 
         getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.fragment_enter_animation, R.anim.fragment_exit_animation, R.anim.fragment_enter_animation, R.anim.fragment_exit_animation)
                 .addToBackStack(null)
                 .replace(R.id.content_frame, fragment)
                 .commit();
@@ -188,6 +191,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragment = new BaseFragmentUser();
 
         getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.fragment_enter_animation, R.anim.fragment_exit_animation, R.anim.fragment_enter_animation, R.anim.fragment_exit_animation)
                 .addToBackStack(null)
                 .replace(R.id.content_frame, fragment)
                 .commit();
@@ -204,6 +208,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragment = new Discografia();
 
         getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.fragment_enter_animation, R.anim.fragment_exit_animation, R.anim.fragment_enter_animation, R.anim.fragment_exit_animation)
                 .addToBackStack(null)
                 .replace(R.id.content_frame, fragment)
                 .commit();
@@ -219,10 +224,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragment = new Home();
 
         getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.fragment_enter_animation, R.anim.fragment_exit_animation, R.anim.fragment_enter_animation, R.anim.fragment_exit_animation)
                 .addToBackStack(null)
                 .replace(R.id.content_frame, fragment)
                 .commit();
-
     }
 
     public void abrirPersonalProfile() {
@@ -236,6 +241,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragment = new BaseFragmentUser();
 
         getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.fragment_enter_animation, R.anim.fragment_exit_animation, R.anim.fragment_enter_animation, R.anim.fragment_exit_animation)
                 .addToBackStack(null)
                 .replace(R.id.content_frame, fragment)
                 .commit();
@@ -251,6 +257,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         checkBackStackOverhead();
 
         getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.fragment_enter_animation, R.anim.fragment_exit_animation, R.anim.fragment_enter_animation, R.anim.fragment_exit_animation)
                 .addToBackStack(null)
                 .replace(R.id.content_frame, fragment)
                 .commit();
@@ -310,6 +317,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             checkBackStackOverhead();
 
             getSupportFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.anim.slideup, R.anim.slideout, R.anim.slideup, R.anim.slideout)
                     .addToBackStack(null)
                     .replace(R.id.content_frame, fragment, tag)
                     .commit();
