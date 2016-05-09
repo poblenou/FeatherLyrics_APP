@@ -7,8 +7,47 @@
     <string name="action_settings">Settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
-    <string name="title_activity_register">RegisterActivity</string>
+    <string name="title_activity_register" translatable="false">RegisterActivity</string>
+    <string name="about_a">FeatherLyrics, cliente de Vagalume y Spotify API.</string>
+    <string name="about_b">Todas las letras son porporcionadas por Vagalume.com.br\n\n“This product uses a SPOTIFY API but is not endorsed, certified or otherwise approved in any way by Spotify. Spotify is the registered trade mark of the Spotify Group.”\n\n This project is aviable on GitHub \n\n https://github.com/helicida/FeatherLyrics_APP</string>
+    <string name="album_titulo">Titulo</string>
+    <string name="album_subtitulo">Band</string>
+    <string name="login_record">Recordar usuario</string>
+    <string name="login_button_entrar">Entrar</string>
+    <string name="login_button_registrarse">Registrarse</string>
+    <string name="register_email">Email</string>
+    <string name="register_contrasenya">Contraseña</string>
+    <string name="register_info">Información personal</string>
+    <string name="register_nombre">Nombre</string>
+    <string name="register_edad">Edad</string>
+    <string name="register_about">Sobre mi</string>
+    <string name="register_button_register">Registrarse</string>
+    <string name="register_info_button">La aplicación recogerá datos de tu localización para ofrecer musica basada en tus gustos y zona.</string>
+    <string name="canciones_info">Haz clic en el botón para buscar la letra de la canción que esté sonando</string>
+    <string name="settings_notificaciones">Mostrar notificaciones</string>
+    <string name="settings_notificaciones_info">Mostar una notificación con el nombre de pista y nombnre del artista de la canción en reproducción</string>
+    <string name="settings_splash">Splash Screen</string>
+    <string name="settings_splash_info">Mostrar el splash screen al iniciar la aplicación</string>
+    <string name="settings_tono">Tono aplicación</string>
+    <string name="settings_tono_info">Reproduce el sonido de la aplicación al inicio</string>
+    <string name="settings_historial">Limpiar el historial de reproducciones</string>
+    <string name="settings_historial_info">Vacíar la base de datos que contiene el historial de reproducciones</string>
+    <string name="settings_limpiar_bbdd">Limpiar BBDD</string>
+    <string name="settings_cambiar_tono">CAMBIAR TONO</string>
+    <string name="drawer_description">Tú música, nuestra música</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_canciones">Canciones</string>
+    <string name="nav_discografia">Discografia</string>
+    <string name="nav_descubrir">Descubrir</string>
+    <string name="nav_noticias">Noticias</string>
+    <string name="nav_reproducciones">Reproducciones locales</string>
+    <string name="nav_category_ajustes">Ajustes</string>
+    <string name="nav_configuración">Configuración</string>
+    <string name="nav_about">About</string>
+    <string name="nav_salir">Salir</string>
+    <string name="home_titulo">Reproducciones locales</string>
+    <string name="home_descripcion">Lista de reproducciones Android</string>
 </resources>

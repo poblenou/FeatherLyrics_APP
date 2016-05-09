@@ -79,7 +79,7 @@
                 android:gravity="start"
                 android:layout_width="150dp"
                 android:layout_height="50dp"
-                android:text="Recordar usuario"
+                android:text="@string/login_record"
                 android:id="@+id/login_saveAcc"
                 android:checked="false"
                 android:textColor="#ffffff"
@@ -99,7 +99,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Entrar"
+                android:text="@string/login_button_entrar"
                 android:id="@+id/login_ButtonLogin"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
@@ -110,7 +110,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Registrarse"
+                android:text="@string/login_button_registrarse"
                 android:id="@+id/login_ButtonRegister"
                 android:layout_alignParentBottom="true"
                 android:layout_toRightOf="@+id/login_ButtonLogin"
