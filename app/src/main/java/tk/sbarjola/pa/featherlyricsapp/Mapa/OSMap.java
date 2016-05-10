@@ -5,6 +5,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -130,12 +131,15 @@ public class OSMap extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_osmap, container, false);
 
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.toolbar_mapa);
+
         // Declaramos el mapa
         map = (MapView) view.findViewById(R.id.map);
         map.setTilesScaledToDpi(true);
         map.setTileSource(TileSourceFactory.MAPNIK);
 
         try{
+
             // Ajustamos el mapa con los controles, los elementos a mostrar y el zoom deseado
             ajustarMapa();
 

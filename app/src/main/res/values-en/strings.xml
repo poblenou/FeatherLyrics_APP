@@ -37,7 +37,7 @@
     <string name="register_nombre">Name</string>
     <string name="settings_cambiar_tono">CHANGE TONE</string>
     <string name="settings_historial">Clear playback history</string>
-    <string name="settings_historial_info">Clears the BBDD that contains music history</string>
+    <string name="settings_historial_info">Clears the BBDD that contains the music history</string>
     <string name="settings_limpiar_bbdd">Clear BBDD</string>
     <string name="settings_notificaciones">Show notifications</string>
     <string name="settings_notificaciones_info">Shows a notfication with the artist and track name</string>
@@ -46,4 +46,10 @@
     <string name="settings_tono">Application tone</string>
     <string name="settings_tono_info">Plays the application tone at the startup</string>
     <string name="title_activity_settings">Preferences</string>
+    <string name="url_imagen">Image URL</string>
+    <string name="toolbar_noticias">News</string>
+    <string name="toolbar_mapa">Discover - OSMap</string>
+    <string name="toolbar_home">Local playback</string>
+    <string name="toolbar_canciones">Songs</string>
+    <string name="editarPerfilGuaradr">Save changes</string>
 </resources>

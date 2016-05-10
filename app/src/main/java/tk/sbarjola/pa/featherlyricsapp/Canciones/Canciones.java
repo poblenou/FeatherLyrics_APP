@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -89,6 +90,8 @@ public class Canciones extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup contenedor, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_canciones, contenedor, false);
+
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.toolbar_canciones);
 
         ProgressBar progress = (ProgressBar) view.findViewById(R.id.progressAnimation);   // Animacion de cargando
         CircleButton button = (CircleButton) view.findViewById(R.id.canciones_circleButton);   // Nuestro circle button

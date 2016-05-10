@@ -19,7 +19,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Guardar cambios"
+            android:text="@string/editarPerfilGuaradr"
             android:id="@+id/editprofile_guardarCambios"
             android:layout_marginTop="24dp"
             android:layout_below="@+id/to_text_input_layout4"
@@ -33,7 +33,6 @@
             android:textSize="20dp"
             android:textStyle="bold"
             android:id="@+id/textView9"
-            android:textColor="#FFFFFF"
             android:layout_below="@+id/editProfile_profilePic"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
@@ -120,15 +119,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/editProfile_urlImagen"
-                android:hint="Url Imagen"
+                android:hint="@string/url_imagen"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />
 
         </android.support.design.widget.TextInputLayout>
-
-
 
     </RelativeLayout>
 

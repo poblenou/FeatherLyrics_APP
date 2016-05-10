@@ -46,4 +46,10 @@
     <string name="nav_salir">Salir</string>
     <string name="home_descripcion">Lista de reproducciones Android</string>
     <string name="home_titulo">Reproducciones locales</string>
+    <string name="toolbar_canciones">Canciones</string>
+    <string name="toolbar_home">Reproducciones locales</string>
+    <string name="toolbar_mapa">Descubrir - OSMap</string>
+    <string name="toolbar_noticias">Noticias</string>
+    <string name="url_imagen">Url Imagen</string>
+    <string name="editarPerfilGuaradr">Guardar cambios</string>
 </resources>
