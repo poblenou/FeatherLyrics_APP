@@ -150,8 +150,6 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
                                 Firebase nuevoUsuario = referenciaListaUsuarios.push();
                                 Usuario usuario = new Usuario();
                                 usuario.setKey(nuevoUsuario.getKey());
-                                usuario.setEmail(email);
-                                usuario.setPassword(password);
                                 usuario.setUID(authData.getUid());
                                 usuario.setDescripcion(about.getText().toString());
                                 usuario.setNombre(nombre.getText().toString());

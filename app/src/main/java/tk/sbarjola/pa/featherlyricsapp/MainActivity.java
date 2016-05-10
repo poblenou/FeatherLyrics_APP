@@ -24,6 +24,7 @@ import tk.sbarjola.pa.featherlyricsapp.Discografia.Album;
 import tk.sbarjola.pa.featherlyricsapp.Discografia.Discografia;
 import tk.sbarjola.pa.featherlyricsapp.Home.About;
 import tk.sbarjola.pa.featherlyricsapp.Home.Home;
+import tk.sbarjola.pa.featherlyricsapp.Identificacion.LoginActivity;
 import tk.sbarjola.pa.featherlyricsapp.PerfilesUsuarios.BaseFragmentUser;
 import tk.sbarjola.pa.featherlyricsapp.Mapa.OSMap;
 import tk.sbarjola.pa.featherlyricsapp.Noticias.Noticias;
@@ -303,12 +304,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             transaccion = true;
         } else if (id == R.id.nav_salir) {
 
-            unregisterReceiver(broadcastReceiver);
+            try{
+                unregisterReceiver(broadcastReceiver);
+            }
+            catch(IllegalArgumentException e){}
 
             // Borramos la cuenta
             sharedPreferencesEditor = preferencias.edit();
             sharedPreferencesEditor.putBoolean("autologin", false);
             sharedPreferencesEditor.commit();
+
+            // Hacemos el intent al login
+            Intent loginIntent = new Intent().setClass(MainActivity.this, LoginActivity.class);
+            startActivity(loginIntent);
         }
 
         // Si el boleano es true llamamos al nuevo fragment

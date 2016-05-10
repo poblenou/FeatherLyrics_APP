@@ -11,8 +11,6 @@ public class Usuario {
 
     // String
     private String UID;         // Identificador del usuario
-    private String email;       // Correo del usuario
-    private String password;    // Contrasenya
     private String key;         // key
     private String nombre;      // nombre del usuario
     private String edad;        // edad del usuario
@@ -28,14 +26,6 @@ public class Usuario {
     public Usuario(){}
 
     // Getters
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
 
     public String getUID() {
         return UID;
@@ -70,14 +60,6 @@ public class Usuario {
     }
 
     // Setters
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public void setUID(String UID) {
         this.UID = UID;
