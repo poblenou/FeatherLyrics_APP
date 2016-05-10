@@ -68,7 +68,7 @@ public class About extends Fragment {
         textView.setTextColor(defaultColor);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setIcon(R.drawable.feather_icon);
+        builder.setIcon(R.drawable.drawer_icon);
         builder.setTitle(R.string.app_name);
         builder.setView(messageView);
         builder.create();
