@@ -99,7 +99,14 @@ public class UserProfile extends Fragment {
                                             .oval(false)
                                             .build();
 
-                                    Picasso.with(getContext()).load(usuario.getRutaImagen()).fit().centerCrop().transform(transformation).into(imageUser);
+                                    Picasso.with(getContext())
+                                            .load(usuario.getRutaImagen())
+                                            .error(R.drawable.loading_image)
+                                            .placeholder(R.drawable.progress_animation)
+                                            .fit()
+                                            .centerCrop()
+                                            .transform(transformation)
+                                            .into(imageUser);
                                 }
 
 
@@ -140,7 +147,14 @@ public class UserProfile extends Fragment {
                                         .oval(false)
                                         .build();
 
-                                Picasso.with(getContext()).load(usuario.getRutaImagen()).fit().centerCrop().transform(transformation).into(imageUser);
+                                Picasso.with(getContext())
+                                        .load(usuario.getRutaImagen())
+                                        .error(R.drawable.loading_image)
+                                        .placeholder(R.drawable.progress_animation)
+                                        .fit()
+                                        .centerCrop()
+                                        .transform(transformation)
+                                        .into(imageUser);
                             }
 
                             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(usuario.getNombre());

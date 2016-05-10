@@ -73,7 +73,6 @@ public class Canciones extends Fragment{
     private servicioLetrasRetrofit servicioLetras;  // Interfaz para las peliculas populares
     private servicioImagenArtistaRetrofit servicioImagen;      // Interfaz para descargar la imagen
 
-
     // Declaramos el retrofit como variable global para poder reutilizarlo si es necesario
     private Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BaseURL)

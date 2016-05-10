@@ -128,6 +128,7 @@ public class BaseFragmentUser extends Fragment {
         fragmentChild.setArguments(bundle);
         adapter.addFrag(fragmentChild, pagename);
         adapter.notifyDataSetChanged();
+
         if (adapter.getCount() > 0)
             tabLayout.setupWithViewPager(viewPager);
 
