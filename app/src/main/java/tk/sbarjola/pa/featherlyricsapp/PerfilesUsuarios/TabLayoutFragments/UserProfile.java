@@ -3,7 +3,6 @@ package tk.sbarjola.pa.featherlyricsapp.PerfilesUsuarios.TabLayoutFragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import com.firebase.client.ValueEventListener;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
-
 
 import tk.sbarjola.pa.featherlyricsapp.Firebase.FirebaseConfig;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.Usuario;
@@ -52,7 +50,6 @@ public class UserProfile extends Fragment {
         referenciaUsuario = config.getReferenciaUsuarioLogeado();
         referenciaListaUsuarios = config.getReferenciaListaUsuarios();
 
-
         // Referencia a las vistas
         editProfile = (ImageView) view.findViewById(R.id.userProfile_editarPerfil);
         imageUser = (ImageView) view.findViewById(R.id.userProfile_userPicture);
@@ -72,6 +69,9 @@ public class UserProfile extends Fragment {
            Si es del usuario, utilizamos su referencia directamente ahorrando datos
          */
         if(!userUID.contains(config.getUserUID())){
+
+            // Si no es tu perfil ocultamos el botón de editar
+            editProfile.setVisibility(View.GONE);
 
             // Descargamos la lista de usuarios
             referenciaListaUsuarios.addValueEventListener(new ValueEventListener() {

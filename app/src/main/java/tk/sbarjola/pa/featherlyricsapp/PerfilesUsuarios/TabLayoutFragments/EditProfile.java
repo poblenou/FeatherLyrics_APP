@@ -2,14 +2,12 @@ package tk.sbarjola.pa.featherlyricsapp.PerfilesUsuarios.TabLayoutFragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -38,6 +36,7 @@ public class EditProfile extends Fragment {
     EditText userDescription;
     EditText edad;
     EditText urlImagen;
+    Button guardar;
 
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState){
 
@@ -52,6 +51,7 @@ public class EditProfile extends Fragment {
         userDescription = (EditText) view.findViewById(R.id.editProfile_SobreMi);
         edad = (EditText) view.findViewById(R.id.editProfile_edadUser);
         urlImagen = (EditText) view.findViewById(R.id.editProfile_urlImagen);
+        guardar = (Button) view.findViewById(R.id.editprofile_guardarCambios);
 
         // Descargamos la lista de usuarios
         referenciaUser.addValueEventListener(new ValueEventListener() {
@@ -66,7 +66,7 @@ public class EditProfile extends Fragment {
                     edad.setText(usuario.getEdad());
                     urlImagen.setText(usuario.getRutaImagen());
 
-                    if(urlImagen.getText() != null && urlImagen.getText().length() > 5){
+                    if (urlImagen.getText() != null && urlImagen.getText().length() > 5) {
 
                         // Le damos la imagen de album transformada en redonda
                         final Transformation transformation = new RoundedTransformationBuilder()
@@ -76,12 +76,19 @@ public class EditProfile extends Fragment {
 
                         Picasso.with(getContext()).load(urlImagen.getText().toString()).fit().centerCrop().transform(transformation).into(imageUser);
                     }
-
-                }catch (NullPointerException e){}
+                } catch (NullPointerException e) {}
             }
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {}
+        });
+
+        // On click para editar el perfil
+        guardar.setOnClickListener(new View.OnClickListener() {
+            //@Override
+            public void onClick(View v) {
+
+            }
         });
 
         return view;
