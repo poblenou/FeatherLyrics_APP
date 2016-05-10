@@ -29,6 +29,7 @@ import tk.sbarjola.pa.featherlyricsapp.PerfilesUsuarios.BaseFragmentUser;
 import tk.sbarjola.pa.featherlyricsapp.Mapa.OSMap;
 import tk.sbarjola.pa.featherlyricsapp.Noticias.Noticias;
 import tk.sbarjola.pa.featherlyricsapp.MusicReceiver.MusicBroadcastReceiver;
+import tk.sbarjola.pa.featherlyricsapp.PerfilesUsuarios.TabLayoutFragments.EditProfile;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -217,12 +218,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.getMenu().getItem(2).setChecked(true);   // Marcamos el menu del navigation Drawer
     }
 
-    public void abrirReproduccionesLocales(){
+    public void abrirEditorPerfil(){
 
         checkBackStackOverhead();
 
-        // Función para llamar al fragment de canciones
-        fragment = new Home();
+        // Función para llamar al fragment de editar perfil
+        fragment = new EditProfile();
 
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.fragment_enter_animation, R.anim.fragment_exit_animation, R.anim.fragment_enter_animation, R.anim.fragment_exit_animation)
@@ -238,7 +239,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         checkBackStackOverhead();
 
-        // Función para llamar al fragment de canciones
+        // Función para llamar al fragment del perfil personal
         fragment = new BaseFragmentUser();
 
         getSupportFragmentManager().beginTransaction()

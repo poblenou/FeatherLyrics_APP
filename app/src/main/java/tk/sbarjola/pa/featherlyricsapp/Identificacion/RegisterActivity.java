@@ -92,12 +92,12 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
         // Referncias al layout
         registerEmail = (EditText) this.findViewById(R.id.register_TextEmail);
         registerPassword = (EditText) this.findViewById(R.id.register_TextPassword);
-        about = (EditText) this.findViewById(R.id.register_SobreMi);
-        nombre = (EditText) this.findViewById(R.id.register_nombreUser);
-        edad = (EditText) this.findViewById(R.id.register_edadUser);
-        buttonRegister = (Button) this.findViewById(R.id.register_ButtonRegister);
-        info = (TextView) this.findViewById(R.id.register_info);
-        imagenUsuario = (ImageView) this.findViewById(R.id.register_profilePic);
+        about = (EditText) this.findViewById(R.id.editProfile_SobreMi);
+        nombre = (EditText) this.findViewById(R.id.editProfile_nombreUser);
+        edad = (EditText) this.findViewById(R.id.editProfile_edadUser);
+        buttonRegister = (Button) this.findViewById(R.id.editprofile_guardarCambios);
+        info = (TextView) this.findViewById(R.id.editProfile_info);
+        imagenUsuario = (ImageView) this.findViewById(R.id.editProfile_profilePic);
 
         dialog = ProgressDialog.show(this, "", "Localizando tu posición..."); // Dialog que mostrará localizando
 

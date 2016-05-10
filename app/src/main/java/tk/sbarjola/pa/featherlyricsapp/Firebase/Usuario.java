@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Usuario {
 
     // String
-    private String UID;         // Identificador del usuario
+    private String uid;         // Identificador del usuario
     private String key;         // key
     private String nombre;      // nombre del usuario
     private String edad;        // edad del usuario
@@ -28,7 +28,7 @@ public class Usuario {
     // Getters
 
     public String getUID() {
-        return UID;
+        return uid;
     }
 
     public String getKey() {
@@ -62,7 +62,7 @@ public class Usuario {
     // Setters
 
     public void setUID(String UID) {
-        this.UID = UID;
+        this.uid = UID;
     }
 
     public void setKey(String key) {

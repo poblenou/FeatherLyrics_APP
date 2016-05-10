@@ -80,6 +80,15 @@
 
             </android.support.v7.widget.CardView>
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/userProfile_editarPerfil"
+                android:layout_alignTop="@+id/userProfile_userPicture"
+                android:layout_alignRight="@+id/userProfile_userPicture"
+                android:layout_alignEnd="@+id/userProfile_userPicture"
+                android:src="@drawable/ic_border_color_black_18dp" />
+
         </RelativeLayout>
 
     </ScrollView>

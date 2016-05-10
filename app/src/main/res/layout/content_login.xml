@@ -147,11 +147,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignRight="@+id/passwordWrapper"
                 android:layout_alignEnd="@+id/passwordWrapper" />
-
-
-
-
-
+            
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

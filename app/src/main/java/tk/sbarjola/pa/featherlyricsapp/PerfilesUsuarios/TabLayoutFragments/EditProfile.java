@@ -3,15 +3,20 @@ package tk.sbarjola.pa.featherlyricsapp.PerfilesUsuarios.TabLayoutFragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+import com.makeramen.roundedimageview.RoundedTransformationBuilder;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import tk.sbarjola.pa.featherlyricsapp.Firebase.FirebaseConfig;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.Usuario;
@@ -27,40 +32,52 @@ public class EditProfile extends Fragment {
     FirebaseConfig config;                                      // Configuración de firebase
     private Firebase referenciaUser;                            // Apunta al usuario
 
-    // Instancia del usuario que mostraremos y su UID
-    Usuario userToShow;
-    String userUID = "";
-
     // Vistas en las que mostraremo la información
     ImageView imageUser;
-    TextView userName;
-    TextView userDescription;
+    EditText userName;
+    EditText userDescription;
+    EditText edad;
+    EditText urlImagen;
 
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState){
 
-        View view = inflater.inflate(R.layout.fragment_user_profile, container, false);    //Definimos el fragment
+        View view = inflater.inflate(R.layout.fragment_editprofile, container, false);    //Definimos el fragment
 
         // Instancia de la configuración
         config = (FirebaseConfig) getActivity().getApplication();
         referenciaUser = config.getReferenciaUsuarioLogeado();
 
-
-
+        imageUser = (ImageView) view.findViewById(R.id.editProfile_profilePic);
+        userName = (EditText) view.findViewById(R.id.editProfile_nombreUser);
+        userDescription = (EditText) view.findViewById(R.id.editProfile_SobreMi);
+        edad = (EditText) view.findViewById(R.id.editProfile_edadUser);
+        urlImagen = (EditText) view.findViewById(R.id.editProfile_urlImagen);
 
         // Descargamos la lista de usuarios
         referenciaUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                try {
+                    Usuario usuario = dataSnapshot.getValue(Usuario.class);
 
-                    try {
+                    userName.setText(usuario.getNombre());
+                    userDescription.setText(usuario.getDescripcion());
+                    edad.setText(usuario.getEdad());
+                    urlImagen.setText(usuario.getRutaImagen());
 
-                        Usuario usuario = userSnapshot.getValue(Usuario.class);
+                    if(urlImagen.getText() != null && urlImagen.getText().length() > 5){
 
+                        // Le damos la imagen de album transformada en redonda
+                        final Transformation transformation = new RoundedTransformationBuilder()
+                                .cornerRadiusDp(360)
+                                .oval(false)
+                                .build();
 
-                    }catch (NullPointerException e){}
-                }
+                        Picasso.with(getContext()).load(urlImagen.getText().toString()).fit().centerCrop().transform(transformation).into(imageUser);
+                    }
+
+                }catch (NullPointerException e){}
             }
 
             @Override

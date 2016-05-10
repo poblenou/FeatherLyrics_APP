@@ -3,6 +3,7 @@ package tk.sbarjola.pa.featherlyricsapp.PerfilesUsuarios.TabLayoutFragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ public class UserSongs extends Fragment {
     // Firebase
     FirebaseConfig config;                                      // Configuración de firebase
     private Firebase referenciaListaUsuarios;                   // Apunta a la lista de usuarios
+    private Firebase referenciaUsuario;                         // Apunta al usuario loggeado
 
     // Instancia del usuario que mostraremos y su UID
     Usuario userToShow;
@@ -52,6 +54,7 @@ public class UserSongs extends Fragment {
         // Instancia de la configuración
         config = (FirebaseConfig) getActivity().getApplication();
         referenciaListaUsuarios = config.getReferenciaListaUsuarios();
+        referenciaUsuario = config.getReferenciaUsuarioLogeado();
 
         // Instancia de la configuración
         config = (FirebaseConfig) getActivity().getApplication();
@@ -81,35 +84,41 @@ public class UserSongs extends Fragment {
             userUID = config.getUserUID();
         }
 
-        // Descargamos la lista de usuarios
-        referenciaListaUsuarios.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+        /*
+           Comprobamos si queremos consultar los datos del mismo usuario o de otro diferente al tuyo
+           Si es del usuario, utilizamos su referencia directamente ahorrando datos
+         */
+        if(!userUID.contains(config.getUserUID())) {
 
-                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+            // Descargamos la lista de usuarios
+            referenciaListaUsuarios.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
 
-                    try {
+                    for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
 
-                        Usuario usuario = userSnapshot.getValue(Usuario.class);
+                        try {
 
-                        if (usuario.getUID().equals(userUID)) {
+                            Usuario usuario = userSnapshot.getValue(Usuario.class);
 
-                            // Cuando encotremos el usuario anyadimos la infromación a la vista
-                            userToShow = usuario;
+                            if (usuario.getUID().equals(userUID)) {
 
-                            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(usuario.getNombre());
+                                // Cuando encotremos el usuario anyadimos la infromación a la vista
+                                userToShow = usuario;
 
-                            final Firebase referenciaMusicaContacto = new Firebase(config.getReferenciaListaUsuarios().toString() + "/" + usuario.getKey() + "/Canciones");
+                                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(usuario.getNombre());
 
-                            // Descargamos la lista de usuarios
-                            referenciaMusicaContacto.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                final Firebase referenciaMusicaContacto = new Firebase(config.getReferenciaListaUsuarios().toString() + "/" + usuario.getKey() + "/Canciones");
 
-                                    for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                                        FirebaseItem grupo = userSnapshot.getValue(FirebaseItem.class);
-                                        listCollectionMusic.add(0, userSnapshot.getKey() + "-" + grupo.getItemUrl());
-                                    }
+                                // Descargamos la lista de usuarios
+                                referenciaMusicaContacto.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                        for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                                            FirebaseItem grupo = userSnapshot.getValue(FirebaseItem.class);
+                                            listCollectionMusic.add(0, userSnapshot.getKey() + "-" + grupo.getItemUrl());
+                                        }
 
                                         // Limpiamos los duplicados. Gracias al LinkedHashSet mantenemos el orden de los elementos
                                         Set<String> hs = new LinkedHashSet<>(listCollectionMusic);
@@ -120,20 +129,77 @@ public class UserSongs extends Fragment {
                                         // Setteamos el adapter
                                         songList.setAdapter(myListAdapter);
                                         setListViewHeightBasedOnChildren(songList);
-                                }
+                                    }
 
-                                @Override
-                                public void onCancelled(FirebaseError firebaseError) {}
-                            });
-                        }
+                                    @Override
+                                    public void onCancelled(FirebaseError firebaseError) {
+                                    }
+                                });
+                            }
+                        } catch (NullPointerException e) {}
                     }
-                    catch (NullPointerException e){}
                 }
-            }
 
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {}
-        });
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+                }
+            });
+        }
+        else{
+
+            // Descargamos la lista de usuarios
+            referenciaUsuario.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        try {
+
+                            Usuario usuario = dataSnapshot.getValue(Usuario.class);
+
+                            if (usuario.getUID().equals(userUID)) {
+
+                                // Cuando encotremos el usuario anyadimos la infromación a la vista
+                                userToShow = usuario;
+
+                                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(usuario.getNombre());
+
+                                final Firebase referenciaMusicaContacto = new Firebase(config.getReferenciaListaUsuarios().toString() + "/" + usuario.getKey() + "/Canciones");
+
+                                // Descargamos la lista de usuarios
+                                referenciaMusicaContacto.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                        for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                                            FirebaseItem grupo = userSnapshot.getValue(FirebaseItem.class);
+                                            listCollectionMusic.add(0, userSnapshot.getKey() + "-" + grupo.getItemUrl());
+                                        }
+
+                                        // Limpiamos los duplicados. Gracias al LinkedHashSet mantenemos el orden de los elementos
+                                        Set<String> hs = new LinkedHashSet<>(listCollectionMusic);
+                                        hs.addAll(listCollectionMusic);
+                                        myListAdapter.clear();
+                                        myListAdapter.addAll(hs);
+
+                                        // Setteamos el adapter
+                                        songList.setAdapter(myListAdapter);
+                                        setListViewHeightBasedOnChildren(songList);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(FirebaseError firebaseError) {
+                                    }
+                                });
+                            }
+                        } catch (NullPointerException e) {}
+                }
+
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+                }
+            });
+
+        }
 
         songList.setOnItemClickListener(new AdapterView.OnItemClickListener() { //Listener para el list
 
