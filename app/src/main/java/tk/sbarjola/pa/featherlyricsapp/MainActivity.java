@@ -345,8 +345,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         int numeroFragments = fm.getBackStackEntryCount();
 
-        // Cuando nos pasemos de 5 fragments cargados en la memoria, nos peta uno
-        if(numeroFragments > 5) {
+        // Cuando nos pasemos de 3 fragments cargados en la memoria, nos eliminará el primero añadido a la pila
+        if(numeroFragments > 3) {
             fm.popBackStack();
         }
     }
