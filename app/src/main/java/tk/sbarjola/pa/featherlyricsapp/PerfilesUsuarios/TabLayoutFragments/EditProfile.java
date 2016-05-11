@@ -46,6 +46,7 @@ public class EditProfile extends Fragment {
         config = (FirebaseConfig) getActivity().getApplication();
         referenciaUser = config.getReferenciaUsuarioLogeado();
 
+        // Referencia a las vistas
         imageUser = (ImageView) view.findViewById(R.id.editProfile_profilePic);
         userName = (EditText) view.findViewById(R.id.editProfile_nombreUser);
         userDescription = (EditText) view.findViewById(R.id.editProfile_SobreMi);
@@ -59,6 +60,7 @@ public class EditProfile extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 try {
+
                     Usuario usuario = dataSnapshot.getValue(Usuario.class);
 
                     userName.setText(usuario.getNombre());

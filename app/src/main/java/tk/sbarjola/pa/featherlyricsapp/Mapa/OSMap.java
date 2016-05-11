@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -20,6 +21,10 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+import com.makeramen.roundedimageview.RoundedTransformationBuilder;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+import com.squareup.picasso.Transformation;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.clustering.RadiusMarkerClusterer;
@@ -248,7 +253,7 @@ public class OSMap extends Fragment {
                                         Drawable markerIconD = getResources().getDrawable(R.drawable.ic_person_pin_circle_deep_purple_a400_48dp);
 
                                         // Definimos el marcador y hacemos que nos marque la localización del mensaje
-                                        Marker marker = new Marker(map);
+                                        final Marker marker = new Marker(map);
                                         GeoPoint point = new GeoPoint(usuario.getLatitud(), usuario.getLongitud());
                                         marker.setIcon(markerIconD);
                                         marker.setPosition(point);
@@ -262,6 +267,36 @@ public class OSMap extends Fragment {
                                         marker.setSnippet(usuario.getDescripcion());
                                         marker.setSubDescription(gruposEnComun.replaceFirst(",", "· "));
                                         marker.setRelatedObject(usuario);
+
+                                        // Le damos la imagen de album transformada en redonda
+                                        final Transformation transformation = new RoundedTransformationBuilder()
+                                                .cornerRadiusDp(360)
+                                                .oval(false)
+                                                .build();
+
+                                        Picasso.with(getContext()).load(usuario.getRutaImagen()).transform(transformation).into(new Target() {
+
+                                            @Override
+                                            public void onPrepareLoad(Drawable arg0) {
+
+
+                                            }
+
+                                            @Override
+                                            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom arg1) {
+                                                // TODO Create your drawable from bitmap and append where you like.
+
+                                                Drawable drawable = new BitmapDrawable(getResources(), bitmap);
+                                                marker.setImage(drawable);
+
+                                            }
+
+                                            @Override
+                                            public void onBitmapFailed(Drawable arg0) {
+
+
+                                            }
+                                        });
 
                                         marcadoresMensajes.add(marker);
                                     }

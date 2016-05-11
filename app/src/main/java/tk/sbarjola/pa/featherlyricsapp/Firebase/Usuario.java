@@ -10,12 +10,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Usuario {
 
     // String
-    private String uid;         // Identificador del usuario
-    private String key;         // key
-    private String nombre;      // nombre del usuario
-    private String edad;        // edad del usuario
-    private String descripcion; // Descripción usuario
-    private String rutaImagen;  // Ruta en la que se alamcenará la ruta del usuario
+    private String uid;                         // Identificador del usuario
+    private String key;                         // key
+    private String nombre;                      // nombre del usuario
+    private String edad;                        // edad del usuario
+    private String descripcion;                 // Descripción usuario
+    private String rutaImagen = "Undefined";    // Ruta en la que se alamcenará la ruta del usuario
 
     // Localización de donde vive el usuario
     private double latitud;
