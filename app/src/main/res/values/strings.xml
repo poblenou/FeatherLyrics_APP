@@ -12,7 +12,7 @@
     <string name="add_widget">Add widget</string>
     <string name="title_activity_register" translatable="false">RegisterActivity</string>
     <string name="about_a">Feather Lyrics, Vagalume and Spotify client API.</string>
-    <string name="about_b">All lyrics are provided by Vagalume.com.br \ n \ n "This product use Spotify API but is not endorsed, certified or approved in any way Otherwise by Spotify. Spotify is the registered trade mark of the Spotify Group. "\ N \ n This project is aviable on GitHub \ n \ n https://github.com/helicida/FeatherLyrics_APP</string>
+    <string name="about_b">All the lyrics are provided by Vagalume.com.br\n\n“This product uses a SPOTIFY API but is not endorsed, certified or otherwise approved in any way by Spotify. Spotify is the registered trade mark of the Spotify Group.”\n\nArtist bigraphy is downloaded from Last.fm API\n\nhttp://www.last.fm/api/tos \n\nThis project is aviable on GitHub \n\n https://github.com/helicida/FeatherLyrics_APP</string>
     <string name="album_titulo">Title</string>
     <string name="album_subtitulo">Band</string>
     <string name="login_record">Rembeber credentials</string>
@@ -56,4 +56,11 @@
     <string name="toolbar_canciones">Songs</string>
     <string name="editarPerfilGuaradr">Save changes</string>
     <string name="url_imagen">Image URL</string>
+    <string name="about_eslogan">Share your music</string>
+    <string name="tab_usuario">USER</string>
+    <string name="tab_artistas">ARTISTS</string>
+    <string name="tab_canciones">SONGS</string>
+    <string name="toolbar_fragmentAbout">About</string>
+    <string name="toast_bbdd_settings">Se ha limpiado la base de datos correctamente</string>
+    <string name="settings_toolbar">Settings</string>
 </resources>

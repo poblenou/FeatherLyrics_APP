@@ -294,7 +294,8 @@ public class OSMap extends Fragment {
                                             @Override
                                             public void onBitmapFailed(Drawable arg0) {
 
-
+                                                Drawable drawable = getResources().getDrawable(R.drawable.user_icon);
+                                                marker.setImage(drawable);
                                             }
                                         });
 

@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
+
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -15,6 +17,9 @@ import com.firebase.client.ValueEventListener;
 import com.makeramen.roundedimageview.RoundedTransformationBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import tk.sbarjola.pa.featherlyricsapp.Firebase.FirebaseConfig;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.Usuario;
@@ -89,6 +94,32 @@ public class EditProfile extends Fragment {
         guardar.setOnClickListener(new View.OnClickListener() {
             //@Override
             public void onClick(View v) {
+
+                // Update de la rutaImagen
+
+                Map<String, Object> rutaImagen = new HashMap<>();
+                rutaImagen.put("rutaImagen", urlImagen.getText().toString());
+                referenciaUser.updateChildren(rutaImagen);
+
+                // Update del nombre
+
+                Map<String, Object> nombre = new HashMap<>();
+                rutaImagen.put("nombre", userName.getText().toString());
+                referenciaUser.updateChildren(nombre);
+
+                // Update de la edad
+
+                Map<String, Object> mapEdad = new HashMap<>();
+                rutaImagen.put("edad", edad.getText().toString());
+                referenciaUser.updateChildren(mapEdad);
+
+                // Update de la descripcion
+
+                Map<String, Object> descripcion = new HashMap<>();
+                rutaImagen.put("descripcion", userDescription.getText().toString());
+                referenciaUser.updateChildren(descripcion);
+
+                Toast.makeText(getContext(), "Changes saved sucessfully", Toast.LENGTH_SHORT).show(); // Y lanzamos la toast
 
             }
         });

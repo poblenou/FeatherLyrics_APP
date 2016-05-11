@@ -156,6 +156,7 @@ public class RegisterActivity extends AppCompatActivity implements LocationListe
                                 usuario.setEdad(edad.getText().toString());
                                 usuario.setLatitud(localizacion.getLatitude());
                                 usuario.setLongitud(localizacion.getLongitude());
+                                usuario.setRutaImagen("Undefined");
 
                                 // Si tiene imagen le damos la ruta de la imagen
                                 if (imagen) {

@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Feather Lyrics</string>
     <string name="about_a">Feather Lyrics, client de Vagalume i Spotify API.</string>
-    <string name="about_b">Totes les lletres son proporcionades per Vagalume.com.br\n\n“This product uses a SPOTIFY API but is not endorsed, certified or otherwise approved in any way by Spotify. Spotify is the registered trade mark of the Spotify Group.”\n\n This project is aviable on GitHub \n\n https://github.com/helicida/FeatherLyrics_APP</string>
+    <string name="about_b">Totes les lletres son proporcionades per Vagalume.com.br\n\n“This product uses a SPOTIFY API but is not endorsed, certified or otherwise approved in any way by Spotify. Spotify is the registered trade mark of the Spotify Group.”\n\nArtist bigraphy is downloaded from Last.fm API\n\nhttp://www.last.fm/api/tos \n\nThis project is aviable on GitHub \n\n https://github.com/helicida/FeatherLyrics_APP</string>
     <string name="action_settings">Opcions</string>
     <string name="add_widget">Afegir widget</string>
     <string name="album_subtitulo">Grup</string>
@@ -52,4 +52,11 @@
     <string name="toolbar_home">Reproduccions locals</string>
     <string name="toolbar_canciones">Cançons</string>
     <string name="editarPerfilGuaradr">Desar els canvis</string>
+    <string name="about_eslogan">Comparteix la teva música</string>
+    <string name="tab_artistas">ARTISTES</string>
+    <string name="tab_canciones">CANÇONS</string>
+    <string name="tab_usuario">USUARI</string>
+    <string name="toolbar_fragmentAbout">Sobre mi</string>
+    <string name="settings_toolbar">Configuració</string>
+    <string name="toast_bbdd_settings">S\'ha esborrat la base de dades correctament</string>
 </resources>
