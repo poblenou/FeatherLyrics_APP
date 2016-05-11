@@ -175,17 +175,20 @@ public class UserSongs extends Fragment {
                                         // Limpiamos los duplicados. Gracias al LinkedHashSet mantenemos el orden de los elementos
                                         Set<String> hs = new LinkedHashSet<>(listCollectionMusic);
                                         hs.addAll(listCollectionMusic);
-                                        myListAdapter.clear();
-                                        myListAdapter.addAll(hs);
 
-                                        // Setteamos el adapter
-                                        songList.setAdapter(myListAdapter);
-                                        setListViewHeightBasedOnChildren(songList);
+                                        try{
+                                            myListAdapter.clear();
+                                            myListAdapter.addAll(hs);
+
+                                            // Setteamos el adapter
+                                            songList.setAdapter(myListAdapter);
+                                            setListViewHeightBasedOnChildren(songList);
+
+                                        }catch (NullPointerException e){}
                                     }
 
                                     @Override
-                                    public void onCancelled(FirebaseError firebaseError) {
-                                    }
+                                    public void onCancelled(FirebaseError firebaseError) {}
                                 });
                             }
                         } catch (NullPointerException e) {}
