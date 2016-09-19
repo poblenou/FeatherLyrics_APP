@@ -20,6 +20,9 @@ import android.widget.Toast;
 import com.firebase.client.Firebase;
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 import at.markushi.ui.CircleButton;
@@ -39,6 +42,7 @@ import tk.sbarjola.pa.featherlyricsapp.Firebase.FirebaseItem;
 import tk.sbarjola.pa.featherlyricsapp.Firebase.FirebaseConfig;
 import tk.sbarjola.pa.featherlyricsapp.MainActivity;
 import tk.sbarjola.pa.featherlyricsapp.R;
+import tk.sbarjola.pa.featherlyricsapp.TrackingData;
 
 public class Canciones extends Fragment{
 
@@ -61,7 +65,7 @@ public class Canciones extends Fragment{
     String searchedTrack = "no track";          // Nombre de la pista seleccionada en discografia
 
     // Artista y pista que vamos a mostrar
-    String artist = "no artist";                  // Arista que buscaremos
+    String artist = "";                           // Arista que buscaremos
     String track = "no track";                    // Pista que buscaremos
     String url_cancion = "URL desconocida";       // Url de la cancion (imagen)
     String url_artista = "URL desconocida";       // Url del artista (imagen)
@@ -81,6 +85,18 @@ public class Canciones extends Fragment{
             .build();
 
     @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
@@ -97,24 +113,9 @@ public class Canciones extends Fragment{
         CircleButton button = (CircleButton) view.findViewById(R.id.canciones_circleButton);   // Nuestro circle button
 
         // Descargamos la musica y ocultamos la animación de carga
-        extraerInfoMusica();
         progress.setVisibility(View.GONE);
 
-        // Seteamos las variables de la canción a mostrar
-        if(!searchedArtist.equals("no artist")){
-            artist = searchedArtist;
-            track = filtrarTitulo(searchedTrack);
-            cancionMostrada = "busqueda";
-        }
-        else{
-            artist = playingArtist;
-            track = filtrarTitulo(playingTrack);
-            cancionMostrada = "reproduccion";
-        }
-
-        // Que descargue letras
-        DescargarLetras descargarLetras = new DescargarLetras();  // Instanciams nuestro asyncTask para descargar en segundo plano la letra
-        descargarLetras.execute();                                // Y lo ejecutamos
+        gestionDatos();
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -209,7 +210,6 @@ public class Canciones extends Fragment{
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
                 return false;
             }
         });
@@ -408,19 +408,40 @@ public class Canciones extends Fragment{
         }
     }
 
-    public void extraerInfoMusica(){
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void extraerInfoMusica(TrackingData data){
 
         // Sacamos los datos de la cancion en reproduccion
-        playingArtist = ((MainActivity)getActivity()).getPlayingArtist();
-        playingTrack = ((MainActivity)getActivity()).getPlayingTrack();
+        playingArtist = data.getPlayingArtist();
+        playingTrack = data.getPlayingTrack();
 
         // Y de la cancion buscada
-        searchedArtist = ((MainActivity)getActivity()).getSearchedArtist();
-        searchedTrack = ((MainActivity)getActivity()).getSearchedTrack();
+        searchedArtist = data.getSearchedArtist();
+        searchedTrack = data.getSearchedTrack();
 
         ((MainActivity)getActivity()).setSearchedArtist("no artist");
         ((MainActivity)getActivity()).setSearchedTrack("no track");
 
+        gestionDatos();
+    }
+
+    public void gestionDatos(){
+
+        // Seteamos las variables de la canción a mostrar
+        if(!searchedArtist.equals("no artist")){
+            artist = searchedArtist;
+            track = filtrarTitulo(searchedTrack);
+            cancionMostrada = "busqueda";
+        }
+        else{
+            artist = playingArtist;
+            track = filtrarTitulo(playingTrack);
+            cancionMostrada = "reproduccion";
+        }
+
+        // Que descargue letras
+        DescargarLetras descargarLetras = new DescargarLetras();  // Instanciams nuestro asyncTask para descargar en segundo plano la letra
+        descargarLetras.execute();                                // Y lo ejecutamos
     }
 
     public String filtrarTitulo(String titulo){

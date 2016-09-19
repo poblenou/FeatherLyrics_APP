@@ -87,7 +87,7 @@ public class UserSongs extends Fragment {
          */
         if(!userUID.contains(config.getUserUID())) {
 
-            // Descargamos la lista de usuarios
+            // Descargamos la lista de canciones del usuario
             referenciaListaUsuarios.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -195,10 +195,8 @@ public class UserSongs extends Fragment {
                 }
 
                 @Override
-                public void onCancelled(FirebaseError firebaseError) {
-                }
+                public void onCancelled(FirebaseError firebaseError) {}
             });
-
         }
 
         songList.setOnItemClickListener(new AdapterView.OnItemClickListener() { //Listener para el list

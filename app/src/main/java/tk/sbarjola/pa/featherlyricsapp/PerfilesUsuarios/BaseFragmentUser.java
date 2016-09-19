@@ -47,6 +47,8 @@ public class BaseFragmentUser extends Fragment {
         this.addArtist(getString(R.string.tab_artistas));
         this.addSongs(getString(R.string.tab_canciones));
 
+        viewPager.setCurrentItem(0);
+
         return view;
     }
 
@@ -71,7 +73,6 @@ public class BaseFragmentUser extends Fragment {
                 super.onTabSelected(tab);
                 viewPager.setCurrentItem(tab.getPosition());
                 selectedTabPosition = viewPager.getCurrentItem();
-
             }
 
             @Override
@@ -82,7 +83,7 @@ public class BaseFragmentUser extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){ //Afegim una opcio "Refresh" al menu del fragment
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
         super.onCreateOptionsMenu(menu, inflater);
 
         inflater.inflate(R.menu.local, menu);
